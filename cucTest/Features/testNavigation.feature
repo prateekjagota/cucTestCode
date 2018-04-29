@@ -1,12 +1,12 @@
 @Sanity @NavigationTest
 Feature: Test Navigation Flow
 
-	@Sanity @TC1
+  @Sanity @TC1
   Scenario: Installation
-  Given "D1" I install and launch the application
-  Then "D1" I tap on agreement checkBox
-  Then "D1" I tap on agree continue button
-  
+    Given "D1" I install and launch the application
+    Then "D1" I tap on agreement checkBox
+    Then "D1" I tap on agree continue button
+
   @Sanity @TC2
   Scenario: Sign Up Flow
     Then "D1" I tap on signUp button
@@ -22,33 +22,47 @@ Feature: Test Navigation Flow
     Then "D1" I enter the "userPassword"
     Then "D1" I wait for "2" seconds
     Then "D1" I tap on ConFirm button
-   	Then "D1" I select "VOUCHER" text
-   	Then "D1" I tap on TopUp button
-   	Then "D1" I enter the "voucherNumber"
-   	Then "D1" I tap on VoucherTopUp button
-   	Then "D1" I tap on PayAndActivate button
-		Then "D1" I tap on GoToMyPage button
-    
-  
+    Then "D1" I tap on "VOUCHER" text
+    Then "D1" I tap on TopUp button
+    Then "D1" I enter the "voucherNumber"
+    Then "D1" I tap on VoucherTopUp button
+    Then "D1" I tap on PayAndActivate button
+    Then "D1" I tap on GoToMyPage button
+
   @Sanity @TC3
   Scenario: Logout without Reprovisioning
-  	Then "D1" I tap on LeftMenu button
-  	Then "D1" I tap on "Logout" menuItem
-  	Then "D1" I tap on LOGOUT button
-  
-  
+    Then "D1" I tap on LeftMenu button
+    Then "D1" I tap on "Logout" menuItem
+    Then "D1" I tap on LOGOUT button
+
   @Sanity @TC4
   Scenario: Sign In Flow
+  	Given "D1" I launch the application
     Then "D1" I tap on signIn button
     Then "D1" I wait for "2" seconds
     Then "D1" I enter the "phoneLoginNumber"
     Then "D1" I wait for "2" seconds
     Then "D1" I tap on login button
     
-    
-  @Sanity @TC5
+ @Sanity @TC5
+  Scenario: Add balance from card
+  	Then "D1" I tap on "WALLET" text
+    Then "D1" I tap on "Pre-paid balance" text
+    Then "D1" I tap on CreditTopUp button
+    Then "D1" I tap on "CREDIT CARD" text
+  	Then "D1" I enter the "creditCardNumber"
+  	Then "D1" I enter the "creditCardExpMM"
+  	Then "D1" I enter the "creditCardExpYY"
+  	Then "D1" I enter the "creditCardCVV"
+  	Then "D1" I tap on SaveTopUp button
+  	Then "D1" I Navigate back
+  	Then "D1" I Navigate back
+  	Then "D1" I tap on "MY PAGE" text
+  	
+  	
+  @Sanity @TC6
   Scenario: Logout with Reprovisioning
-  	Then "D1" I tap on LeftMenu button
-  	Then "D1" I tap on "Logout" menuItem
-  	Then "D1" I tap on reProvision checkBox
-  	Then "D1" I tap on LOGOUT button
+    Then "D1" I tap on LeftMenu button
+    Then "D1" I tap on "Logout" menuItem
+    Then "D1" I tap on reProvision checkBox
+    Then "D1" I tap on LOGOUT button
