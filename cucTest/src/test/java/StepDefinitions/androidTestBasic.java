@@ -8,6 +8,7 @@ import java.lang.reflect.Field;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
 
 import cucumber.api.java.en.Given;
@@ -75,6 +76,18 @@ public class androidTestBasic {
 		}
 	}
 	
+	@Then("^\"(.*)\" I tap on iSettings button$")
+	public void clickiButton(String deviceNum) throws Throwable {
+		Field m = getDriverFields("driver"+deviceNum);
+		try {
+			((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.id("btn_settings")).click();
+		} catch(Exception e) {
+			Reporter.addStepLog(e.getMessage().toString());
+			cfg.takeScreenShot(((AndroidDriver) m.get("driver"+deviceNum)));
+			fail("Failed:");
+		}
+	}
+	
 	@Then("^\"(.*)\" I swipe the Screens$")
 	public void swipScreen(String deviceNum) throws Throwable {
 		Field m = getDriverFields("driver"+deviceNum);
@@ -83,7 +96,8 @@ public class androidTestBasic {
 			TimeUnit.SECONDS.sleep(2);
 			while(i<30) {
 				TouchAction touchAction = new TouchAction(((AndroidDriver) m.get("driver"+deviceNum)));
-				touchAction.press(800, 200).moveTo(-500, 0).release().perform();
+				Point pt = ((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.id("headline")).getLocation();
+				touchAction.press(pt.x+500, pt.y).moveTo(-500, 0).release().perform();				
 				TimeUnit.SECONDS.sleep(2);
 				if(((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.id("headline")).getText().contains("Pack your suitcases and take your phone")) {
 					Reporter.addStepLog("Found Text: "+((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.id("headline")).getText());
@@ -218,8 +232,15 @@ public class androidTestBasic {
 	public void selectText(String deviceNum, String opText) throws Throwable {
 		Field m = getDriverFields("driver"+deviceNum);
 		try {
-			WebElement el = ((AndroidDriver) m.get("driver"+deviceNum)).findElement(MobileBy.xpath("//android.widget.TextView[contains(@text, '"+opText+"')]"));
-			el.click();
+			if (opText.equals("ServerURL")) {
+				((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//android.widget.LinearLayout[2]/android.widget.RelativeLayout/android.widget.TextView[2]")).click();
+			} else if (opText.equals("Custom")) {
+				WebElement el = ((AndroidDriver) m.get("driver"+deviceNum)).findElement(MobileBy.xpath("//android.widget.CheckedTextView[contains(@text, '"+opText+"')]"));
+				el.click();
+			} else {
+				WebElement el = ((AndroidDriver) m.get("driver"+deviceNum)).findElement(MobileBy.xpath("//android.widget.TextView[contains(@text, '"+opText+"')]"));
+				el.click();
+			}			
 		} catch(Exception e) {
 			System.out.println(e.getMessage());
 			Reporter.addStepLog(e.getMessage().toString());
@@ -270,6 +291,10 @@ public class androidTestBasic {
 			} else if (opType.equals("creditCardCVV")) {
 				Reporter.addStepLog("Text Entered: "+cfg.getCfg("creditCardCVV"));
 				((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.id("et_cvv")).sendKeys(cfg.getCfg("creditCardCVV"));
+			} else if (opType.equals("setServerURL")) {
+				Reporter.addStepLog("Text Entered: "+cfg.getCfg("setServerURL"));
+				((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.id("title_template")).clear();
+				((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.id("title_template")).sendKeys(cfg.getCfg("setServerURL"));
 			} else {
 				assert false: "Code not added for" + opType;
 			}
@@ -371,6 +396,18 @@ public class androidTestBasic {
 		Field m = getDriverFields("driver"+deviceNum);
 		try {
 			((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//android.widget.Button[contains(@text, 'LOGOUT')]")).click();
+		} catch(Exception e) {
+			Reporter.addStepLog(e.getMessage().toString());
+			cfg.takeScreenShot(((AndroidDriver) m.get("driver"+deviceNum)));
+			fail("Failed:");
+		}
+	}
+
+	@Then("^\"(.*)\" I tap on OK button$")
+	public void clickappOkButton(String deviceNum) throws Throwable {
+		Field m = getDriverFields("driver"+deviceNum);
+		try {
+			((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//android.widget.Button[contains(@text, 'OK')]")).click();
 		} catch(Exception e) {
 			Reporter.addStepLog(e.getMessage().toString());
 			cfg.takeScreenShot(((AndroidDriver) m.get("driver"+deviceNum)));

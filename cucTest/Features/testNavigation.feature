@@ -7,7 +7,18 @@ Feature: Test Navigation Flow
     Then "D1" I tap on agreement checkBox
     Then "D1" I tap on agree continue button
 
-  @Sanity @TC2
+	@Sanity @TC2
+	Scenario: Change the Server URL
+		Then "D1" I tap on iSettings button
+		Then "D1" I wait for "2" seconds
+    Then "D1" I tap on "ServerURL" text
+    Then "D1" I tap on "Custom" text
+    Then "D1" I wait for "2" seconds
+    Then "D1" I enter the "setServerURL"
+    Then "D1" I tap on OK button
+
+
+  @Sanity @TC3
   Scenario: Sign Up Flow
     Then "D1" I tap on signUp button
     Then "D1" I swipe the Screens
@@ -27,15 +38,16 @@ Feature: Test Navigation Flow
     Then "D1" I enter the "voucherNumber"
     Then "D1" I tap on VoucherTopUp button
     Then "D1" I tap on PayAndActivate button
-    Then "D1" I tap on GoToMyPage button
+    Then "D1" I tap on GoToMyPage button  
 
-  @Sanity @TC3
+
+  @Sanity @TC4
   Scenario: Logout without Reprovisioning
     Then "D1" I tap on LeftMenu button
     Then "D1" I tap on "Logout" menuItem
     Then "D1" I tap on LOGOUT button
 
-  @Sanity @TC4
+  @Sanity @TC5
   Scenario: Sign In Flow
   	Given "D1" I launch the application
     Then "D1" I tap on signIn button
@@ -44,7 +56,7 @@ Feature: Test Navigation Flow
     Then "D1" I wait for "2" seconds
     Then "D1" I tap on login button
     
- @Sanity @TC5
+ @Sanity @TC6
   Scenario: Add balance from card
   	Then "D1" I tap on "WALLET" text
     Then "D1" I tap on "Pre-paid balance" text
@@ -60,9 +72,11 @@ Feature: Test Navigation Flow
   	Then "D1" I tap on "MY PAGE" text
   	
   	
-  @Sanity @TC6
-  Scenario: Logout with Reprovisioning
+  @Sanity @TC7
+  Scenario: Logout with Reprovisioning  
     Then "D1" I tap on LeftMenu button
     Then "D1" I tap on "Logout" menuItem
     Then "D1" I tap on reProvision checkBox
     Then "D1" I tap on LOGOUT button
+
+
