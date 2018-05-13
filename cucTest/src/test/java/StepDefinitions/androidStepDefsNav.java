@@ -264,4 +264,150 @@ public class androidStepDefsNav {
 			fail("Failed:");
 		}
 	}
+	
+	@Then("^\"(.*)\" I tap on Search button$")
+	public void clickSearchButton(String deviceNum) throws Throwable {
+		Field m = getDriverFields("driver"+deviceNum);
+		try {
+			((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//android.widget.TextView[@content-desc=\"Search\"]")).click();
+		} catch(Exception e) {
+			Reporter.addStepLog(e.getMessage().toString());
+			cfg.takeScreenShot(((AndroidDriver) m.get("driver"+deviceNum)));
+			fail("Failed:");
+		}
+	}
+	
+	@Then("^\"(.*)\" I search and select product as \"(.*)\"$")
+	public void searchSelectOffer(String deviceNum, String opType) throws Throwable {
+		Field m = getDriverFields("driver"+deviceNum);
+		try {
+			((AndroidDriver) m.get("driver"+deviceNum)).findElement(MobileBy.id("com.matrixx.android.branding:id/searchEditText_input")).sendKeys(opType.toString()+"\n");
+			TimeUnit.SECONDS.sleep(2);
+			List<WebElement> txtList = ((AndroidDriver) m.get("driver"+deviceNum)).findElements(MobileBy.id("com.matrixx.android.branding:id/offer_title"));
+			for (WebElement el: txtList) {
+				if (el.getText().contains(opType.toString())) {
+					el.click();
+				}
+			}	
+		} catch(Exception e1) {
+			Reporter.addStepLog(e1.getMessage().toString());
+			cfg.takeScreenShot(((AndroidDriver) m.get("driver"+deviceNum)));
+			fail("Failed:");
+		}
+	}
+	
+	@Then("^\"(.*)\" I enter-\"(.*)\" as \"(.*)\"$")
+	public void enterUserVals(String deviceNum, String userField, String userVal) throws Throwable {
+		Field m = getDriverFields("driver"+deviceNum);
+		try {
+			((AndroidDriver) m.get("driver"+deviceNum)).hideKeyboard();
+		} catch (Exception e) {}
+		try {
+			if (userField.equals("Contact FullName")) {	
+				WebElement el = ((AndroidDriver) m.get("driver"+deviceNum)).findElement(MobileBy.xpath("//TextInputLayout[1]/android.widget.FrameLayout/android.widget.EditText"));
+				el.click();el.clear();el.sendKeys(userVal.toString());
+			} else if (userField.equals("Contact Email")) {
+				WebElement el = ((AndroidDriver) m.get("driver"+deviceNum)).findElement(MobileBy.xpath("//TextInputLayout[2]/android.widget.FrameLayout/android.widget.EditText"));
+				el.click();el.clear();el.sendKeys(userVal.toString());
+			} else if (userField.equals("Contact Number")) {
+				WebElement el = ((AndroidDriver) m.get("driver"+deviceNum)).findElement(MobileBy.xpath("//TextInputLayout[3]/android.widget.FrameLayout/android.widget.EditText"));
+				el.click();el.clear();el.sendKeys(userVal.toString());
+			} else if (userField.equals("Shipping FullName")) {
+				WebElement el = ((AndroidDriver) m.get("driver"+deviceNum)).findElement(MobileBy.xpath("//TextInputLayout[4]/android.widget.FrameLayout/android.widget.EditText"));
+				el.click();el.clear();el.sendKeys(userVal.toString());
+			} else if (userField.equals("Shipping Address1")) {
+				WebElement el = ((AndroidDriver) m.get("driver"+deviceNum)).findElement(MobileBy.xpath("//TextInputLayout[5]/android.widget.FrameLayout/android.widget.EditText"));
+				el.click();el.clear();el.sendKeys(userVal.toString());
+			} else if (userField.equals("Shipping Address2")) {
+				int i=0;
+				TimeUnit.SECONDS.sleep(2);
+				while(i<5) {
+					TouchAction touchAction = new TouchAction(((AndroidDriver) m.get("driver"+deviceNum)));				
+					Point pt = ((AndroidDriver) m.get("driver"+deviceNum)).findElement(MobileBy.xpath("//TextInputLayout")).getLocation();
+					List<WebElement> txtList = ((AndroidDriver) m.get("driver"+deviceNum)).findElements(MobileBy.xpath("//TextInputLayout"));
+					for (WebElement el: txtList) {
+						if (el.getText().equals("Phone Number")) {
+							System.out.println("Found Text: " + el.getText());
+							break;
+						} else {
+							i++;
+						}
+					}
+					touchAction.press(pt.x,pt.y+300).moveTo(0, -300).release().perform();
+					TimeUnit.SECONDS.sleep(2);
+				}
+				WebElement el = ((AndroidDriver) m.get("driver"+deviceNum)).findElement(MobileBy.xpath("//TextInputLayout[6]/android.widget.FrameLayout/android.widget.EditText"));
+				el.click();el.clear();el.sendKeys(userVal.toString());
+			} else if (userField.equals("Shipping City")) {
+				WebElement el = ((AndroidDriver) m.get("driver"+deviceNum)).findElement(MobileBy.xpath("//TextInputLayout[7]/android.widget.FrameLayout/android.widget.EditText"));
+				el.click();el.clear();el.sendKeys(userVal.toString());
+			} else if (userField.equals("Shipping Region")) {
+				WebElement el = ((AndroidDriver) m.get("driver"+deviceNum)).findElement(MobileBy.xpath("//TextInputLayout[8]/android.widget.FrameLayout/android.widget.EditText"));
+				el.click();el.clear();el.sendKeys(userVal.toString());
+			} else if (userField.equals("Shipping ZIP")) {
+				WebElement el = ((AndroidDriver) m.get("driver"+deviceNum)).findElement(MobileBy.xpath("//TextInputLayout[9]/android.widget.FrameLayout/android.widget.EditText"));
+				el.click();el.clear();el.sendKeys(userVal.toString());
+			} else if (userField.equals("Shipping PhoneNumber")) {
+				WebElement el = ((AndroidDriver) m.get("driver"+deviceNum)).findElement(MobileBy.xpath("//TextInputLayout[10]/android.widget.FrameLayout/android.widget.EditText"));
+				el.click();el.clear();el.sendKeys(userVal.toString());
+			} else {
+				assert false: "Code not added for" + userField;
+			}
+			try {
+				((AndroidDriver) m.get("driver"+deviceNum)).hideKeyboard();
+			} catch (Exception e) {}
+		} catch(Exception e1) {
+			Reporter.addStepLog(e1.getMessage().toString());
+			cfg.takeScreenShot(((AndroidDriver) m.get("driver"+deviceNum)));
+			fail("Failed:");
+		}
+	}
+	
+	@Then("^\"(.*)\" I tap on Arrow button$")
+	public void clickArrowButton(String deviceNum) throws Throwable {
+		Field m = getDriverFields("driver"+deviceNum);
+		try {
+			((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.id("fab")).click();
+		} catch(Exception e) {
+			Reporter.addStepLog(e.getMessage().toString());
+			cfg.takeScreenShot(((AndroidDriver) m.get("driver"+deviceNum)));
+			fail("Failed:");
+		}
+	}
+	
+	@Then("^\"(.*)\" I tap on Tick button$")
+	public void clickTickButton(String deviceNum) throws Throwable {
+		Field m = getDriverFields("driver"+deviceNum);
+		try {
+			((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.id("fab")).click();
+		} catch(Exception e) {
+			Reporter.addStepLog(e.getMessage().toString());
+			cfg.takeScreenShot(((AndroidDriver) m.get("driver"+deviceNum)));
+			fail("Failed:");
+		}
+	}
+	
+	@Then("^\"(.*)\" I select DeliveryType as \"(.*)\"$")
+	public void selectDeliveryType(String deviceNum, String opType) throws Throwable {
+		Field m = getDriverFields("driver"+deviceNum);
+		try {
+			if (opType.equals("Free Standard Shipping")) {
+				String s = ((AndroidDriver) m.get("driver"+deviceNum)).findElement(MobileBy.xpath("//android.widget.RelativeLayout[1]/android.widget.CheckBox")).getAttribute("checked");
+				if (s.equals("false")) {
+					((AndroidDriver) m.get("driver"+deviceNum)).findElement(MobileBy.xpath("//android.widget.RelativeLayout[1]/android.widget.CheckBox")).click();
+				}
+			} else if (opType.equals("UberRUSH")) {
+				String s = ((AndroidDriver) m.get("driver"+deviceNum)).findElement(MobileBy.xpath("//android.widget.RelativeLayout[2]/android.widget.CheckBox")).getAttribute("checked");
+				if (s.equals("false")) {
+					((AndroidDriver) m.get("driver"+deviceNum)).findElement(MobileBy.xpath("//android.widget.RelativeLayout[2]/android.widget.CheckBox")).click();
+				}
+			} else {
+				assert false: "Code not added for" + opType;
+			}
+		} catch(Exception e1) {
+			Reporter.addStepLog(e1.getMessage().toString());
+			cfg.takeScreenShot(((AndroidDriver) m.get("driver"+deviceNum)));
+			fail("Failed:");
+		}
+	}
 }
