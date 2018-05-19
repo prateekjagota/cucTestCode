@@ -7,6 +7,12 @@ Feature: Test Navigation Flow
     Then "D1" I tap on agreement checkBox
     Then "D1" I tap on agree continue button
 
+ @Sanity @TC1001
+  Scenario: Installation
+    Given "D2" I install and launch the application
+    #Then "D1" I tap on agreement checkBox
+    #Then "D1" I tap on agree continue button
+    
 	@Sanity @TC2
 	Scenario: Change the Server URL
 		Then "D1" I tap on iSettings button

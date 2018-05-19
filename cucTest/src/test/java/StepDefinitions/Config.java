@@ -17,6 +17,7 @@ import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 import com.cucumber.listener.Reporter;
 
@@ -59,29 +60,58 @@ public class Config {
 		  }
 	  }
 	  public void installApp(String deviceNum, int deletePrevApp) throws Throwable {
-			capabilities.setCapability("platformName", getCfg(deviceNum+"platformName"));
-			capabilities.setCapability("deviceName", getCfg(deviceNum+"deviceUDID"));
-			capabilities.setCapability("app", getCfg("appPath"));
-			capabilities.setCapability(CapabilityType.VERSION, getCfg(deviceNum+"version"));
-			capabilities.setCapability("appPackage", getCfg("appPackageName"));
-			capabilities.setCapability("newCommandTimeout", getCfg(deviceNum+"newCommandTimeout"));
-			capabilities.setCapability("autoGrantPermissions", "true");
-			capabilities.setCapability("unicodeKeyboard", true);
-			capabilities.setCapability("resetKeyboard", true);
-			if (deletePrevApp == 0) {
-				capabilities.setCapability("noReset", true);
-				capabilities.setCapability("fullReset", false);
-			}			
+		  System.out.println(getCfg(deviceNum+"deviceType"));
+		  if (getCfg(deviceNum+"deviceType").equals("Android")) {
+			  	capabilities.setCapability("platformName", getCfg(deviceNum+"platformName"));
+				capabilities.setCapability("deviceName", getCfg(deviceNum+"deviceUDID"));
+				capabilities.setCapability("app", getCfg(deviceNum+"appPath"));
+				capabilities.setCapability(CapabilityType.VERSION, getCfg(deviceNum+"version"));
+				capabilities.setCapability("appPackage", getCfg(deviceNum+"appPackageName"));
+				capabilities.setCapability("newCommandTimeout", getCfg(deviceNum+"newCommandTimeout"));
+				capabilities.setCapability("autoGrantPermissions", "true");
+				capabilities.setCapability("unicodeKeyboard", true);
+				capabilities.setCapability("resetKeyboard", true);
+				if (deletePrevApp == 0) {
+					capabilities.setCapability("noReset", true);
+					capabilities.setCapability("fullReset", false);
+				}  
+		  } else {
+			  System.out.println("Code for IOS");
+			  	capabilities.setCapability("platformName", getCfg(deviceNum+"platformName"));
+			  	capabilities.setCapability("app", getCfg(deviceNum+"appPath"));
+			  	capabilities.setCapability("deviceName", getCfg(deviceNum+"deviceName"));
+			  	capabilities.setCapability("udid", getCfg(deviceNum+"deviceUDID"));
+			  	capabilities.setCapability("automationName", "XCUITest");
+			  	capabilities.setCapability("newCommandTimeout", getCfg(deviceNum+"newCommandTimeout"));
+			  	capabilities.setCapability("platformVersion", getCfg(deviceNum+"version"));
+			  	capabilities.setCapability("showXcodeLog", true);
+			  	if (deletePrevApp == 0) {
+					capabilities.setCapability("noReset", true);
+					capabilities.setCapability("fullReset", false);
+				}
+		  }
 	}
 	public void launchApp(String deviceNum) throws Throwable {
-		if(deviceNum.equals("D1")) {
-			driverD1 = new AndroidDriver(new URL("http://"+getCfg(deviceNum+"appiumServerAddress")+"/wd/hub"), capabilities);
-			driverD1.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-		} else if(deviceNum.equals("D2")) {
-			driverD2 = new AndroidDriver(new URL("http://"+getCfg(deviceNum+"appiumServerAddress")+"/wd/hub"), capabilities);
-			driverD2.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+		if (getCfg(deviceNum+"deviceType").equals("Android")) {
+			if(deviceNum.equals("D1")) {
+				driverD1 = new AndroidDriver(new URL("http://"+getCfg(deviceNum+"appiumServerAddress")+"/wd/hub"), capabilities);
+				driverD1.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+			} else if(deviceNum.equals("D2")) {
+				driverD2 = new AndroidDriver(new URL("http://"+getCfg(deviceNum+"appiumServerAddress")+"/wd/hub"), capabilities);
+				driverD2.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+			} else {
+				System.out.println("Need to add support for more than 2 devices..");
+			}
 		} else {
-			System.out.println("Need to add support for more than 2 devices..");
+			if(deviceNum.equals("D1")) {
+				driverD1 = (AndroidDriver) new RemoteWebDriver(new URL("http://"+getCfg(deviceNum+"appiumServerAddress")+"/wd/hub"), capabilities);
+				driverD1.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+			} else if(deviceNum.equals("D2")) {
+				driverD2 = (AndroidDriver) new RemoteWebDriver(new URL("http://"+getCfg(deviceNum+"appiumServerAddress")+"/wd/hub"), capabilities);
+				driverD2.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+			} else {
+				System.out.println("Need to add support for more than 2 devices..");
+			}
 		}
 	}
 }
