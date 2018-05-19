@@ -9,7 +9,9 @@ import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Point;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -25,17 +27,40 @@ public class androidTestBasic {
 		m.setAccessible(true);
 		return m;
 	}
+	
+	public void callScreenShot(WebDriver driver) throws Throwable {
+		
+	}
 	@Given("^\"(.*)\" I install and launch the application$")
 	public void installLaunch(String deviceNum) throws Throwable {
-		Field m = getDriverFields("driver"+deviceNum);
-		try {
-			cfg.installApp(deviceNum,1);
-			cfg.launchApp(deviceNum);
-	 	} catch(Exception e) {
-			Reporter.addStepLog(e.getMessage().toString());
-			cfg.takeScreenShot(((AndroidDriver) m.get("driver"+deviceNum)));
-			fail("Failed:");
-		}
+		String driverValText = null;
+		if (cfg.getCfg(deviceNum+"deviceType").equals("Android")) {
+			driverValText = "driver"+deviceNum.toString();
+			Field m = getDriverFields(driverValText);
+			try {
+				cfg.installApp(deviceNum,1);
+				cfg.launchApp(deviceNum);
+				cfg.takeScreenShot(((AndroidDriver) m.get(driverValText)));
+		 	} catch(Exception e) {
+				Reporter.addStepLog(e.getMessage().toString());
+				System.out.println(e.getMessage());
+				cfg.takeScreenShot(((AndroidDriver) m.get(driverValText)));
+				fail("Failed:"+e.toString());
+			}
+		} else {
+			driverValText = "idriver"+deviceNum.toString();
+			Field m = getDriverFields(driverValText);
+			try {
+				cfg.installApp(deviceNum,1);
+				cfg.launchApp(deviceNum);
+				cfg.takeScreenShot(((RemoteWebDriver) m.get(driverValText)));
+		 	} catch(Exception e) {
+				Reporter.addStepLog(e.getMessage().toString());
+				System.out.println(e.getMessage());
+				cfg.takeScreenShot(((RemoteWebDriver) m.get(driverValText)));
+				fail("Failed:"+e.toString());
+			}
+		}		
 	}
 	
 	@Given("^\"(.*)\" I launch the application$")

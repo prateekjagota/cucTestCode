@@ -25,6 +25,7 @@ import io.appium.java_client.android.AndroidDriver;
 
 public class Config {
 	public static AndroidDriver driverD1;public static AndroidDriver driverD2;
+	public static RemoteWebDriver idriverD1;public static RemoteWebDriver idriverD2;
 	public static String driverName = "driver";
 	public static final DesiredCapabilities capabilities = new DesiredCapabilities();
 	  public String getCfg(String val) {
@@ -104,11 +105,11 @@ public class Config {
 			}
 		} else {
 			if(deviceNum.equals("D1")) {
-				driverD1 = (AndroidDriver) new RemoteWebDriver(new URL("http://"+getCfg(deviceNum+"appiumServerAddress")+"/wd/hub"), capabilities);
-				driverD1.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+				idriverD1 = new RemoteWebDriver(new URL("http://"+getCfg(deviceNum+"appiumServerAddress")+"/wd/hub"), capabilities);
+				idriverD1.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 			} else if(deviceNum.equals("D2")) {
-				driverD2 = (AndroidDriver) new RemoteWebDriver(new URL("http://"+getCfg(deviceNum+"appiumServerAddress")+"/wd/hub"), capabilities);
-				driverD2.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+				idriverD2 = new RemoteWebDriver(new URL("http://"+getCfg(deviceNum+"appiumServerAddress")+"/wd/hub"), capabilities);
+				idriverD2.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 			} else {
 				System.out.println("Need to add support for more than 2 devices..");
 			}
