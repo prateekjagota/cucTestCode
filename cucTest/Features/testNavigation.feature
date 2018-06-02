@@ -10,8 +10,8 @@ Feature: Test Navigation Flow
  @Sanity @TC1001
   Scenario: Installation
     Given "D2" I install and launch the application
-    #Then "D1" I tap on agreement checkBox
-    #Then "D1" I tap on agree continue button
+    Then "D2" I tap on agreement checkBox
+    Then "D2" I tap on agree continue button
     
 	@Sanity @TC2
 	Scenario: Change the Server URL
@@ -46,6 +46,38 @@ Feature: Test Navigation Flow
     Then "D1" I tap on PayAndActivate button
     Then "D1" I tap on GoToMyPage button  
 
+@Sanity @TC1003
+  Scenario: Sign Up Flow
+    Then "D2" I tap on signUp button
+    Then "D2" I swipe the Screens
+    Then "D2" I tap on GetStarted button
+    Then "D2" I wait for "2" seconds
+    Then "D2" I tap on "CONTINUE" text
+    Then "D2" I wait for "2" seconds
+    Then "D2" I tap on "JUMP TO ACTIVATION" text
+    Then "D2" I wait for "2" seconds
+    Then "D2" I tap on "ACTIVATE YOUR ACCOUNT" text
+    Then "D2" I wait for "2" seconds
+    Then "D2" I enter the "userName"
+    Then "D2" I enter the "userPassword"
+    Then "D2" I wait for "2" seconds
+    Then "D2" I enter the "iOSphoneSignUpNumber"
+    Then "D2" I wait for "2" seconds
+    Then "D2" I tap on "SEND" text
+    Then "D2" I wait for "2" seconds
+    Then "D2" I enter the "iOSOTP"
+    Then "D2" I wait for "2" seconds
+    Then "D2" I tap on "CONTINUE" text
+    Then "D2" I wait for "2" seconds
+    Then "D2" I tap on "VOUCHER" option
+    Then "D2" I tap on "topup" text
+    Then "D2" I wait for "2" seconds
+    Then "D2" I tap on VoucherArrow button
+    Then "D2" I enter the "voucherNumber"
+    Then "D2" I tap on "done" text
+    
+    
+    
 
   @Sanity @TC4
   Scenario: Logout without Reprovisioning
