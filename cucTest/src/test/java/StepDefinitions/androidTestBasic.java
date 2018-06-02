@@ -521,16 +521,20 @@ public class androidTestBasic {
 					((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeTextField[@name=\"phone\"]")).sendKeys(cfg.getCfg("iOSphoneSignUpNumber"));
 					((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeTextField[@name=\"phone\"]")).sendKeys(Keys.RETURN);
 				} else if (opType.equals("iOSOTP")) {
-					((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("XCUIElementTypeOther[@name=\"code\"]/XCUIElementTypeOther[1]/XCUIElementTypeStaticText")).sendKeys("0");
-					((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("XCUIElementTypeOther[@name=\"code\"]/XCUIElementTypeOther[2]/XCUIElementTypeStaticText")).sendKeys("0");
-					((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("XCUIElementTypeOther[@name=\"code\"]/XCUIElementTypeOther[3]/XCUIElementTypeStaticText")).sendKeys("0");
-					((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("XCUIElementTypeOther[@name=\"code\"]/XCUIElementTypeOther[4]/XCUIElementTypeStaticText")).sendKeys("0");
-					((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("XCUIElementTypeOther[@name=\"code\"]/XCUIElementTypeOther[4]/XCUIElementTypeStaticText")).sendKeys("0");
-					((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("XCUIElementTypeOther[@name=\"code\"]/XCUIElementTypeOther[4]/XCUIElementTypeStaticText")).sendKeys(Keys.RETURN);
+					((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeOther[@name=\"code\"]/XCUIElementTypeOther[1]/XCUIElementTypeStaticText")).sendKeys("0");
+					((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeOther[@name=\"code\"]/XCUIElementTypeOther[2]/XCUIElementTypeStaticText")).sendKeys("0");
+					((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeOther[@name=\"code\"]/XCUIElementTypeOther[3]/XCUIElementTypeStaticText")).sendKeys("0");
+					((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeOther[@name=\"code\"]/XCUIElementTypeOther[4]/XCUIElementTypeStaticText")).sendKeys("0");
+					((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeOther[@name=\"code\"]/XCUIElementTypeOther[5]/XCUIElementTypeStaticText")).sendKeys("0");
+					((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeOther[@name=\"code\"]/XCUIElementTypeOther[5]/XCUIElementTypeStaticText")).sendKeys(Keys.RETURN);
 				} else if (opType.equals("voucherNumber")) {
 					Reporter.addStepLog("Text Entered: "+cfg.getCfg("voucherNumber"));
 					((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeTextField[@name=\"number\"]")).sendKeys(cfg.getCfg("voucherNumber"));
+				} else if (opType.equals("iOSloginMobileNumber")) {
+					Reporter.addStepLog("Text Entered: "+cfg.getCfg("iOSloginMobileNumber"));
+					((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeTextField[@name=\"phone\"]")).sendKeys(cfg.getCfg("iOSloginMobileNumber"));
 				}
+				//XCUIElementTypeTextField[@name="phone"]
 			} catch(Exception e1) {
 				System.out.println(e1.getMessage().toString());
 				Reporter.addStepLog(e1.getMessage().toString());
@@ -640,16 +644,52 @@ public class androidTestBasic {
 	
 	@Then("^\"(.*)\" I tap on LOGOUT button$")
 	public void clickappLogoutButton(String deviceNum) throws Throwable {
-		Field m = getDriverFields("driver"+deviceNum);
-		try {
-			((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//android.widget.Button[contains(@text, 'LOGOUT')]")).click();
-		} catch(Exception e) {
-			Reporter.addStepLog(e.getMessage().toString());
-			cfg.takeScreenShot(((AndroidDriver) m.get("driver"+deviceNum)));
-			fail("Failed:");
+		String driverValText = null;
+		if (cfg.getCfg(deviceNum+"deviceType").equals("Android")) {
+			driverValText = "driver"+deviceNum.toString();
+			Field m = getDriverFields(driverValText);
+			try {
+				((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//android.widget.Button[contains(@text, 'LOGOUT')]")).click();
+			} catch(Exception e) {
+				Reporter.addStepLog(e.getMessage().toString());
+				cfg.takeScreenShot(((AndroidDriver) m.get("driver"+deviceNum)));
+				fail("Failed:");
+			}
+		} else {
+			driverValText = "idriver"+deviceNum.toString();
+			Field m = getDriverFields(driverValText);
+			try {
+				((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeStaticText[@value=\"LOGOUT\"]")).click();
+			} catch(Exception e) {
+				System.out.println(e.getMessage().toString());
+				Reporter.addStepLog(e.getMessage().toString());
+				cfg.takeScreenShot(((RemoteWebDriver) m.get("driver"+deviceNum)));
+				fail("Failed:");
+			}
 		}
 	}
-
+	
+	@Then("^\"(.*)\" I tap on ReprovisionUser button$")
+	public void clickreproUserButton(String deviceNum) throws Throwable {
+		String driverValText = null;
+		if (cfg.getCfg(deviceNum+"deviceType").equals("Android")) {
+			driverValText = "driver"+deviceNum.toString();
+			Field m = getDriverFields(driverValText);
+			//No code for Android
+		} else {
+			driverValText = "idriver"+deviceNum.toString();
+			Field m = getDriverFields(driverValText);
+			try {
+				((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeStaticText[@value=\"REPROVISION USER\"]")).click();
+			} catch(Exception e) {
+				System.out.println(e.getMessage().toString());
+				Reporter.addStepLog(e.getMessage().toString());
+				cfg.takeScreenShot(((RemoteWebDriver) m.get("driver"+deviceNum)));
+				fail("Failed:");
+			}
+		}
+	}
+	
 	@Then("^\"(.*)\" I tap on OK button$")
 	public void clickappOkButton(String deviceNum) throws Throwable {
 		Field m = getDriverFields("driver"+deviceNum);

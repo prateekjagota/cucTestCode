@@ -75,8 +75,11 @@ Feature: Test Navigation Flow
     Then "D2" I tap on VoucherArrow button
     Then "D2" I enter the "voucherNumber"
     Then "D2" I tap on "done" text
-    
-    
+    Then "D2" I wait for "2" seconds
+    Then "D2" I tap on "topup" text
+    Then "D2" I wait for "2" seconds
+    Then "D2" I tap on "goToMyPage" text
+    Then "D2" I wait for "2" seconds
     
 
   @Sanity @TC4
@@ -84,6 +87,14 @@ Feature: Test Navigation Flow
     Then "D1" I tap on LeftMenu button
     Then "D1" I tap on "Logout" menuItem
     Then "D1" I tap on LOGOUT button
+    
+  @Sanity @TC1004
+  Scenario: Logout without Reprovisioning
+  	Then "D2" I wait for "2" seconds
+    Then "D2" I tap on MoreMenu button
+    Then "D2" I tap on LOGOUT button
+    Then "D2" I wait for "2" seconds 
+  
 
   @Sanity @TC5
   Scenario: Sign In Flow
@@ -93,6 +104,17 @@ Feature: Test Navigation Flow
     Then "D1" I enter the "phoneLoginNumber"
     Then "D1" I wait for "2" seconds
     Then "D1" I tap on login button
+    
+	@Sanity @TC1005
+  Scenario: Sign In Flow
+  	Given "D2" I launch the application
+    Then "D2" I tap on "signin" text
+    Then "D2" I tap on "signinWPhone" text
+    Then "D2" I wait for "2" seconds
+    Then "D2" I enter the "iOSloginMobileNumber"
+    Then "D2" I wait for "2" seconds
+    Then "D2" I tap on "positiveButton" text
+    Then "D2" I wait for "3" seconds
     
  @Sanity @TC6
   Scenario: Add balance from card
@@ -116,5 +138,11 @@ Feature: Test Navigation Flow
     Then "D1" I tap on "Logout" menuItem
     Then "D1" I tap on reProvision checkBox
     Then "D1" I tap on LOGOUT button
-
+    
+  @Sanity @TC1007
+  Scenario: Logout with Reprovisioning
+  	Then "D2" I wait for "2" seconds
+    Then "D2" I tap on MoreMenu button
+    Then "D2" I tap on ReprovisionUser button
+    Then "D2" I wait for "3" seconds 
 

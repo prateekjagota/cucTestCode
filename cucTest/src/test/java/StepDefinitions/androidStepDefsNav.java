@@ -38,6 +38,27 @@ public class androidStepDefsNav {
 		}
 	}
 	
+	@Then("^\"(.*)\" I tap on MoreMenu button$")
+	public void clickMoreMenuButton(String deviceNum) throws Throwable {
+		String driverValText = null;
+		if (cfg.getCfg(deviceNum+"deviceType").equals("Android")) {
+			driverValText = "driver"+deviceNum.toString();
+			Field m = getDriverFields(driverValText);
+			//No code for Android
+		} else {
+			driverValText = "idriver"+deviceNum.toString();
+			Field m = getDriverFields(driverValText);
+			try {			
+				((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeButton[@name=\"MORE\"]")).click();
+			} catch(Exception e) {
+				System.out.println(e.getMessage().toString());
+				Reporter.addStepLog(e.getMessage().toString());
+				cfg.takeScreenShot(((RemoteWebDriver) m.get("driver"+deviceNum)));
+				fail("Failed:");
+			}
+		}
+	}
+	
 	@Then("^\"(.*)\" I tap on BackArrow button$")
 	public void clickbacArrButton(String deviceNum) throws Throwable {
 		Field m = getDriverFields("driver"+deviceNum);
