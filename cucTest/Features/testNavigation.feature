@@ -131,6 +131,21 @@ Feature: Test Navigation Flow
   	Then "D1" I Navigate back
   	Then "D1" I tap on "MY PAGE" text
   	
+ @Sanity @TC1006
+  Scenario: Add balance from card
+  	Given "D2" I launch the application
+  	Then "D2" I wait for "2" seconds
+  	Then "D2" I tap on "WALLET" text
+  	Then "D2" I wait for "2" seconds
+  	Then "D2" I tap on CreditArrow button
+  	Then "D2" I wait for "2" seconds
+    Then "D2" I tap on "TOP UP" text
+    Then "D2" I tap on CreditArrow button
+    Then "D2" I enter the "creditCardNumber"
+  	Then "D2" I enter the "creditCardExpMM"
+  	Then "D2" I enter the "creditCardExpYY"
+  	Then "D2" I enter the "creditCardCVV"
+    
   	
   @Sanity @TC7
   Scenario: Logout with Reprovisioning  
