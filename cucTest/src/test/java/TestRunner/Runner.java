@@ -14,7 +14,7 @@ import cucumber.api.junit.Cucumber;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(features = {"Features"},
-							tags= {"@TC1001,@TC1003,@TC1004,@TC1005,@TC1007"},
+							tags= {"@TC10014"},
 							plugin = {"com.cucumber.listener.ExtentCucumberFormatter:"},
 							glue= {"StepDefinitions"}, monochrome = true, strict = true)
 

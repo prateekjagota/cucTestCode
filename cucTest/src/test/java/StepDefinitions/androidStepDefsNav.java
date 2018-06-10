@@ -3,13 +3,17 @@ package StepDefinitions;
 import static org.junit.Assert.fail;
 
 import java.lang.reflect.Field;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.remote.RemoteWebElement;
 
 import com.cucumber.listener.Reporter;
 
@@ -156,27 +160,61 @@ public class androidStepDefsNav {
 
 	@Then("^\"(.*)\" I swipe the Screen for \"(.*)\" offer$")
 	public void swipeScreenforOffer(String deviceNum, String offerText) throws Throwable {
-		Field m = getDriverFields("driver"+deviceNum);
-		try {
-			int i=0;
-			TimeUnit.SECONDS.sleep(2);
-			while(i<30) {
-				TouchAction touchAction = new TouchAction(((AndroidDriver) m.get("driver"+deviceNum)));				
-				Point pt = ((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.TextView[1]")).getLocation();
-				touchAction.press(pt.x+500,pt.y).moveTo(-500, 0).release().perform();
+		String driverValText = null;
+		if (cfg.getCfg(deviceNum+"deviceType").equals("Android")) {
+			driverValText = "driver"+deviceNum.toString();
+			Field m = getDriverFields(driverValText);
+			try {
+				int i=0;
 				TimeUnit.SECONDS.sleep(2);
-				if(((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.TextView[1]")).getText().contains(offerText)) {
-					System.out.println("Found Text: "+(((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.TextView[1]")).getText()));
-					Reporter.addStepLog("Found Text: "+(((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.TextView[1]")).getText()));
-					((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.TextView[1]")).click();
-					break;
+				while(i<30) {
+					TouchAction touchAction = new TouchAction(((AndroidDriver) m.get("driver"+deviceNum)));				
+					Point pt = ((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.TextView[1]")).getLocation();
+					touchAction.press(pt.x+500,pt.y).moveTo(-500, 0).release().perform();
+					TimeUnit.SECONDS.sleep(2);
+					if(((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.TextView[1]")).getText().contains(offerText)) {
+						System.out.println("Found Text: "+(((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.TextView[1]")).getText()));
+						Reporter.addStepLog("Found Text: "+(((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.TextView[1]")).getText()));
+						((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.TextView[1]")).click();
+						break;
+					}
+					i++;
 				}
-				i++;
+			} catch(Exception e) {
+				Reporter.addStepLog(e.getMessage().toString());
+				cfg.takeScreenShot(((AndroidDriver) m.get("driver"+deviceNum)));
+				fail("Failed:");
 			}
-		} catch(Exception e) {
-			Reporter.addStepLog(e.getMessage().toString());
-			cfg.takeScreenShot(((AndroidDriver) m.get("driver"+deviceNum)));
-			fail("Failed:");
+		} else {
+			driverValText = "idriver"+deviceNum.toString();
+			Field m = getDriverFields(driverValText);			
+			try {
+				int i=0;
+				TimeUnit.SECONDS.sleep(3);		
+				//System.out.println(((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("(//XCUIElementTypeStaticText)[3]")).getText());
+				while(i<30) {
+					//TouchAction touchAction = new TouchAction((PerformsTouchActions) ((RemoteWebDriver) m.get("driver"+deviceNum)));
+					JavascriptExecutor js = (JavascriptExecutor) ((RemoteWebDriver) m.get("driver"+deviceNum));
+					Map<String, Object> params = new HashMap<String, Object>();
+					params.put("direction", "left");				
+					RemoteWebElement element = (RemoteWebElement) ((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("(//XCUIElementTypeStaticText)[3]"));
+					params.put("element", ((RemoteWebElement) element).getId());
+					js.executeScript("mobile: swipe", params);
+					TimeUnit.SECONDS.sleep(2);
+					System.out.println(((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("(//XCUIElementTypeStaticText)[3]")).getText());
+					if(((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("(//XCUIElementTypeStaticText)[3]")).getText().contains(offerText)) {
+						Reporter.addStepLog("Found Text: "+((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("(//XCUIElementTypeStaticText)[3]")).getText());
+						((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("(//XCUIElementTypeStaticText)[3]")).click();
+						break;
+					}
+					i++;
+				}
+			} catch(Exception e) {
+				System.out.println(e.getMessage().toString());
+				Reporter.addStepLog(e.getMessage().toString());
+				cfg.takeScreenShot(((RemoteWebDriver) m.get("driver"+deviceNum)));
+				fail("Failed:");
+			}
 		}
 	}
 

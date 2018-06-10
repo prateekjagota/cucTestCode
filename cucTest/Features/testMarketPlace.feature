@@ -9,6 +9,17 @@ Feature: Test MarketPlace Scenarios
     Then "D1" I tap on BuyCart button
     Then "D1" I tap on OK button
     Then "D1" I tap on DONE button
+    
+  @Sanity @TC10014
+  Scenario: Add items from MarketPlace
+    Given "D2" I launch the application
+    Then "D2" I wait for "2" seconds
+    Then "D2" I tap on "MARKETPLACE" text
+    Then "D2" I swipe the Screen for "Unlimited Facebook 1 Day Pass" offer
+    Then "D2" I wait for "1" seconds
+    Then "D2" I tap on "BUY NOW" text
+    #Then "D1" I tap on OK button
+    #Then "D1" I tap on DONE button
 
   @Sanity @TC15
   Scenario: Validate Offer on My Home Screen
