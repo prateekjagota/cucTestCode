@@ -18,14 +18,21 @@ Feature: Test MarketPlace Scenarios
     Then "D2" I swipe the Screen for "Unlimited Facebook 1 Day Pass" offer
     Then "D2" I wait for "1" seconds
     Then "D2" I tap on "BUY NOW" text
-    #Then "D1" I tap on OK button
-    #Then "D1" I tap on DONE button
+
 
   @Sanity @TC15
   Scenario: Validate Offer on My Home Screen
     Then "D1" I tap on "MY PAGE" text
     Then "D1" I scroll down the screen for "Unlimited Facebook 1 Day Pass" text
     Then "D1" Verify "Unlimited Facebook 1 Day Pass" OfferStatus as "Active"
+    
+ @Sanity @TC10015
+  Scenario: Validate Offer on My Home Screen
+  	Given "D2" I launch the application
+    Then "D2" I wait for "2" seconds
+    Then "D2" I tap on "MY PAGE" text
+    Then "D2" I scroll down the screen for "Unlimited Facebook 1 Day Pass" text
+    Then "D2" Verify "Unlimited Facebook 1 Day Pass" OfferStatus as "Active"
     
 	@Sanity @TC16
   Scenario: Validate Offer purchase on Activity Screen

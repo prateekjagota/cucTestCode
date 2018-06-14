@@ -536,20 +536,24 @@ public class androidTestBasic {
 				} else if (opType.equals("creditCardNumber")) {
 					Reporter.addStepLog("Text Entered: "+cfg.getCfg("creditCardNumber"));
 					((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeTextField[@name=\"number\"]")).sendKeys(cfg.getCfg("creditCardNumber"));
-					((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeTextField[@name=\"name\"]")).sendKeys(Keys.RETURN);
+					//((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeTextField[@name=\"number\"]")).sendKeys(Keys.TAB);
 				} else if (opType.equals("creditCardExpMM")) {
 					Reporter.addStepLog("Text Entered: "+cfg.getCfg("creditCardExpMM"));
-					((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeTextField[@value=“MM”]")).sendKeys(cfg.getCfg("creditCardExpMM"));
-					((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeTextField[@name=\"name\"]")).sendKeys(Keys.RETURN);
+					((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeTextField[@value=\"MM\"]")).sendKeys(cfg.getCfg("creditCardExpMM"));
+					//((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeTextField[@value=\"MM\"]")).sendKeys(Keys.RETURN);
 				} else if (opType.equals("creditCardExpYY")) {
 					Reporter.addStepLog("Text Entered: "+cfg.getCfg("creditCardExpYY"));
-					((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeTextField[@value=“YY”]")).sendKeys(cfg.getCfg("creditCardExpYY"));
-					((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeTextField[@name=\"name\"]")).sendKeys(Keys.RETURN);
+					((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeTextField[@value=\"YY\"]")).sendKeys(cfg.getCfg("creditCardExpYY"));
+					//((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeTextField[@value=\"YY\"]")).sendKeys(Keys.RETURN);
 				} else if (opType.equals("creditCardCVV")) {
 					Reporter.addStepLog("Text Entered: "+cfg.getCfg("creditCardCVV"));
-					((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeTextField[@value=“CVV”]")).sendKeys(cfg.getCfg("creditCardCVV"));
-					((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeTextField[@name=\"name\"]")).sendKeys(Keys.RETURN);
+					((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeTextField[@value=\"CVV\"]")).sendKeys(cfg.getCfg("creditCardCVV"));
+					//((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeTextField[@value=\"CVV\"]")).sendKeys(Keys.RETURN);
 				//XCUIElementTypeTextField[@name="phone"]
+				} else if (opType.equals("addAmount")) {
+					Reporter.addStepLog("Text Entered: 50");
+					((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypePickerWheel")).sendKeys("50");
+					//((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeTextField[@value=\"YY\"]")).sendKeys(Keys.RETURN);
 				}
 			} catch(Exception e1) {
 				System.out.println(e1.getMessage().toString());
@@ -622,8 +626,29 @@ public class androidTestBasic {
 		}
 	}
 	
-	@Then("^\"(.*)\" I tap on CreditArrow button$")
+	@Then("^\"(.*)\" I tap on CreditArrow1 button$")
 	public void clickCreditArrowbutton(String deviceNum) throws Throwable {
+		String driverValText = null;
+		if (cfg.getCfg(deviceNum+"deviceType").equals("Android")) {
+			driverValText = "driver"+deviceNum.toString();
+			Field m = getDriverFields(driverValText);
+			//No code for android
+		} else {
+			driverValText = "idriver"+deviceNum.toString();
+			Field m = getDriverFields(driverValText);
+			try {
+				((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("(//XCUIElementTypeButton[@name=\"arrowButton\"])[1]")).click();
+			} catch(Exception e) {
+				System.out.println(e.getMessage().toString());
+				Reporter.addStepLog(e.getMessage().toString());
+				cfg.takeScreenShot(((RemoteWebDriver) m.get("driver"+deviceNum)));
+				fail("Failed:");
+			}
+		}
+	}
+	
+	@Then("^\"(.*)\" I tap on CreditArrow2 button$")
+	public void clickCreditArrow2button(String deviceNum) throws Throwable {
 		String driverValText = null;
 		if (cfg.getCfg(deviceNum+"deviceType").equals("Android")) {
 			driverValText = "driver"+deviceNum.toString();

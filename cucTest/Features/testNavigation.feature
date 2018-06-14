@@ -137,14 +137,26 @@ Feature: Test Navigation Flow
   	Then "D2" I wait for "2" seconds
   	Then "D2" I tap on "WALLET" text
   	Then "D2" I wait for "2" seconds
-  	Then "D2" I tap on CreditArrow button
+  	Then "D2" I tap on CreditArrow1 button
   	Then "D2" I wait for "2" seconds
     Then "D2" I tap on "TOP UP" text
-    Then "D2" I tap on CreditArrow button
+    Then "D2" I wait for "2" seconds
+    Then "D2" I tap on CreditArrow2 button
     Then "D2" I enter the "creditCardNumber"
   	Then "D2" I enter the "creditCardExpMM"
   	Then "D2" I enter the "creditCardExpYY"
   	Then "D2" I enter the "creditCardCVV"
+  	Then "D2" I tap on CreditArrow2 button
+  	Then "D2" I wait for "2" seconds
+  	Then "D2" I tap on CreditArrow2 button
+  	Then "D2" I wait for "2" seconds
+  	Then "D2" I tap on "amountButton" text
+  	Then "D2" I wait for "2" seconds
+  	Then "D2" I enter the "addAmount"
+  	Then "D2" I tap on "TOP UP" text
+  	Then "D2" I wait for "5" seconds
+  	Then "D2" I tap on "MY PAGE" text
+  	
     
   	
   @Sanity @TC7

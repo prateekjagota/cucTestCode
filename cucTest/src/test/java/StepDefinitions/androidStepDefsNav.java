@@ -220,55 +220,120 @@ public class androidStepDefsNav {
 
 	@Then("^\"(.*)\" I scroll down the screen for \"(.*)\" text$")
 	public void scrollDownScreenforOffer(String deviceNum, String opText) throws Throwable {
-		Field m = getDriverFields("driver"+deviceNum);
-		try {
-			int i=0;
-			TimeUnit.SECONDS.sleep(2);
-			while(i<30) {
-				TouchAction touchAction = new TouchAction(((AndroidDriver) m.get("driver"+deviceNum)));				
-				Point pt = ((AndroidDriver) m.get("driver"+deviceNum)).findElement(MobileBy.xpath("//android.widget.TextView")).getLocation();
-				List<WebElement> txtList = ((AndroidDriver) m.get("driver"+deviceNum)).findElements(MobileBy.xpath("//android.widget.TextView"));
-				for (WebElement el: txtList) {
-					if (el.getText().equals(opText)) {
-						System.out.println("Found Text: " + el.getText());
-						break;
-					} else {
-						i++;
-					}
-				}
-				touchAction.press(pt.x,pt.y+300).moveTo(0, -300).release().perform();
+		String driverValText = null;
+		if (cfg.getCfg(deviceNum+"deviceType").equals("Android")) {
+			driverValText = "driver"+deviceNum.toString();
+			Field m = getDriverFields(driverValText);
+			try {
+				int i=0;
 				TimeUnit.SECONDS.sleep(2);
+				while(i<30) {
+					TouchAction touchAction = new TouchAction(((AndroidDriver) m.get("driver"+deviceNum)));				
+					Point pt = ((AndroidDriver) m.get("driver"+deviceNum)).findElement(MobileBy.xpath("//android.widget.TextView")).getLocation();
+					List<WebElement> txtList = ((AndroidDriver) m.get("driver"+deviceNum)).findElements(MobileBy.xpath("//android.widget.TextView"));
+					for (WebElement el: txtList) {
+						if (el.getText().equals(opText)) {
+							System.out.println("Found Text: " + el.getText());
+							break;
+						} else {
+							i++;
+						}
+					}
+					touchAction.press(pt.x,pt.y+300).moveTo(0, -300).release().perform();
+					TimeUnit.SECONDS.sleep(2);
+				}
+			} catch(Exception e) {
+				Reporter.addStepLog(e.getMessage().toString());
+				cfg.takeScreenShot(((AndroidDriver) m.get("driver"+deviceNum)));
+				fail("Failed:");
 			}
-		} catch(Exception e) {
-			Reporter.addStepLog(e.getMessage().toString());
-			cfg.takeScreenShot(((AndroidDriver) m.get("driver"+deviceNum)));
-			fail("Failed:");
+		} else {
+			driverValText = "idriver"+deviceNum.toString();
+			Field m = getDriverFields(driverValText);			
+			try {
+				int i=0;
+				TimeUnit.SECONDS.sleep(3);		
+				//System.out.println(((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.name("title")).getText());
+				while(i<30) {
+					//TouchAction touchAction = new TouchAction((PerformsTouchActions) ((RemoteWebDriver) m.get("driver"+deviceNum)));
+					JavascriptExecutor js = (JavascriptExecutor) ((RemoteWebDriver) m.get("driver"+deviceNum));
+					Map<String, Object> params = new HashMap<String, Object>();				
+					RemoteWebElement element = (RemoteWebElement) ((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.name("title"));
+					params.put("element", ((RemoteWebElement) element).getId());
+					params.put("name", "elementName");
+					params.put("direction", "down");
+					//params.put("toVisible", "not an empty string");
+					js.executeScript("mobile:scroll", params);
+					TimeUnit.SECONDS.sleep(2);
+					System.out.println(((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.name("title")).getText());
+					if(((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.name("title")).getText().contains(opText)) {
+						Reporter.addStepLog("Found Text: "+((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.name("title")).getText());
+						//((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeStaticText")).click();
+						break;
+					}
+					i++;
+				}
+			} catch(Exception e) {
+				System.out.println(e.getMessage().toString());
+				Reporter.addStepLog(e.getMessage().toString());
+				cfg.takeScreenShot(((RemoteWebDriver) m.get("driver"+deviceNum)));
+				fail("Failed:");
+			}
 		}
 	}
 
 	@Then("^\"(.*)\" Verify \"(.*)\" OfferStatus as \"(.*)\"$")
 	public void verfyOfferText(String deviceNum, String offerName, String opText) throws Throwable {
-		Field m = getDriverFields("driver"+deviceNum);
-		try {
-			List<WebElement> txtList = ((AndroidDriver) m.get("driver"+deviceNum)).findElements(MobileBy.xpath("//android.widget.LinearLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.TextView"));
-			for (WebElement el: txtList) {
-				if (el.getText().equals(offerName)) {
-					int indx = txtList.indexOf(el);
-					if (txtList.get(indx+2).getText().contains(opText)) {
-						System.out.println(txtList.get(indx+2).getText());
-						Reporter.addStepLog("Offer Status found as expected: " + txtList.get(indx+2).getText());
-						break;
-					} else {
-						Reporter.addStepLog("Offer Status not as expected: " + txtList.get(indx+2).getText());
-						cfg.takeScreenShot(((AndroidDriver) m.get("driver"+deviceNum)));
-						fail("Failed:");
+		String driverValText = null;
+		if (cfg.getCfg(deviceNum+"deviceType").equals("Android")) {
+			driverValText = "driver"+deviceNum.toString();
+			Field m = getDriverFields(driverValText);
+			try {
+				List<WebElement> txtList = ((AndroidDriver) m.get("driver"+deviceNum)).findElements(MobileBy.xpath("//android.widget.LinearLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.TextView"));
+				for (WebElement el: txtList) {
+					if (el.getText().equals(offerName)) {
+						int indx = txtList.indexOf(el);
+						if (txtList.get(indx+2).getText().contains(opText)) {
+							System.out.println(txtList.get(indx+2).getText());
+							Reporter.addStepLog("Offer Status found as expected: " + txtList.get(indx+2).getText());
+							break;
+						} else {
+							Reporter.addStepLog("Offer Status not as expected: " + txtList.get(indx+2).getText());
+							cfg.takeScreenShot(((AndroidDriver) m.get("driver"+deviceNum)));
+							fail("Failed:");
+						}
 					}
-				}
-			}	
-		} catch(Exception e1) {
-			Reporter.addStepLog(e1.getMessage().toString());
-			cfg.takeScreenShot(((AndroidDriver) m.get("driver"+deviceNum)));
-			fail("Failed:");
+				}	
+			} catch(Exception e1) {
+				Reporter.addStepLog(e1.getMessage().toString());
+				cfg.takeScreenShot(((AndroidDriver) m.get("driver"+deviceNum)));
+				fail("Failed:");
+			}
+		} else {
+			driverValText = "idriver"+deviceNum.toString();
+			Field m = getDriverFields(driverValText);
+			try {
+				List<WebElement> txtList = ((RemoteWebDriver) m.get("driver"+deviceNum)).findElements(By.xpath("//XCUIElementTypeStaticText[@label="+offerName+"]"));
+				for (WebElement el: txtList) {
+					System.out.println(el.getText());
+					if (el.getText().equals(offerName)) {
+						int indx = txtList.indexOf(el);
+						if (txtList.get(indx+2).getText().contains(opText)) {
+							System.out.println(txtList.get(indx+2).getText());
+							Reporter.addStepLog("Offer Status found as expected: " + txtList.get(indx+2).getText());
+							break;
+						} else {
+							Reporter.addStepLog("Offer Status not as expected: " + txtList.get(indx+2).getText());
+							cfg.takeScreenShot(((RemoteWebDriver) m.get("driver"+deviceNum)));
+							fail("Failed:");
+						}
+					}
+				}	
+			} catch(Exception e1) {
+				Reporter.addStepLog(e1.getMessage().toString());
+				cfg.takeScreenShot(((RemoteWebDriver) m.get("driver"+deviceNum)));
+				fail("Failed:");
+			}
 		}
 	}
 
