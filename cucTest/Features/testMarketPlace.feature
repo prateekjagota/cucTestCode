@@ -28,16 +28,23 @@ Feature: Test MarketPlace Scenarios
     
  @Sanity @TC10015
   Scenario: Validate Offer on My Home Screen
-  	Given "D2" I launch the application
     Then "D2" I wait for "2" seconds
     Then "D2" I tap on "MY PAGE" text
-    Then "D2" I scroll down the screen for "Unlimited Facebook 1 Day Pass" text
-    Then "D2" Verify "Unlimited Facebook 1 Day Pass" OfferStatus as "Active"
+    #Then "D2" I scroll down the screen for "Unlimited Facebook 1 Day Pass" text
+    Then "D2" Verify "Unlimited Facebook 1 Day Pass" OfferStatus as "23 hours remaining"
     
 	@Sanity @TC16
   Scenario: Validate Offer purchase on Activity Screen
     Then "D1" I tap on "ACTIVITY" text
     Then "D1" Verify "Unlimited Facebook 1 Day Pass" ActivityStatus as "Purchased"
+    
+  @Sanity @TC10016
+  Scenario: Validate Offer purchase on Activity Screen
+  	Then "D2" I wait for "2" seconds
+    Then "D2" I tap on "ACTIVITY" text
+    Then "D2" I wait for "2" seconds
+    Then "D2" Verify "Unlimited Facebook 1 Day Pass" iosActivityStatus
+    
     
   @Sanity @TC17
    Scenario: Purchase products from marketplace
@@ -62,3 +69,30 @@ Feature: Test MarketPlace Scenarios
    Then "D1" I tap on Tick button
    Then "D1" I tap on OK button
    
+   @Sanity @TC10017
+   Scenario: Purchase products from marketplace
+    Given "D2" I launch the application
+    Then "D2" I wait for "2" seconds
+    Then "D2" I tap on "MARKETPLACE" text
+    Then "D2" I tap on Search button
+    Then "D2" I wait for "2" seconds
+    Then "D2" I search and select product as "Powerbeats3 Wireless Earphones"
+    Then "D2" I tap on "SHOP" text
+    Then "D2" I wait for "2" seconds
+    Then "D2" I tap on "BUY NOW" text
+    Then "D2" I wait for "2" seconds
+    Then "D2" I scroll down the screen for "NEXT -->" text
+    Then "D2" I tap on "NEXT --->" text
+    Then "D2" I wait for "2" seconds
+    Then "D2" I tap on "NEXT --->" text
+    Then "D2" I wait for "2" seconds
+    Then "D2" I scroll down the screen for "SUBMIT ORDER" text
+    Then "D2" I tap on "SUBMIT ORDER" text
+    Then "D2" I wait for "5" seconds
+    Then "D2" I tap on "Visit our Marketplace" text
+    Then "D2" I wait for "2" seconds
+    Then "D2" I tap on "MY PAGE" text
+    
+     
+    
+    

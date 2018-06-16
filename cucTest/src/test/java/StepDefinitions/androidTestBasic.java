@@ -18,7 +18,6 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.RemoteWebElement;
 
 import cucumber.api.java.en.Given;
@@ -61,11 +60,11 @@ public class androidTestBasic {
 			try {
 				cfg.installApp(deviceNum,1);
 				cfg.launchApp(deviceNum);
-				cfg.takeScreenShot(((RemoteWebDriver) m.get(driverValText)));
+				cfg.takeScreenShot(((IOSDriver) m.get(driverValText)));
 		 	} catch(Exception e) {
 				Reporter.addStepLog(e.getMessage().toString());
 				System.out.println(e.getMessage());
-				cfg.takeScreenShot(((RemoteWebDriver) m.get(driverValText)));
+				cfg.takeScreenShot(((IOSDriver) m.get(driverValText)));
 				fail("Failed:"+e.toString());
 			}
 		}		
@@ -93,7 +92,7 @@ public class androidTestBasic {
 				cfg.launchApp(deviceNum);	
 			} catch(Exception e) {
 				Reporter.addStepLog(e.getMessage().toString());
-				cfg.takeScreenShot(((RemoteWebDriver) m.get("driver"+deviceNum)));
+				cfg.takeScreenShot(((IOSDriver) m.get("driver"+deviceNum)));
 				fail("Failed:");
 			}
 		}
@@ -116,10 +115,10 @@ public class androidTestBasic {
 			driverValText = "idriver"+deviceNum.toString();
 			Field m = getDriverFields(driverValText);
 			try {
-				((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.className("XCUIElementTypeSwitch")).click();
+				((IOSDriver) m.get("driver"+deviceNum)).findElement(By.className("XCUIElementTypeSwitch")).click();
 			} catch(Exception e) {
 				Reporter.addStepLog(e.getMessage().toString());
-				cfg.takeScreenShot(((RemoteWebDriver) m.get("driver"+deviceNum)));
+				cfg.takeScreenShot(((IOSDriver) m.get("driver"+deviceNum)));
 				fail("Failed:");
 			}
 		}
@@ -142,10 +141,10 @@ public class androidTestBasic {
 			driverValText = "idriver"+deviceNum.toString();
 			Field m = getDriverFields(driverValText);
 			try {
-				((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeButton[@name=\"agree\"]")).click();
+				((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeButton[@name=\"agree\"]")).click();
 			} catch(Exception e) {
 				Reporter.addStepLog(e.getMessage().toString());
-				cfg.takeScreenShot(((RemoteWebDriver) m.get("driver"+deviceNum)));
+				cfg.takeScreenShot(((IOSDriver) m.get("driver"+deviceNum)));
 				fail("Failed:");
 			}
 		}
@@ -195,16 +194,16 @@ public class androidTestBasic {
 				int i=0;
 				TimeUnit.SECONDS.sleep(3);				
 				while(i<30) {
-					//TouchAction touchAction = new TouchAction((PerformsTouchActions) ((RemoteWebDriver) m.get("driver"+deviceNum)));
-					JavascriptExecutor js = (JavascriptExecutor) ((RemoteWebDriver) m.get("driver"+deviceNum));
+					//TouchAction touchAction = new TouchAction((PerformsTouchActions) ((IOSDriver) m.get("driver"+deviceNum)));
+					JavascriptExecutor js = (JavascriptExecutor) ((IOSDriver) m.get("driver"+deviceNum));
 					Map<String, Object> params = new HashMap<String, Object>();
 					params.put("direction", "left");
-					RemoteWebElement element = (RemoteWebElement) ((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeStaticText"));
+					RemoteWebElement element = (RemoteWebElement) ((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeStaticText"));
 					params.put("element", ((RemoteWebElement) element).getId());
 					js.executeScript("mobile: swipe", params);
 					TimeUnit.SECONDS.sleep(2);
-					if(((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeStaticText")).getText().contains("Pack your suitcases and take your phone")) {
-						Reporter.addStepLog("Found Text: "+((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeStaticText")).getText());
+					if(((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeStaticText")).getText().contains("Pack your suitcases and take your phone")) {
+						Reporter.addStepLog("Found Text: "+((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeStaticText")).getText());
 						break;
 					}
 					i++;
@@ -212,7 +211,7 @@ public class androidTestBasic {
 			} catch(Exception e) {
 				System.out.println(e.getMessage().toString());
 				Reporter.addStepLog(e.getMessage().toString());
-				cfg.takeScreenShot(((RemoteWebDriver) m.get("driver"+deviceNum)));
+				cfg.takeScreenShot(((IOSDriver) m.get("driver"+deviceNum)));
 				fail("Failed:");
 			}
 			}
@@ -235,10 +234,10 @@ public class androidTestBasic {
 			driverValText = "idriver"+deviceNum.toString();
 			Field m = getDriverFields(driverValText);
 			try {
-				((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.name("GET STARTED")).click();
+				((IOSDriver) m.get("driver"+deviceNum)).findElement(By.name("GET STARTED")).click();
 			} catch(Exception e) {
 				Reporter.addStepLog(e.getMessage().toString());
-				cfg.takeScreenShot(((RemoteWebDriver) m.get("driver"+deviceNum)));
+				cfg.takeScreenShot(((IOSDriver) m.get("driver"+deviceNum)));
 				fail("Failed:");
 			}
 		}
@@ -341,10 +340,10 @@ public class androidTestBasic {
 			Field m = getDriverFields(driverValText);
 			try {
 				TimeUnit.SECONDS.sleep(2);
-				((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.name("signup")).click();
+				((IOSDriver) m.get("driver"+deviceNum)).findElement(By.name("signup")).click();
 			} catch(Exception e) {
 				Reporter.addStepLog(e.getMessage().toString());
-				cfg.takeScreenShot(((RemoteWebDriver) m.get("driver"+deviceNum)));
+				cfg.takeScreenShot(((IOSDriver) m.get("driver"+deviceNum)));
 				fail("Failed:");
 			}
 		}
@@ -362,13 +361,13 @@ public class androidTestBasic {
 			Field m = getDriverFields(driverValText);
 			try {
 				if (opVal.equals("VOUCHER")) {
-					((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeStaticText[@value=\"VOUCHER / CREDIT CARD\"]")).click();
+					((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeStaticText[@value=\"VOUCHER / CREDIT CARD\"]")).click();
 				} else {
 					System.out.println("Option not supported!");
 				}
 			} catch(Exception e) {
 				Reporter.addStepLog(e.getMessage().toString());
-				cfg.takeScreenShot(((RemoteWebDriver) m.get("driver"+deviceNum)));
+				cfg.takeScreenShot(((IOSDriver) m.get("driver"+deviceNum)));
 				fail("Failed:");
 			}
 		}
@@ -385,10 +384,10 @@ public class androidTestBasic {
 			driverValText = "idriver"+deviceNum.toString();
 			Field m = getDriverFields(driverValText);
 			try {
-				((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("(//XCUIElementTypeButton[@name=\"arrowButton\"])[1]")).click();
+				((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("(//XCUIElementTypeButton[@name=\"arrowButton\"])[1]")).click();
 			} catch(Exception e) {
 				Reporter.addStepLog(e.getMessage().toString());
-				cfg.takeScreenShot(((RemoteWebDriver) m.get("driver"+deviceNum)));
+				cfg.takeScreenShot(((IOSDriver) m.get("driver"+deviceNum)));
 				fail("Failed:");
 			}
 		}
@@ -433,11 +432,11 @@ public class androidTestBasic {
 			driverValText = "idriver"+deviceNum.toString();
 			Field m = getDriverFields(driverValText);
 			try {
-				((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.name(opText)).click();;
+				((IOSDriver) m.get("driver"+deviceNum)).findElement(By.name(opText)).click();;
 			} catch(Exception e) {
 				System.out.println(e.getMessage());
 				Reporter.addStepLog(e.getMessage().toString());
-				cfg.takeScreenShot(((RemoteWebDriver) m.get("driver"+deviceNum)));
+				cfg.takeScreenShot(((IOSDriver) m.get("driver"+deviceNum)));
 				fail("Failed:");
 			}
 		}
@@ -509,56 +508,56 @@ public class androidTestBasic {
 			try {
 				if (opType.equals("userName")) {
 					Reporter.addStepLog("Text Entered: "+cfg.getCfg("userName"));
-					((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeTextField[@name=\"name\"]")).sendKeys(cfg.getCfg("userName"));
-					((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeTextField[@name=\"name\"]")).sendKeys(Keys.RETURN);
+					((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeTextField[@name=\"name\"]")).sendKeys(cfg.getCfg("userName"));
+					((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeTextField[@name=\"name\"]")).sendKeys(Keys.RETURN);
 				} else if (opType.equals("userPassword")) {
 					Reporter.addStepLog("Text Entered: "+cfg.getCfg("userPassword"));
-					((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeSecureTextField[@name=\"password\"]")).sendKeys(cfg.getCfg("userPassword"));
-					((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeSecureTextField[@name=\"reenterPass\"]")).sendKeys(cfg.getCfg("userPassword"));
-					((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeSecureTextField[@name=\"reenterPass\"]")).sendKeys(Keys.RETURN);
+					((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeSecureTextField[@name=\"password\"]")).sendKeys(cfg.getCfg("userPassword"));
+					((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeSecureTextField[@name=\"reenterPass\"]")).sendKeys(cfg.getCfg("userPassword"));
+					((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeSecureTextField[@name=\"reenterPass\"]")).sendKeys(Keys.RETURN);
 				} else if (opType.equals("iOSphoneSignUpNumber")) {
 					Reporter.addStepLog("Text Entered: "+cfg.getCfg("iOSphoneSignUpNumber"));
-					((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeTextField[@name=\"phone\"]")).sendKeys(cfg.getCfg("iOSphoneSignUpNumber"));
-					((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeTextField[@name=\"phone\"]")).sendKeys(Keys.RETURN);
+					((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeTextField[@name=\"phone\"]")).sendKeys(cfg.getCfg("iOSphoneSignUpNumber"));
+					((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeTextField[@name=\"phone\"]")).sendKeys(Keys.RETURN);
 				} else if (opType.equals("iOSOTP")) {
-					((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeOther[@name=\"code\"]/XCUIElementTypeOther[1]/XCUIElementTypeStaticText")).sendKeys("0");
-					((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeOther[@name=\"code\"]/XCUIElementTypeOther[2]/XCUIElementTypeStaticText")).sendKeys("0");
-					((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeOther[@name=\"code\"]/XCUIElementTypeOther[3]/XCUIElementTypeStaticText")).sendKeys("0");
-					((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeOther[@name=\"code\"]/XCUIElementTypeOther[4]/XCUIElementTypeStaticText")).sendKeys("0");
-					((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeOther[@name=\"code\"]/XCUIElementTypeOther[5]/XCUIElementTypeStaticText")).sendKeys("0");
-					((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeOther[@name=\"code\"]/XCUIElementTypeOther[5]/XCUIElementTypeStaticText")).sendKeys(Keys.RETURN);
+					((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeOther[@name=\"code\"]/XCUIElementTypeOther[1]/XCUIElementTypeStaticText")).sendKeys("0");
+					((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeOther[@name=\"code\"]/XCUIElementTypeOther[2]/XCUIElementTypeStaticText")).sendKeys("0");
+					((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeOther[@name=\"code\"]/XCUIElementTypeOther[3]/XCUIElementTypeStaticText")).sendKeys("0");
+					((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeOther[@name=\"code\"]/XCUIElementTypeOther[4]/XCUIElementTypeStaticText")).sendKeys("0");
+					((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeOther[@name=\"code\"]/XCUIElementTypeOther[5]/XCUIElementTypeStaticText")).sendKeys("0");
+					((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeOther[@name=\"code\"]/XCUIElementTypeOther[5]/XCUIElementTypeStaticText")).sendKeys(Keys.RETURN);
 				} else if (opType.equals("voucherNumber")) {
 					Reporter.addStepLog("Text Entered: "+cfg.getCfg("voucherNumber"));
-					((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeTextField[@name=\"number\"]")).sendKeys(cfg.getCfg("voucherNumber"));
+					((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeTextField[@name=\"number\"]")).sendKeys(cfg.getCfg("voucherNumber"));
 				} else if (opType.equals("iOSloginMobileNumber")) {
 					Reporter.addStepLog("Text Entered: "+cfg.getCfg("iOSloginMobileNumber"));
-					((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeTextField[@name=\"phone\"]")).sendKeys(cfg.getCfg("iOSloginMobileNumber"));
+					((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeTextField[@name=\"phone\"]")).sendKeys(cfg.getCfg("iOSloginMobileNumber"));
 				} else if (opType.equals("creditCardNumber")) {
 					Reporter.addStepLog("Text Entered: "+cfg.getCfg("creditCardNumber"));
-					((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeTextField[@name=\"number\"]")).sendKeys(cfg.getCfg("creditCardNumber"));
-					//((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeTextField[@name=\"number\"]")).sendKeys(Keys.TAB);
+					((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeTextField[@name=\"number\"]")).sendKeys(cfg.getCfg("creditCardNumber"));
+					//((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeTextField[@name=\"number\"]")).sendKeys(Keys.TAB);
 				} else if (opType.equals("creditCardExpMM")) {
 					Reporter.addStepLog("Text Entered: "+cfg.getCfg("creditCardExpMM"));
-					((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeTextField[@value=\"MM\"]")).sendKeys(cfg.getCfg("creditCardExpMM"));
-					//((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeTextField[@value=\"MM\"]")).sendKeys(Keys.RETURN);
+					((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeTextField[@value=\"MM\"]")).sendKeys(cfg.getCfg("creditCardExpMM"));
+					//((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeTextField[@value=\"MM\"]")).sendKeys(Keys.RETURN);
 				} else if (opType.equals("creditCardExpYY")) {
 					Reporter.addStepLog("Text Entered: "+cfg.getCfg("creditCardExpYY"));
-					((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeTextField[@value=\"YY\"]")).sendKeys(cfg.getCfg("creditCardExpYY"));
-					//((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeTextField[@value=\"YY\"]")).sendKeys(Keys.RETURN);
+					((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeTextField[@value=\"YY\"]")).sendKeys(cfg.getCfg("creditCardExpYY"));
+					//((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeTextField[@value=\"YY\"]")).sendKeys(Keys.RETURN);
 				} else if (opType.equals("creditCardCVV")) {
 					Reporter.addStepLog("Text Entered: "+cfg.getCfg("creditCardCVV"));
-					((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeTextField[@value=\"CVV\"]")).sendKeys(cfg.getCfg("creditCardCVV"));
-					//((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeTextField[@value=\"CVV\"]")).sendKeys(Keys.RETURN);
+					((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeTextField[@value=\"CVV\"]")).sendKeys(cfg.getCfg("creditCardCVV"));
+					//((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeTextField[@value=\"CVV\"]")).sendKeys(Keys.RETURN);
 				//XCUIElementTypeTextField[@name="phone"]
 				} else if (opType.equals("addAmount")) {
 					Reporter.addStepLog("Text Entered: 50");
-					((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypePickerWheel")).sendKeys("50");
-					//((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeTextField[@value=\"YY\"]")).sendKeys(Keys.RETURN);
+					((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypePickerWheel")).sendKeys("50");
+					//((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeTextField[@value=\"YY\"]")).sendKeys(Keys.RETURN);
 				}
 			} catch(Exception e1) {
 				System.out.println(e1.getMessage().toString());
 				Reporter.addStepLog(e1.getMessage().toString());
-				cfg.takeScreenShot(((RemoteWebDriver) m.get("driver"+deviceNum)));
+				cfg.takeScreenShot(((IOSDriver) m.get("driver"+deviceNum)));
 				fail("Failed:");
 			}	
 		}
@@ -593,11 +592,11 @@ public class androidTestBasic {
 			driverValText = "idriver"+deviceNum.toString();
 			Field m = getDriverFields(driverValText);
 			try {
-				((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeButton[@name=\"topup\"")).click();
+				((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeButton[@name=\"topup\"")).click();
 			} catch(Exception e) {
 				System.out.println(e.getMessage());
 				Reporter.addStepLog(e.getMessage().toString());
-				cfg.takeScreenShot(((RemoteWebDriver) m.get("driver"+deviceNum)));
+				cfg.takeScreenShot(((IOSDriver) m.get("driver"+deviceNum)));
 				fail("Failed:");
 			}
 		}
@@ -637,11 +636,11 @@ public class androidTestBasic {
 			driverValText = "idriver"+deviceNum.toString();
 			Field m = getDriverFields(driverValText);
 			try {
-				((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("(//XCUIElementTypeButton[@name=\"arrowButton\"])[1]")).click();
+				((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("(//XCUIElementTypeButton[@name=\"arrowButton\"])[1]")).click();
 			} catch(Exception e) {
 				System.out.println(e.getMessage().toString());
 				Reporter.addStepLog(e.getMessage().toString());
-				cfg.takeScreenShot(((RemoteWebDriver) m.get("driver"+deviceNum)));
+				cfg.takeScreenShot(((IOSDriver) m.get("driver"+deviceNum)));
 				fail("Failed:");
 			}
 		}
@@ -658,11 +657,11 @@ public class androidTestBasic {
 			driverValText = "idriver"+deviceNum.toString();
 			Field m = getDriverFields(driverValText);
 			try {
-				((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("(//XCUIElementTypeButton[@name=\"arrowButton\"])[2]")).click();
+				((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("(//XCUIElementTypeButton[@name=\"arrowButton\"])[2]")).click();
 			} catch(Exception e) {
 				System.out.println(e.getMessage().toString());
 				Reporter.addStepLog(e.getMessage().toString());
-				cfg.takeScreenShot(((RemoteWebDriver) m.get("driver"+deviceNum)));
+				cfg.takeScreenShot(((IOSDriver) m.get("driver"+deviceNum)));
 				fail("Failed:");
 			}
 		}
@@ -721,11 +720,11 @@ public class androidTestBasic {
 			driverValText = "idriver"+deviceNum.toString();
 			Field m = getDriverFields(driverValText);
 			try {
-				((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeStaticText[@value=\"LOGOUT\"]")).click();
+				((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeStaticText[@value=\"LOGOUT\"]")).click();
 			} catch(Exception e) {
 				System.out.println(e.getMessage().toString());
 				Reporter.addStepLog(e.getMessage().toString());
-				cfg.takeScreenShot(((RemoteWebDriver) m.get("driver"+deviceNum)));
+				cfg.takeScreenShot(((IOSDriver) m.get("driver"+deviceNum)));
 				fail("Failed:");
 			}
 		}
@@ -742,11 +741,11 @@ public class androidTestBasic {
 			driverValText = "idriver"+deviceNum.toString();
 			Field m = getDriverFields(driverValText);
 			try {
-				((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeStaticText[@value=\"REPROVISION USER\"]")).click();
+				((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeStaticText[@value=\"REPROVISION USER\"]")).click();
 			} catch(Exception e) {
 				System.out.println(e.getMessage().toString());
 				Reporter.addStepLog(e.getMessage().toString());
-				cfg.takeScreenShot(((RemoteWebDriver) m.get("driver"+deviceNum)));
+				cfg.takeScreenShot(((IOSDriver) m.get("driver"+deviceNum)));
 				fail("Failed:");
 			}
 		}

@@ -10,14 +10,19 @@ import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.remote.RemoteWebDriver;
+import io.appium.java_client.ios.IOSTouchAction;
+import io.appium.java_client.ios.IOSDriver;
+import io.appium.java_client.ios.IOSElement;
+
 import org.openqa.selenium.remote.RemoteWebElement;
 
 import com.cucumber.listener.Reporter;
 
 import io.appium.java_client.MobileBy;
+import io.appium.java_client.PerformsTouchActions;
 import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidDriver;
 import StepDefinitions.Config;
@@ -53,11 +58,11 @@ public class androidStepDefsNav {
 			driverValText = "idriver"+deviceNum.toString();
 			Field m = getDriverFields(driverValText);
 			try {			
-				((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeButton[@name=\"MORE\"]")).click();
+				((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeButton[@name=\"MORE\"]")).click();
 			} catch(Exception e) {
 				System.out.println(e.getMessage().toString());
 				Reporter.addStepLog(e.getMessage().toString());
-				cfg.takeScreenShot(((RemoteWebDriver) m.get("driver"+deviceNum)));
+				cfg.takeScreenShot(((IOSDriver) m.get("driver"+deviceNum)));
 				fail("Failed:");
 			}
 		}
@@ -191,20 +196,20 @@ public class androidStepDefsNav {
 			try {
 				int i=0;
 				TimeUnit.SECONDS.sleep(3);		
-				//System.out.println(((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("(//XCUIElementTypeStaticText)[3]")).getText());
+				//System.out.println(((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("(//XCUIElementTypeStaticText)[3]")).getText());
 				while(i<30) {
-					//TouchAction touchAction = new TouchAction((PerformsTouchActions) ((RemoteWebDriver) m.get("driver"+deviceNum)));
-					JavascriptExecutor js = (JavascriptExecutor) ((RemoteWebDriver) m.get("driver"+deviceNum));
+					//TouchAction touchAction = new TouchAction((PerformsTouchActions) ((IOSDriver) m.get("driver"+deviceNum)));
+					JavascriptExecutor js = (JavascriptExecutor) ((IOSDriver) m.get("driver"+deviceNum));
 					Map<String, Object> params = new HashMap<String, Object>();
 					params.put("direction", "left");				
-					RemoteWebElement element = (RemoteWebElement) ((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("(//XCUIElementTypeStaticText)[3]"));
+					RemoteWebElement element = (RemoteWebElement) ((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("(//XCUIElementTypeStaticText)[3]"));
 					params.put("element", ((RemoteWebElement) element).getId());
 					js.executeScript("mobile: swipe", params);
 					TimeUnit.SECONDS.sleep(2);
-					System.out.println(((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("(//XCUIElementTypeStaticText)[3]")).getText());
-					if(((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("(//XCUIElementTypeStaticText)[3]")).getText().contains(offerText)) {
-						Reporter.addStepLog("Found Text: "+((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("(//XCUIElementTypeStaticText)[3]")).getText());
-						((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("(//XCUIElementTypeStaticText)[3]")).click();
+					System.out.println(((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("(//XCUIElementTypeStaticText)[3]")).getText());
+					if(((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("(//XCUIElementTypeStaticText)[3]")).getText().contains(offerText)) {
+						Reporter.addStepLog("Found Text: "+((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("(//XCUIElementTypeStaticText)[3]")).getText());
+						((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("(//XCUIElementTypeStaticText)[3]")).click();
 						break;
 					}
 					i++;
@@ -212,7 +217,7 @@ public class androidStepDefsNav {
 			} catch(Exception e) {
 				System.out.println(e.getMessage().toString());
 				Reporter.addStepLog(e.getMessage().toString());
-				cfg.takeScreenShot(((RemoteWebDriver) m.get("driver"+deviceNum)));
+				cfg.takeScreenShot(((IOSDriver) m.get("driver"+deviceNum)));
 				fail("Failed:");
 			}
 		}
@@ -253,30 +258,62 @@ public class androidStepDefsNav {
 			try {
 				int i=0;
 				TimeUnit.SECONDS.sleep(3);		
-				//System.out.println(((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.name("title")).getText());
-				while(i<30) {
-					//TouchAction touchAction = new TouchAction((PerformsTouchActions) ((RemoteWebDriver) m.get("driver"+deviceNum)));
-					JavascriptExecutor js = (JavascriptExecutor) ((RemoteWebDriver) m.get("driver"+deviceNum));
-					Map<String, Object> params = new HashMap<String, Object>();				
-					RemoteWebElement element = (RemoteWebElement) ((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.name("title"));
-					params.put("element", ((RemoteWebElement) element).getId());
-					params.put("name", "elementName");
+				//System.out.println(((IOSDriver) m.get("driver"+deviceNum)).findElement(By.name("title")).getText());
+					JavascriptExecutor js = (JavascriptExecutor) ((IOSDriver) m.get("driver"+deviceNum));
+					Map<String, Object> params = new HashMap<String, Object>();
+					params.put("predicateString", "value == '"+opText+"'");
 					params.put("direction", "down");
-					//params.put("toVisible", "not an empty string");
+					params.put("toVisible", "not an empty string");
 					js.executeScript("mobile:scroll", params);
 					TimeUnit.SECONDS.sleep(2);
-					System.out.println(((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.name("title")).getText());
-					if(((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.name("title")).getText().contains(opText)) {
-						Reporter.addStepLog("Found Text: "+((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.name("title")).getText());
-						//((RemoteWebDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeStaticText")).click();
-						break;
-					}
-					i++;
-				}
+					//System.out.println(((IOSDriver) m.get("driver"+deviceNum)).findElement(By.name("title")).getText());
 			} catch(Exception e) {
 				System.out.println(e.getMessage().toString());
 				Reporter.addStepLog(e.getMessage().toString());
-				cfg.takeScreenShot(((RemoteWebDriver) m.get("driver"+deviceNum)));
+				cfg.takeScreenShot(((IOSDriver) m.get("driver"+deviceNum)));
+				fail("Failed:");
+			}
+		}
+	}
+	
+	@Then("^\"(.*)\" I scroll down the screen for nextButton$")
+	public void scrollDownScreenforText(String deviceNum) throws Throwable {
+		String driverValText = null;
+		if (cfg.getCfg(deviceNum+"deviceType").equals("Android")) {
+			driverValText = "driver"+deviceNum.toString();
+			Field m = getDriverFields(driverValText);
+			try {
+				//No code for android
+			} catch(Exception e) {
+				Reporter.addStepLog(e.getMessage().toString());
+				cfg.takeScreenShot(((AndroidDriver) m.get("driver"+deviceNum)));
+				fail("Failed:");
+			}
+		} else {
+			driverValText = "idriver"+deviceNum.toString();
+			Field m = getDriverFields(driverValText);			
+			try {
+				int i=0;
+				TimeUnit.SECONDS.sleep(3);		
+				//List<WebElement> txtList = ((IOSDriver) m.get("driver"+deviceNum)).findElements(By.xpath("//XCUIElementTypeStaticText"));
+				//for (WebElement el: txtList) {
+				//	System.out.println(el.getText());							
+				//}
+				//System.out.println(((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeStaticText")).getText());
+				JavascriptExecutor js = (JavascriptExecutor) ((IOSDriver) m.get("driver"+deviceNum));
+				//RemoteWebElement parent = (RemoteWebElement) ((IOSDriver) m.get("driver"+deviceNum)).findElement(By.className("XCUIElementTypeStaticText"));				
+				//	String parentID = parent.getId();
+					HashMap<String, String> scrollObject = new HashMap<String, String>();
+				//	scrollObject.put("element", parentID);
+					//scrollObject.put("direction", "down");
+					scrollObject.put("predicateString", "value == 'Unlimited Instagram 1 Day Pass'");
+					//scrollObject.put("name", "Unlimited Facebook 1 Day Pass");
+					scrollObject.put("direction", "down");
+					js.executeScript("mobile: scroll", scrollObject);  
+			} catch(Exception e) {
+				System.out.println(e.getMessage().toString());
+				Reporter.addStepLog(e.getMessage().toString());
+				cfg.takeScreenShot(((IOSDriver) m.get("driver"+deviceNum)));
 				fail("Failed:");
 			}
 		}
@@ -313,7 +350,7 @@ public class androidStepDefsNav {
 			driverValText = "idriver"+deviceNum.toString();
 			Field m = getDriverFields(driverValText);
 			try {
-				List<WebElement> txtList = ((RemoteWebDriver) m.get("driver"+deviceNum)).findElements(By.xpath("//XCUIElementTypeStaticText[@label="+offerName+"]"));
+				List<WebElement> txtList = ((IOSDriver) m.get("driver"+deviceNum)).findElements(By.xpath("//XCUIElementTypeStaticText[@label="+offerName+"]"));
 				for (WebElement el: txtList) {
 					System.out.println(el.getText());
 					if (el.getText().equals(offerName)) {
@@ -324,14 +361,14 @@ public class androidStepDefsNav {
 							break;
 						} else {
 							Reporter.addStepLog("Offer Status not as expected: " + txtList.get(indx+2).getText());
-							cfg.takeScreenShot(((RemoteWebDriver) m.get("driver"+deviceNum)));
+							cfg.takeScreenShot(((IOSDriver) m.get("driver"+deviceNum)));
 							fail("Failed:");
 						}
 					}
 				}	
 			} catch(Exception e1) {
 				Reporter.addStepLog(e1.getMessage().toString());
-				cfg.takeScreenShot(((RemoteWebDriver) m.get("driver"+deviceNum)));
+				cfg.takeScreenShot(((IOSDriver) m.get("driver"+deviceNum)));
 				fail("Failed:");
 			}
 		}
@@ -364,6 +401,29 @@ public class androidStepDefsNav {
 		}
 	}
 
+	@Then("^\"(.*)\" Verify \"(.*)\" iosActivityStatus$")
+	public void verfyiosActivityText(String deviceNum, String offerName) throws Throwable {
+		String driverValText = null;
+		driverValText = "idriver"+deviceNum.toString();
+		Field m = getDriverFields(driverValText);
+		try {
+			int i = 2;
+			while(i<13) {
+				//System.out.println(((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("(//XCUIElementTypeStaticText[@name=\"AX error -25205\"])["+i+"]")).getText());
+				String verTxt=((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("(//XCUIElementTypeStaticText[@name=\"AX error -25205\"])["+i+"]")).getText();
+				if (verTxt.equals(offerName)) {
+					System.out.println("Found Offer :"+verTxt);
+					break;
+				}
+				i+=5;
+			}
+		} catch(Exception e1) {
+			Reporter.addStepLog(e1.getMessage().toString());
+			cfg.takeScreenShot(((IOSDriver) m.get("driver"+deviceNum)));
+			fail("Failed:");
+		}
+	}
+	
 
 	@Then("^\"(.*)\" I tap on BuyCart button$")
 	public void clickbuyCartButton(String deviceNum) throws Throwable {
@@ -391,32 +451,61 @@ public class androidStepDefsNav {
 	
 	@Then("^\"(.*)\" I tap on Search button$")
 	public void clickSearchButton(String deviceNum) throws Throwable {
-		Field m = getDriverFields("driver"+deviceNum);
-		try {
-			((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//android.widget.TextView[@content-desc=\"Search\"]")).click();
-		} catch(Exception e) {
-			Reporter.addStepLog(e.getMessage().toString());
-			cfg.takeScreenShot(((AndroidDriver) m.get("driver"+deviceNum)));
-			fail("Failed:");
+		String driverValText = null;
+		if (cfg.getCfg(deviceNum+"deviceType").equals("Android")) {
+			driverValText = "driver"+deviceNum.toString();
+			Field m = getDriverFields(driverValText);
+			try {
+				((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//android.widget.TextView[@content-desc=\"Search\"]")).click();
+			} catch(Exception e) {
+				Reporter.addStepLog(e.getMessage().toString());
+				cfg.takeScreenShot(((AndroidDriver) m.get("driver"+deviceNum)));
+				fail("Failed:");
+			}
+		} else {
+			driverValText = "idriver"+deviceNum.toString();
+			Field m = getDriverFields(driverValText);
+			try {
+				((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("(//XCUIElementTypeButton[@name=\"AX error -25205\"])[1]")).click();
+			} catch(Exception e) {
+				Reporter.addStepLog(e.getMessage().toString());
+				cfg.takeScreenShot(((IOSDriver) m.get("driver"+deviceNum)));
+				fail("Failed:");
+			}
 		}
 	}
 	
 	@Then("^\"(.*)\" I search and select product as \"(.*)\"$")
 	public void searchSelectOffer(String deviceNum, String opType) throws Throwable {
-		Field m = getDriverFields("driver"+deviceNum);
-		try {
-			((AndroidDriver) m.get("driver"+deviceNum)).findElement(MobileBy.id("com.matrixx.android.branding:id/searchEditText_input")).sendKeys(opType.toString()+"\n");
-			TimeUnit.SECONDS.sleep(2);
-			List<WebElement> txtList = ((AndroidDriver) m.get("driver"+deviceNum)).findElements(MobileBy.id("com.matrixx.android.branding:id/offer_title"));
-			for (WebElement el: txtList) {
-				if (el.getText().contains(opType.toString())) {
-					el.click();
-				}
-			}	
-		} catch(Exception e1) {
-			Reporter.addStepLog(e1.getMessage().toString());
-			cfg.takeScreenShot(((AndroidDriver) m.get("driver"+deviceNum)));
-			fail("Failed:");
+		String driverValText = null;
+		if (cfg.getCfg(deviceNum+"deviceType").equals("Android")) {
+			driverValText = "driver"+deviceNum.toString();
+			Field m = getDriverFields(driverValText);
+			try {
+				((AndroidDriver) m.get("driver"+deviceNum)).findElement(MobileBy.id("com.matrixx.android.branding:id/searchEditText_input")).sendKeys(opType.toString()+"\n");
+				TimeUnit.SECONDS.sleep(2);
+				List<WebElement> txtList = ((AndroidDriver) m.get("driver"+deviceNum)).findElements(MobileBy.id("com.matrixx.android.branding:id/offer_title"));
+				for (WebElement el: txtList) {
+					if (el.getText().contains(opType.toString())) {
+						el.click();
+					}
+				}	
+			} catch(Exception e1) {
+				Reporter.addStepLog(e1.getMessage().toString());
+				cfg.takeScreenShot(((AndroidDriver) m.get("driver"+deviceNum)));
+				fail("Failed:");
+			}
+		} else {
+			driverValText = "idriver"+deviceNum.toString();
+			Field m = getDriverFields(driverValText);
+			try {
+				((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("(//XCUIElementTypeTextField[@name=\"AX error -25205\"])[1]")).sendKeys(opType);
+				((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("(//XCUIElementTypeTextField[@name=\"AX error -25205\"])[1]")).sendKeys(Keys.RETURN);
+			} catch(Exception e) {
+				Reporter.addStepLog(e.getMessage().toString());
+				cfg.takeScreenShot(((IOSDriver) m.get("driver"+deviceNum)));
+				fail("Failed:");
+			}
 		}
 	}
 	
