@@ -14,11 +14,11 @@ import cucumber.api.junit.Cucumber;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(features = {"Features"},
-							tags= {"@TC10014,@TC10015,@TC10016,@TC10017"},
+							tags= {"@TC1001"},
 							plugin = {"com.cucumber.listener.ExtentCucumberFormatter:"},
 							glue= {"StepDefinitions"}, monochrome = true, strict = true)
 
-public class Runner {
+public class RunnerIOS {
 	@BeforeClass
 	public static void setup() {
 	    ExtentProperties extentProperties = ExtentProperties.INSTANCE;
