@@ -92,6 +92,25 @@ Feature: Test MarketPlace Scenarios
     Then "D2" I tap on "Visit our Marketplace" text
     Then "D2" I wait for "2" seconds
     Then "D2" I tap on "MY PAGE" text
+
+
+@Sanity @TC18
+  Scenario: Validate Receipt on Activity screen
+  Given "D1" I launch the application
+   Then "D1" I wait for "2" seconds
+    Then "D1" I tap on "ACTIVITY" text
+    Then "D1" I wait for "2" seconds
+    Then "D1" I scroll down Activity screen for "Unlimited Facebook" text
+    Then "D1" I scroll down Activity screen for "The Unlimited Facebook has been purchased" text
+    Then "D1" I tap on "Unlimited Facebook" text
+    Then "D1" I wait for "2" seconds
+    Then "D1" Get Receipt Details
+    Then "D1" Verify total Receipt Amount as "$5.00"
+    Then "D1" I tap on Download button
+    Then "D1" I tap on LeftMenu button
+    Then "D1" I wait for "2" seconds
+    Then "D1" I tap on "MY PAGE" text
+
     
      
     

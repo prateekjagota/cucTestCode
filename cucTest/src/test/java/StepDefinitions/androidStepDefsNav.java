@@ -238,6 +238,7 @@ public class androidStepDefsNav {
 					List<WebElement> txtList = ((AndroidDriver) m.get("driver"+deviceNum)).findElements(MobileBy.xpath("//android.widget.TextView"));
 					for (WebElement el: txtList) {
 						if (el.getText().equals(opText)) {
+							System.out.println("0");
 							System.out.println("Found Text: " + el.getText());
 							break;
 						} else {
@@ -247,6 +248,45 @@ public class androidStepDefsNav {
 					touchAction.press(pt.x,pt.y+300).moveTo(0, -300).release().perform();
 					TimeUnit.SECONDS.sleep(2);
 				}
+			} catch(Exception e) {
+				System.out.println("3");
+				Reporter.addStepLog(e.getMessage().toString());
+				cfg.takeScreenShot(((AndroidDriver) m.get("driver"+deviceNum)));
+				fail("Failed:");
+			}
+		} else {
+			driverValText = "idriver"+deviceNum.toString();
+			Field m = getDriverFields(driverValText);			
+			try {
+				int i=0;
+				TimeUnit.SECONDS.sleep(3);		
+				//System.out.println(((IOSDriver) m.get("driver"+deviceNum)).findElement(By.name("title")).getText());
+					JavascriptExecutor js = (JavascriptExecutor) ((IOSDriver) m.get("driver"+deviceNum));
+					Map<String, Object> params = new HashMap<String, Object>();
+					params.put("predicateString", "value == '"+opText+"'");
+					params.put("direction", "down");
+					params.put("toVisible", "not an empty string");
+					js.executeScript("mobile:scroll", params);
+					TimeUnit.SECONDS.sleep(2);
+					//System.out.println(((IOSDriver) m.get("driver"+deviceNum)).findElement(By.name("title")).getText());
+			} catch(Exception e) {
+				System.out.println(e.getMessage().toString());
+				Reporter.addStepLog(e.getMessage().toString());
+				cfg.takeScreenShot(((IOSDriver) m.get("driver"+deviceNum)));
+				fail("Failed:");
+			}
+		}
+	}
+
+	@Then("^\"(.*)\" I scroll down Activity screen for \"(.*)\" text$")
+	public void scrollDownActivityScreen(String deviceNum, String opText) throws Throwable {
+		String driverValText = null;
+		if (cfg.getCfg(deviceNum+"deviceType").equals("Android")) {
+			driverValText = "driver"+deviceNum.toString();
+			Field m = getDriverFields(driverValText);
+			int brkFlag = 0;			
+			try {
+				((AndroidDriver) m.get("driver"+deviceNum)).findElementByAndroidUIAutomator("new UiScrollable(new UiSelector().scrollable(true).instance(0)).scrollIntoView(new UiSelector().textContains(\""+opText+"\").instance(0))");
 			} catch(Exception e) {
 				Reporter.addStepLog(e.getMessage().toString());
 				cfg.takeScreenShot(((AndroidDriver) m.get("driver"+deviceNum)));
@@ -374,12 +414,96 @@ public class androidStepDefsNav {
 		}
 	}
 
+	@Then("^\"(.*)\" Get Receipt Details$")
+	public void getReceiptInfo(String deviceNum) throws Throwable {
+		String driverValText = null;
+		if (cfg.getCfg(deviceNum+"deviceType").equals("Android")) {
+			driverValText = "driver"+deviceNum.toString();
+			Field m = getDriverFields(driverValText);
+			try {
+				List<WebElement> transTabler1 = ((AndroidDriver) m.get("driver"+deviceNum)).findElements(MobileBy.xpath("//android.widget.TableLayout[1]/android.widget.TableRow[1]/android.widget.TextView"));
+				List<WebElement> transTabler2 = ((AndroidDriver) m.get("driver"+deviceNum)).findElements(MobileBy.xpath("//android.widget.TableLayout[1]/android.widget.TableRow[2]/android.widget.TextView"));
+				List<WebElement> transTabler3 = ((AndroidDriver) m.get("driver"+deviceNum)).findElements(MobileBy.xpath("//android.widget.TableLayout[1]/android.widget.TableRow[3]/android.widget.TextView"));
+				for (WebElement el: transTabler1) {
+					System.out.println(el.getText());
+					Reporter.addStepLog(el.getText());
+				}
+				for (WebElement el: transTabler2) {
+					System.out.println(el.getText());
+					Reporter.addStepLog(el.getText());
+				}
+				for (WebElement el: transTabler3) {
+					System.out.println(el.getText());
+					Reporter.addStepLog(el.getText());
+				}
+				List<WebElement> receiptTabler2 = ((AndroidDriver) m.get("driver"+deviceNum)).findElements(MobileBy.xpath("//android.widget.TableLayout[2]/android.widget.TableRow[2]/android.widget.TextView"));
+				List<WebElement> receiptTabler3 = ((AndroidDriver) m.get("driver"+deviceNum)).findElements(MobileBy.xpath("//android.widget.TableLayout[2]/android.widget.TableRow[3]/android.widget.TextView"));
+				List<WebElement> receiptTabler4 = ((AndroidDriver) m.get("driver"+deviceNum)).findElements(MobileBy.xpath("//android.widget.TableLayout[2]/android.widget.TableRow[4]/android.widget.TextView"));
+				List<WebElement> receiptTabler5 = ((AndroidDriver) m.get("driver"+deviceNum)).findElements(MobileBy.xpath("//android.widget.TableLayout[2]/android.widget.TableRow[5]/android.widget.TextView"));
+				for (WebElement el: receiptTabler2) {
+					System.out.println(el.getText());
+					Reporter.addStepLog(el.getText());
+				}
+				for (WebElement el: receiptTabler3) {
+					System.out.println(el.getText());
+					Reporter.addStepLog(el.getText());
+				}
+				for (WebElement el: receiptTabler4) {
+					System.out.println(el.getText());
+					Reporter.addStepLog(el.getText());
+				}
+				for (WebElement el: receiptTabler5) {
+					System.out.println(el.getText());
+					Reporter.addStepLog(el.getText());
+				}
+				cfg.takeScreenShot(((AndroidDriver) m.get("driver"+deviceNum)));
+			} catch(Exception e1) {
+				Reporter.addStepLog(e1.getMessage().toString());
+				cfg.takeScreenShot(((AndroidDriver) m.get("driver"+deviceNum)));
+				fail("Failed:");
+			}
+		} else {
+			driverValText = "idriver"+deviceNum.toString();
+			Field m = getDriverFields(driverValText);
+			//No code for IOS
+		}
+	}
+
+	@Then("^\"(.*)\" Verify total Receipt Amount as \"(.*)\"$")
+	public void verfyreceiptAmtText(String deviceNum, String opText) throws Throwable {
+		String driverValText = null;
+		if (cfg.getCfg(deviceNum+"deviceType").equals("Android")) {
+			driverValText = "driver"+deviceNum.toString();
+			Field m = getDriverFields(driverValText);
+			try {
+				String rcptAmt = ((AndroidDriver) m.get("driver"+deviceNum)).findElement(MobileBy.xpath("//android.widget.TableLayout[2]/android.widget.TableRow[5]/android.widget.TextView[2]")).getText();
+				if (rcptAmt.equals(opText)) {
+					System.out.println("Total amount matched!");
+					Reporter.addStepLog("Total amount matched!");
+				} else {
+					System.out.println("Total amount not matched!");
+					Reporter.addStepLog("Total amount not matched!");
+					fail("Failed:");
+				}
+			} catch(Exception e1) {
+				Reporter.addStepLog(e1.getMessage().toString());
+				cfg.takeScreenShot(((AndroidDriver) m.get("driver"+deviceNum)));
+				fail("Failed:");
+			}
+		} else {
+			driverValText = "idriver"+deviceNum.toString();
+			Field m = getDriverFields(driverValText);
+			//No code for IOS
+		}
+	}
+
 	@Then("^\"(.*)\" Verify \"(.*)\" ActivityStatus as \"(.*)\"$")
 	public void verfyActivityText(String deviceNum, String offerName, String opText) throws Throwable {
 		Field m = getDriverFields("driver"+deviceNum);
 		try {
 			List<WebElement> txtList = ((AndroidDriver) m.get("driver"+deviceNum)).findElements(MobileBy.xpath("//android.widget.RelativeLayout[1]/android.widget.TextView"));
 			for (WebElement el: txtList) {
+				System.out.println(el.getText());
 				if (el.getText().contains(offerName)) {
 					int indx = txtList.indexOf(el);
 					if (txtList.get(indx-2).getText().contains("minutes ago") && txtList.get(indx).getText().contains("has been purchased")) {
@@ -472,6 +596,31 @@ public class androidStepDefsNav {
 				cfg.takeScreenShot(((IOSDriver) m.get("driver"+deviceNum)));
 				fail("Failed:");
 			}
+		}
+	}
+
+	@Then("^\"(.*)\" I tap on Download button$")
+	public void clickDownloadButton(String deviceNum) throws Throwable {
+		String driverValText = null;
+		if (cfg.getCfg(deviceNum+"deviceType").equals("Android")) {
+			driverValText = "driver"+deviceNum.toString();
+			Field m = getDriverFields(driverValText);
+			try {
+				try {
+					((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//android.widget.TextView[@content-desc=\"Download\"]")).click();
+				} catch(Exception e1) {
+					System.out.println("Receipt already downloaded clicking View button");
+					((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//android.widget.TextView[@content-desc=\"View\"]")).click();
+				}
+			} catch(Exception e) {
+				Reporter.addStepLog(e.getMessage().toString());
+				cfg.takeScreenShot(((AndroidDriver) m.get("driver"+deviceNum)));
+				fail("Failed:");
+			}
+		} else {
+			driverValText = "idriver"+deviceNum.toString();
+			Field m = getDriverFields(driverValText);
+			//No Code for IOS
 		}
 	}
 	
