@@ -302,10 +302,12 @@ public class androidStepDefsNav {
 					JavascriptExecutor js = (JavascriptExecutor) ((IOSDriver) m.get("driver"+deviceNum));
 					Map<String, Object> params = new HashMap<String, Object>();
 					params.put("predicateString", "value == '"+opText+"'");
-					params.put("direction", "down");
+					//params.put("direction", "down");
 					params.put("toVisible", "not an empty string");
 					js.executeScript("mobile:scroll", params);
 					TimeUnit.SECONDS.sleep(2);
+					WebElement el = ((IOSDriver) m.get("driver"+deviceNum)).findElementByIosNsPredicate("value = '" + opText + "'");
+					System.out.println(el.getText());
 					//System.out.println(((IOSDriver) m.get("driver"+deviceNum)).findElement(By.name("title")).getText());
 			} catch(Exception e) {
 				System.out.println(e.getMessage().toString());
@@ -465,7 +467,36 @@ public class androidStepDefsNav {
 		} else {
 			driverValText = "idriver"+deviceNum.toString();
 			Field m = getDriverFields(driverValText);
-			//No code for IOS
+			try {
+				int i = 1;
+				while (i<30) {
+					//(//XCUIElementTypeStaticText[@name="AX error -25205"])[10]
+					String txtElement = ((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("(//XCUIElementTypeStaticText[@name=\"AX error -25205\"])["+i+"]")).getText();
+					//System.out.println(txtElement);
+					if (txtElement.equals("Date:")) {
+						System.out.println("Found index: "+i);
+						break;
+					}
+					i+=1;
+				}
+				int idxItem = i;
+				while (idxItem<idxItem+16) {
+					try {
+						String itemTxt1 = ((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("(//XCUIElementTypeStaticText[@name=\"AX error -25205\"])["+idxItem+"]")).getText();
+						String itemTxt2 = ((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("(//XCUIElementTypeStaticText[@name=\"AX error -25205\"])["+(idxItem+1)+"]")).getText();
+						System.out.println(itemTxt1+" "+itemTxt2);
+						Reporter.addStepLog(itemTxt1+" "+itemTxt2);
+					} catch (Exception e) {
+						break;
+					}
+					idxItem+=2;
+				}
+				cfg.takeScreenShot(((IOSDriver) m.get("driver"+deviceNum)));
+			} catch(Exception e1) {
+				Reporter.addStepLog(e1.getMessage().toString());
+				cfg.takeScreenShot(((IOSDriver) m.get("driver"+deviceNum)));
+				fail("Failed:");
+			} 
 		}
 	}
 
@@ -493,7 +524,32 @@ public class androidStepDefsNav {
 		} else {
 			driverValText = "idriver"+deviceNum.toString();
 			Field m = getDriverFields(driverValText);
-			//No code for IOS
+			try {
+				int i = 1;
+				while (i<40) {
+					//(//XCUIElementTypeStaticText[@name="AX error -25205"])[10]
+					String txtElement = ((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("(//XCUIElementTypeStaticText[@name=\"AX error -25205\"])["+i+"]")).getText();
+					//System.out.println(txtElement);
+					if (txtElement.equals("Total Payment:")) {
+						System.out.println("Found index: "+i);
+						String vrfTxt = ((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("(//XCUIElementTypeStaticText[@name=\"AX error -25205\"])["+(i+1)+"]")).getText();
+						if (vrfTxt.equals(opText)) {
+							System.out.println("Total amount matched!");
+							Reporter.addStepLog("Total amount matched!");
+						} else {
+							System.out.println("Total amount not matched!");
+							Reporter.addStepLog("Total amount not matched!");
+							fail("Failed:");
+						}
+						break;
+					}
+					i+=1;
+				}
+			} catch(Exception e) {
+				Reporter.addStepLog(e.getMessage().toString());
+				cfg.takeScreenShot(((IOSDriver) m.get("driver"+deviceNum)));
+				fail("Failed:");
+			} 
 		}
 	}
 

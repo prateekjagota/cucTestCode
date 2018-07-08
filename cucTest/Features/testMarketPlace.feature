@@ -15,7 +15,7 @@ Feature: Test MarketPlace Scenarios
     Given "D2" I launch the application
     Then "D2" I wait for "2" seconds
     Then "D2" I tap on "MARKETPLACE" text
-    Then "D2" I swipe the Screen for "Unlimited Facebook 1 Day Pass" offer
+    Then "D2" I swipe the Screen for "Unlimited Facebook" offer
     Then "D2" I wait for "1" seconds
     Then "D2" I tap on "BUY NOW" text
 
@@ -111,6 +111,21 @@ Feature: Test MarketPlace Scenarios
     Then "D1" I wait for "2" seconds
     Then "D1" I tap on "MY PAGE" text
 
+
+  @Sanity @TC10018
+  Scenario: Validate Receipt on Activity screen
+   Given "D2" I launch the application
+   Then "D2" I wait for "2" seconds
+    Then "D2" I tap on "ACTIVITY" text
+    Then "D2" I wait for "2" seconds
+    Then "D2" I scroll down Activity screen for "Unlimited Facebook" text
+    Then "D2" I tap on "Unlimited Facebook" text
+    Then "D2" I wait for "2" seconds
+    Then "D2" Get Receipt Details
+    Then "D2" Verify total Receipt Amount as "$5.00"
+    Then "D2" I tap on "Back" text
+    Then "D2" I wait for "2" seconds
+    Then "D2" I tap on "MY PAGE" text
     
      
     
