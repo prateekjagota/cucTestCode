@@ -828,4 +828,220 @@ public class androidStepDefsNav {
 			fail("Failed:");
 		}
 	}
+
+	@Then("^\"(.*)\" I tap on 3Dots button$")
+	public void click3DotsButton(String deviceNum) throws Throwable {
+		String driverValText = null;
+		if (cfg.getCfg(deviceNum+"deviceType").equals("Android")) {
+			driverValText = "driver"+deviceNum.toString();
+			Field m = getDriverFields(driverValText);
+			try {
+				((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.id("com.matrixx.android.branding:id/overflow")).click();
+			} catch(Exception e) {
+				System.out.println(e.getMessage().toString());
+				Reporter.addStepLog(e.getMessage().toString());
+				cfg.takeScreenShot(((AndroidDriver) m.get("driver"+deviceNum)));
+				fail("Failed:");	
+			}
+		} else {
+			driverValText = "idriver"+deviceNum.toString();
+			Field m = getDriverFields(driverValText);
+			try {			
+				//No code for IOS
+			} catch(Exception e) {
+				System.out.println(e.getMessage().toString());
+				Reporter.addStepLog(e.getMessage().toString());
+				cfg.takeScreenShot(((IOSDriver) m.get("driver"+deviceNum)));
+				fail("Failed:");
+			}
+		}
+	}
+
+	@Then("^\"(.*)\" I tap on ADJUST button$")
+	public void clickAdjustButton(String deviceNum) throws Throwable {
+		String driverValText = null;
+		if (cfg.getCfg(deviceNum+"deviceType").equals("Android")) {
+			driverValText = "driver"+deviceNum.toString();
+			Field m = getDriverFields(driverValText);
+			try {
+				((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//android.widget.Button[@text='ADJUST']")).click();
+			} catch(Exception e) {
+				System.out.println(e.getMessage().toString());
+				Reporter.addStepLog(e.getMessage().toString());
+				cfg.takeScreenShot(((AndroidDriver) m.get("driver"+deviceNum)));
+				fail("Failed:");	
+			}
+		} else {
+			driverValText = "idriver"+deviceNum.toString();
+			Field m = getDriverFields(driverValText);
+			try {			
+				//No code for IOS
+			} catch(Exception e) {
+				System.out.println(e.getMessage().toString());
+				Reporter.addStepLog(e.getMessage().toString());
+				cfg.takeScreenShot(((IOSDriver) m.get("driver"+deviceNum)));
+				fail("Failed:");
+			}
+		}
+	}
+
+	@Then("^\"(.*)\" I tap on TOPUP button$")
+	public void clicktopUpButton(String deviceNum) throws Throwable {
+		String driverValText = null;
+		if (cfg.getCfg(deviceNum+"deviceType").equals("Android")) {
+			driverValText = "driver"+deviceNum.toString();
+			Field m = getDriverFields(driverValText);
+			try {
+				((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//android.widget.Button[@text='TOP UP']")).click();
+			} catch(Exception e) {
+				System.out.println(e.getMessage().toString());
+				Reporter.addStepLog(e.getMessage().toString());
+				cfg.takeScreenShot(((AndroidDriver) m.get("driver"+deviceNum)));
+				fail("Failed:");	
+			}
+		} else {
+			driverValText = "idriver"+deviceNum.toString();
+			Field m = getDriverFields(driverValText);
+			try {			
+				//No code for IOS
+			} catch(Exception e) {
+				System.out.println(e.getMessage().toString());
+				Reporter.addStepLog(e.getMessage().toString());
+				cfg.takeScreenShot(((IOSDriver) m.get("driver"+deviceNum)));
+				fail("Failed:");
+			}
+		}
+	}
+
+	@Then("^\"(.*)\" I set \"(.*)\" tarrif as \"(.*)\"$")
+	public void setAdjstVals(String deviceNum, String userField, String userVal) throws Throwable {
+		String driverValText = null;
+		if (cfg.getCfg(deviceNum+"deviceType").equals("Android")) {
+			driverValText = "driver"+deviceNum.toString();
+			Field m = getDriverFields(driverValText);
+			try {
+				if (userField.equals("DATA")) {
+					((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//android.support.v7.widget.RecyclerView/android.widget.FrameLayout[1]/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.TextView[contains(@text, '"+userVal+"')]")).click();
+				} else if (userField.equals("VOICE")) {
+					((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//android.support.v7.widget.RecyclerView/android.widget.FrameLayout[2]/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.TextView[contains(@text, '"+userVal+"')]")).click();
+				} else if (userField.equals("SMS")) {
+					((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//android.support.v7.widget.RecyclerView/android.widget.FrameLayout[3]/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.TextView[contains(@text, '"+userVal+"')]")).click();
+				} else {
+					System.out.println("Option not supported");
+					fail("Failed:");
+				}
+			} catch(Exception e) {
+				System.out.println(e.getMessage().toString());
+				Reporter.addStepLog(e.getMessage().toString());
+				cfg.takeScreenShot(((AndroidDriver) m.get("driver"+deviceNum)));
+				fail("Failed:");	
+			}
+		} else {
+			driverValText = "idriver"+deviceNum.toString();
+			Field m = getDriverFields(driverValText);
+			try {			
+				//No code for IOS
+			} catch(Exception e) {
+				System.out.println(e.getMessage().toString());
+				Reporter.addStepLog(e.getMessage().toString());
+				cfg.takeScreenShot(((IOSDriver) m.get("driver"+deviceNum)));
+				fail("Failed:");
+			}
+		}
+	}
+
+	@Then("^\"(.*)\" I set \"(.*)\" topUp as \"(.*)\"$")
+	public void setAdjsttopupVals(String deviceNum, String userField, String userVal) throws Throwable {
+		String driverValText = null;
+		if (cfg.getCfg(deviceNum+"deviceType").equals("Android")) {
+			driverValText = "driver"+deviceNum.toString();
+			Field m = getDriverFields(driverValText);
+			try {
+				if (userField.equals("DATA")) {
+					((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//android.support.v7.widget.RecyclerView/android.widget.FrameLayout[1]/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.TextView[contains(@text, '"+userVal+"')]")).click();
+				} else if (userField.equals("VOICE")) {
+					((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//android.support.v7.widget.RecyclerView/android.widget.FrameLayout[2]/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.TextView[contains(@text, '"+userVal+"')]")).click();
+				} else if (userField.equals("SMS")) {
+					((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//android.support.v7.widget.RecyclerView/android.widget.FrameLayout[3]/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.TextView[contains(@text, '"+userVal+"')]")).click();
+				} else {
+					System.out.println("Option not supported");
+					fail("Failed:");
+				}
+			} catch(Exception e) {
+				System.out.println(e.getMessage().toString());
+				Reporter.addStepLog(e.getMessage().toString());
+				cfg.takeScreenShot(((AndroidDriver) m.get("driver"+deviceNum)));
+				fail("Failed:");	
+			}
+		} else {
+			driverValText = "idriver"+deviceNum.toString();
+			Field m = getDriverFields(driverValText);
+			try {			
+				//No code for IOS
+			} catch(Exception e) {
+				System.out.println(e.getMessage().toString());
+				Reporter.addStepLog(e.getMessage().toString());
+				cfg.takeScreenShot(((IOSDriver) m.get("driver"+deviceNum)));
+				fail("Failed:");
+			}
+		}
+	}
+
+	@Then("^\"(.*)\" I set \"(.*)\" usageAlert as \"(.*)\"$")
+	public void setAdjstAlertVals(String deviceNum, String userField, String userVal) throws Throwable {
+		String driverValText = null;
+		if (cfg.getCfg(deviceNum+"deviceType").equals("Android")) {
+			driverValText = "driver"+deviceNum.toString();
+			Field m = getDriverFields(driverValText);
+			try {
+				if (userField.equals("DATA")) {
+					WebElement seekBar = ((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//android.support.v7.widget.RecyclerView/android.widget.LinearLayout[1]/android.view.View[2]"));
+					seekBar.click();
+					float start=seekBar.getLocation().getX();
+        			float y=seekBar.getLocation().getY();
+        			float end=start + seekBar.getSize().getWidth();
+        			TouchAction action=new TouchAction(((AndroidDriver) m.get("driver"+deviceNum)));
+        			float moveTo=end*Float.valueOf(userVal)/100;
+        			action.press((int)start,(int)y).moveTo((int)moveTo,(int)y).release().perform();
+				} else if (userField.equals("VOICE")) {
+					WebElement seekBar = ((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//android.support.v7.widget.RecyclerView/android.widget.LinearLayout[2]/android.view.View[3]"));
+					seekBar.click();
+					float start=seekBar.getLocation().getX();
+        			float y=seekBar.getLocation().getY();
+        			float end=start + seekBar.getSize().getWidth();
+        			TouchAction action=new TouchAction(((AndroidDriver) m.get("driver"+deviceNum)));
+        			float moveTo=end*Float.valueOf(userVal)/100;
+        			action.press((int)start,(int)y).moveTo((int)moveTo,(int)y).release().perform();
+				} else if (userField.equals("SMS")) {
+					WebElement seekBar = ((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//android.support.v7.widget.RecyclerView/android.widget.LinearLayout[3]/android.view.View[3]"));
+					seekBar.click();
+					float start=seekBar.getLocation().getX();
+        			float y=seekBar.getLocation().getY();
+        			float end=start + seekBar.getSize().getWidth();
+        			TouchAction action=new TouchAction(((AndroidDriver) m.get("driver"+deviceNum)));
+        			float moveTo=end*Float.valueOf(userVal)/100;
+        			action.press((int)start,(int)y).moveTo((int)moveTo,(int)y).release().perform();
+				} else {
+					System.out.println("Option not supported");
+					fail("Failed:");
+				}
+			} catch(Exception e) {
+				System.out.println(e.getMessage().toString());
+				Reporter.addStepLog(e.getMessage().toString());
+				cfg.takeScreenShot(((AndroidDriver) m.get("driver"+deviceNum)));
+				fail("Failed:");	
+			}
+		} else {
+			driverValText = "idriver"+deviceNum.toString();
+			Field m = getDriverFields(driverValText);
+			try {			
+				//No code for IOS
+			} catch(Exception e) {
+				System.out.println(e.getMessage().toString());
+				Reporter.addStepLog(e.getMessage().toString());
+				cfg.takeScreenShot(((IOSDriver) m.get("driver"+deviceNum)));
+				fail("Failed:");
+			}
+		}
+	}
 }
