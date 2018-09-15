@@ -174,7 +174,7 @@ public class androidTestBasic {
 				while(i<30) {
 					TouchAction touchAction = new TouchAction(((AndroidDriver) m.get("driver"+deviceNum)));
 					Point pt = ((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.id("headline")).getLocation();
-					touchAction.press(pt.x+200, pt.y).moveTo(pt.x, pt.y).release().perform();				
+					touchAction.press(pt.x+500, pt.y).moveTo(-500, 0).release().perform();				
 					TimeUnit.SECONDS.sleep(2);
 					if(((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.id("headline")).getText().contains("Pack your suitcases and take your phone")) {
 						Reporter.addStepLog("Found Text: "+((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.id("headline")).getText());
@@ -321,20 +321,6 @@ public class androidTestBasic {
 			fail("Failed:");
 		}
 	}
-
-	@Then("^\"(.*)\" I seect 3Dots for gift offer \"(.*)\" text$")
-	public void clickGiftopts(String deviceNum, String optsName) throws Throwable {
-		Field m = getDriverFields("driver"+deviceNum);
-		try {
-				((AndroidDriver) m.get("driver"+deviceNum)).findElement(MobileBy.xpath("//android.widget.FrameLayout[3]/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.TextView[@text=\""+optsName+"\"]"));
-				((AndroidDriver) m.get("driver"+deviceNum)).findElement(MobileBy.xpath("//android.widget.FrameLayout[3]/android.widget.ImageView")).click();
-		} catch(Exception e) {
-			Reporter.addStepLog(e.getMessage().toString());
-			cfg.takeScreenShot(((AndroidDriver) m.get("driver"+deviceNum)));
-			fail("Failed:");
-		}
-	}
-
 	@Then("^\"(.*)\" I tap on signUp button$")
 	public void clickSignUpButton(String deviceNum) throws Throwable {
 		String driverValText = null;
@@ -475,13 +461,32 @@ public class androidTestBasic {
 					//(((AndroidDriver)) m.get("driver"+deviceNum)).hideKeyboard();
 				} else if (opType.equals("phoneSignUpNumber")) {
 					Reporter.addStepLog("Text Entered: "+cfg.getCfg("phoneSignUpNumber"));
-					((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.id("et_phone_number")).sendKeys(cfg.getCfg("phoneSignUpNumber"));
+					((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.id("edittext_access_number")).sendKeys(cfg.getCfg("phoneSignUpNumber"));
+				} else if (opType.equals("imsi")) {
+					Reporter.addStepLog("Text Entered: "+cfg.getCfg("phoneSignUpNumber"));
+					((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.id("edittext_imsi")).sendKeys(cfg.getCfg("phoneSignUpNumber"));
 				} else if (opType.equals("validationCode")) {
 					Reporter.addStepLog("Text Entered: "+cfg.getCfg("validationCode"));
 					((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.id("pin_edit")).sendKeys(cfg.getCfg("validationCode"));
 				} else if (opType.equals("userName")) {
 					Reporter.addStepLog("Text Entered: "+cfg.getCfg("userName"));
-					((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.id("et_name")).sendKeys(cfg.getCfg("userName"));
+					((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.id("edittext_first_name")).sendKeys(cfg.getCfg("userName"));
+				} else if (opType.equals("accessUserName")) {
+					Reporter.addStepLog("Text Entered: "+cfg.getCfg("accessUserName"));
+					((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.id("edittext_username")).sendKeys(cfg.getCfg("accessUserName"));
+				} else if (opType.equals("accessPassword")) {
+					Reporter.addStepLog("Text Entered: "+cfg.getCfg("accessPassword"));
+					((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.id("edittext_password")).sendKeys(cfg.getCfg("accessPassword")+"\n");
+				} else if (opType.equals("userSurName")) {
+					Reporter.addStepLog("Text Entered: "+cfg.getCfg("userSurName"));
+					((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.id("edittext_last_name")).sendKeys(cfg.getCfg("userSurName"));
+				} else if (opType.equals("userEmail")) {
+					Reporter.addStepLog("Text Entered: "+cfg.getCfg("userEmail"));
+					((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.id("edittext_email")).sendKeys(cfg.getCfg("userEmail"));	
+				} else if (opType.equals("billCycle")) {
+					Reporter.addStepLog("Bill Ccycle selected: "+cfg.getCfg("billCycle"));
+					((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.id("spinner_billing_cycle")).click();
+					((AndroidDriver) m.get("driver"+deviceNum)).findElement(MobileBy.xpath("//android.widget.TextView[contains(@text, '"+cfg.getCfg("billCycle")+"')]")).click();
 				} else if (opType.equals("userPassword")) {
 					Reporter.addStepLog("Text Entered: "+cfg.getCfg("userPassword"));
 					((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.id("et_password")).sendKeys(cfg.getCfg("userPassword"));
@@ -522,8 +527,27 @@ public class androidTestBasic {
 			try {
 				if (opType.equals("userName")) {
 					Reporter.addStepLog("Text Entered: "+cfg.getCfg("userName"));
-					((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeTextField[@name=\"name\"]")).sendKeys(cfg.getCfg("userName"));
-					((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeTextField[@name=\"name\"]")).sendKeys(Keys.RETURN);
+					((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeTextField[@value=\"First name\"]")).sendKeys(cfg.getCfg("userName"));					
+				} else if (opType.equals("userSurName")) {
+					Reporter.addStepLog("Text Entered: "+cfg.getCfg("userSurName"));
+					((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeTextField[@value=\"Last name\"]")).sendKeys(cfg.getCfg("userSurName"));
+				} else if (opType.equals("userEmail")) {
+					Reporter.addStepLog("Text Entered: "+cfg.getCfg("userEmail"));
+					((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeTextField[@value=\"Email\"]")).sendKeys(cfg.getCfg("userEmail"));
+				} else if (opType.equals("imsi")) {
+					Reporter.addStepLog("Text Entered: "+cfg.getCfg("iOSphoneSignUpNumber"));
+					((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeTextField[@value=\"Imsi\"]")).sendKeys(cfg.getCfg("iOSphoneSignUpNumber"));
+				} else if (opType.equals("billCycle")) {
+					Reporter.addStepLog("Bill Ccycle selected: "+cfg.getCfg("billCycle"));
+					((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeTextField[@value=\"Billing cycle\"]")).click();
+					((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypePickerWheel")).sendKeys(cfg.getCfg("billCycle"));
+					((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeButton[@label=\"Done\"]")).click();
+				} else if (opType.equals("accessUserName")) {
+					Reporter.addStepLog("Text Entered: "+cfg.getCfg("accessUserName"));
+					((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeTextField[@value=\"Username\"]")).sendKeys(cfg.getCfg("accessUserName"));
+				} else if (opType.equals("accessPassword")) {
+					Reporter.addStepLog("Text Entered: "+cfg.getCfg("accessPassword"));
+					((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeSecureTextField[@value=\"Password\"]")).sendKeys(cfg.getCfg("accessPassword"));					
 				} else if (opType.equals("userPassword")) {
 					Reporter.addStepLog("Text Entered: "+cfg.getCfg("userPassword"));
 					((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeSecureTextField[@name=\"password\"]")).sendKeys(cfg.getCfg("userPassword"));
@@ -531,8 +555,7 @@ public class androidTestBasic {
 					((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeSecureTextField[@name=\"reenterPass\"]")).sendKeys(Keys.RETURN);
 				} else if (opType.equals("iOSphoneSignUpNumber")) {
 					Reporter.addStepLog("Text Entered: "+cfg.getCfg("iOSphoneSignUpNumber"));
-					((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeTextField[@name=\"phone\"]")).sendKeys(cfg.getCfg("iOSphoneSignUpNumber"));
-					((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeTextField[@name=\"phone\"]")).sendKeys(Keys.RETURN);
+					((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeTextField[@value=\"Access Number\"]")).sendKeys(cfg.getCfg("iOSphoneSignUpNumber"));
 				} else if (opType.equals("iOSOTP")) {
 					((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeOther[@name=\"code\"]/XCUIElementTypeOther[1]/XCUIElementTypeStaticText")).sendKeys("0");
 					((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeOther[@name=\"code\"]/XCUIElementTypeOther[2]/XCUIElementTypeStaticText")).sendKeys("0");
@@ -581,7 +604,7 @@ public class androidTestBasic {
 	public void clickPhoneLoginButton(String deviceNum) throws Throwable {
 		Field m = getDriverFields("driver"+deviceNum);
 		try {
-			((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.id("phone_button")).click();
+			((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.id("button_login")).click();
 		} catch(Exception e) {
 			Reporter.addStepLog(e.getMessage().toString());
 			cfg.takeScreenShot(((AndroidDriver) m.get("driver"+deviceNum)));
@@ -589,14 +612,14 @@ public class androidTestBasic {
 		}
 	}
 	
-	@Then("^\"(.*)\" I tap on TopUp button$")
-	public void clicktopupButton(String deviceNum) throws Throwable {
+	@Then("^\"(.*)\" I tap on popUpLogout button$")
+	public void clicklogOutpoup(String deviceNum) throws Throwable {
 		String driverValText = null;
 		if (cfg.getCfg(deviceNum+"deviceType").equals("Android")) {
 			driverValText = "driver"+deviceNum.toString();
 			Field m = getDriverFields(driverValText);
 			try {
-				((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.id("btn_top_up")).click();
+				//No code for Android
 			} catch(Exception e) {
 				Reporter.addStepLog(e.getMessage().toString());
 				cfg.takeScreenShot(((AndroidDriver) m.get("driver"+deviceNum)));
@@ -606,7 +629,34 @@ public class androidTestBasic {
 			driverValText = "idriver"+deviceNum.toString();
 			Field m = getDriverFields(driverValText);
 			try {
-				((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeButton[@name=\"topup\"")).click();
+				((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("(//XCUIElementTypeButton[@label=\"Logout\"])[2]")).click();
+			} catch(Exception e) {
+				System.out.println(e.getMessage());
+				Reporter.addStepLog(e.getMessage().toString());
+				cfg.takeScreenShot(((IOSDriver) m.get("driver"+deviceNum)));
+				fail("Failed:");
+			}
+		}
+	}
+
+	@Then("^\"(.*)\" I tap on REGISTER button$")
+	public void clickRegButton(String deviceNum) throws Throwable {
+		String driverValText = null;
+		if (cfg.getCfg(deviceNum+"deviceType").equals("Android")) {
+			driverValText = "driver"+deviceNum.toString();
+			Field m = getDriverFields(driverValText);
+			try {
+				((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.id("button_register")).click();
+			} catch(Exception e) {
+				Reporter.addStepLog(e.getMessage().toString());
+				cfg.takeScreenShot(((AndroidDriver) m.get("driver"+deviceNum)));
+				fail("Failed:");
+			}
+		} else {
+			driverValText = "idriver"+deviceNum.toString();
+			Field m = getDriverFields(driverValText);
+			try {
+				//No code for IOS
 			} catch(Exception e) {
 				System.out.println(e.getMessage());
 				Reporter.addStepLog(e.getMessage().toString());
@@ -616,6 +666,62 @@ public class androidTestBasic {
 		}
 	}
 	
+
+	@Then("^\"(.*)\" I tap on ACTIVATE SUBSCRIBER button$")
+	public void clickLoginSubButton(String deviceNum) throws Throwable {
+		String driverValText = null;
+		if (cfg.getCfg(deviceNum+"deviceType").equals("Android")) {
+			driverValText = "driver"+deviceNum.toString();
+			Field m = getDriverFields(driverValText);
+			try {
+				((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.id("button_create_subscriber")).click();
+			} catch(Exception e) {
+				Reporter.addStepLog(e.getMessage().toString());
+				cfg.takeScreenShot(((AndroidDriver) m.get("driver"+deviceNum)));
+				fail("Failed:");
+			}
+		} else {
+			driverValText = "idriver"+deviceNum.toString();
+			Field m = getDriverFields(driverValText);
+			try {
+				//No code for IOS
+			} catch(Exception e) {
+				System.out.println(e.getMessage());
+				Reporter.addStepLog(e.getMessage().toString());
+				cfg.takeScreenShot(((IOSDriver) m.get("driver"+deviceNum)));
+				fail("Failed:");
+			}
+		}
+	}
+
+
+	@Then("^\"(.*)\" I tap on LOGIN SUBSCRIBER button$")
+	public void clickActRegButton(String deviceNum) throws Throwable {
+		String driverValText = null;
+		if (cfg.getCfg(deviceNum+"deviceType").equals("Android")) {
+			driverValText = "driver"+deviceNum.toString();
+			Field m = getDriverFields(driverValText);
+			try {
+				((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.id("button_login_subscriber")).click();
+			} catch(Exception e) {
+				Reporter.addStepLog(e.getMessage().toString());
+				cfg.takeScreenShot(((AndroidDriver) m.get("driver"+deviceNum)));
+				fail("Failed:");
+			}
+		} else {
+			driverValText = "idriver"+deviceNum.toString();
+			Field m = getDriverFields(driverValText);
+			try {
+				((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("(//XCUIElementTypeButton[@label=\"Login Subscriber\"])[1]")).click();
+			} catch(Exception e) {
+				System.out.println(e.getMessage());
+				Reporter.addStepLog(e.getMessage().toString());
+				cfg.takeScreenShot(((IOSDriver) m.get("driver"+deviceNum)));
+				fail("Failed:");
+			}
+		}
+	}
+
 	@Then("^\"(.*)\" I tap on SaveTopUp button$")
 	public void clickTopupSavebutton(String deviceNum) throws Throwable {
 		Field m = getDriverFields("driver"+deviceNum);

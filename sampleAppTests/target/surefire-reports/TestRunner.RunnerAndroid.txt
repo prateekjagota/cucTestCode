@@ -1,0 +1,16 @@
+-------------------------------------------------------------------------------
+Test set: TestRunner.RunnerAndroid
+-------------------------------------------------------------------------------
+Tests run: 5, Failures: 2, Errors: 0, Skipped: 1, Time elapsed: 110.809 sec <<< FAILURE!
+Then "D1" I tap on RightMenu button(Scenario: Logout without Reprovisioning)  Time elapsed: 0.057 sec  <<< FAILURE!
+java.lang.AssertionError: Failed:
+	at org.junit.Assert.fail(Assert.java:88)
+	at StepDefinitions.androidStepDefsNav.clickRightMenuButton(androidStepDefsNav.java:46)
+	at ✽.Then "D1" I tap on RightMenu button(testNavigation.feature:30)
+
+Scenario: Logout without Reprovisioning  Time elapsed: 0.061 sec  <<< FAILURE!
+java.lang.AssertionError: Failed:
+	at org.junit.Assert.fail(Assert.java:88)
+	at StepDefinitions.androidStepDefsNav.clickRightMenuButton(androidStepDefsNav.java:46)
+	at ✽.Then "D1" I tap on RightMenu button(testNavigation.feature:30)
+

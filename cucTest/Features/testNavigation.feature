@@ -39,12 +39,14 @@ Feature: Test Navigation Flow
     Then "D1" I enter the "userPassword"
     Then "D1" I wait for "2" seconds
     Then "D1" I tap on ConFirm button
+    Then "D1" I wait for "2" seconds
     Then "D1" I tap on "VOUCHER" text
     Then "D1" I tap on TopUp button
     Then "D1" I enter the "voucherNumber"
     Then "D1" I tap on VoucherTopUp button
     Then "D1" I tap on PayAndActivate button
-    Then "D1" I tap on GoToMyPage button  
+    Then "D1" I tap on GoToMyPage button 
+    Then "D1" I wait for "5" seconds 
 
 @Sanity @TC1003
   Scenario: Sign Up Flow
@@ -99,7 +101,8 @@ Feature: Test Navigation Flow
   @Sanity @TC5
   Scenario: Sign In Flow
   	Given "D1" I launch the application
-    Then "D1" I tap on signIn button
+    Then "D1" I wait for "2" seconds
+    Then "D1" I tap on signIn button   
     Then "D1" I wait for "2" seconds
     Then "D1" I enter the "phoneLoginNumber"
     Then "D1" I wait for "2" seconds
@@ -120,6 +123,7 @@ Feature: Test Navigation Flow
  @Sanity @TC6
   Scenario: Add balance from card
   	Then "D1" I tap on "WALLET" text
+    Then "D1" I wait for "2" seconds
     Then "D1" I tap on "Pre-paid balance" text
     Then "D1" I tap on CreditTopUp button
     Then "D1" I tap on "CREDIT CARD" text
@@ -129,7 +133,7 @@ Feature: Test Navigation Flow
   	Then "D1" I enter the "creditCardCVV"
   	Then "D1" I tap on SaveTopUp button
   	Then "D1" I Navigate back
-  	Then "D1" I Navigate back
+    Then "D1" I wait for "2" seconds
   	Then "D1" I tap on "MY PAGE" text
   	
  @Sanity @TC1006

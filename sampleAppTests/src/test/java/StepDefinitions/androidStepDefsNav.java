@@ -21,8 +21,6 @@ import org.openqa.selenium.remote.RemoteWebElement;
 
 import com.cucumber.listener.Reporter;
 
-import io.appium.java_client.MobileElement;
-import java.time.Duration;
 import io.appium.java_client.MobileBy;
 import io.appium.java_client.PerformsTouchActions;
 import io.appium.java_client.TouchAction;
@@ -37,11 +35,11 @@ public class androidStepDefsNav {
 		m.setAccessible(true);
 		return m;
 	}
-	@Then("^\"(.*)\" I tap on LeftMenu button$")
-	public void clickLeftMenuButton(String deviceNum) throws Throwable {
+	@Then("^\"(.*)\" I tap on RightMenu button$")
+	public void clickRightMenuButton(String deviceNum) throws Throwable {
 		Field m = getDriverFields("driver"+deviceNum);
 		try {			
-			((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//android.widget.ImageButton[@content-desc=\"Navigate up\"]")).click();
+			((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//android.widget.ImageView[@content-desc=\"More options\"]")).click();
 		} catch(Exception e) {
 			Reporter.addStepLog(e.getMessage().toString());
 			cfg.takeScreenShot(((AndroidDriver) m.get("driver"+deviceNum)));
@@ -173,16 +171,11 @@ public class androidStepDefsNav {
 			Field m = getDriverFields(driverValText);
 			try {
 				int i=0;
+				TimeUnit.SECONDS.sleep(2);
 				while(i<30) {
-					if(((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.TextView[1]")).getText().contains(offerText)) {
-						System.out.println("Found Text: "+(((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.TextView[1]")).getText()));
-						Reporter.addStepLog("Found Text: "+(((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.TextView[1]")).getText()));
-						((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.TextView[1]")).click();
-						break;
-					}
 					TouchAction touchAction = new TouchAction(((AndroidDriver) m.get("driver"+deviceNum)));				
 					Point pt = ((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.TextView[1]")).getLocation();
-					touchAction.press(pt.x+200,pt.y).moveTo(pt.x, pt.y).release().perform();
+					touchAction.press(pt.x+500,pt.y).moveTo(-500, 0).release().perform();
 					TimeUnit.SECONDS.sleep(2);
 					if(((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.TextView[1]")).getText().contains(offerText)) {
 						System.out.println("Found Text: "+(((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.TextView[1]")).getText()));
@@ -221,52 +214,6 @@ public class androidStepDefsNav {
 					}
 					i++;
 				}
-			} catch(Exception e) {
-				System.out.println(e.getMessage().toString());
-				Reporter.addStepLog(e.getMessage().toString());
-				cfg.takeScreenShot(((IOSDriver) m.get("driver"+deviceNum)));
-				fail("Failed:");
-			}
-		}
-	}
-
-@Then("^\"(.*)\" I swipe the Screen for \"(.*)\" gift offer$")
-	public void swipeScreenforGiftOffer(String deviceNum, String offerText) throws Throwable {
-		String driverValText = null;
-		if (cfg.getCfg(deviceNum+"deviceType").equals("Android")) {
-			driverValText = "driver"+deviceNum.toString();
-			Field m = getDriverFields(driverValText);
-			try {
-				int i=0;
-				while(i<30) {
-					if(((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//android.widget.LinearLayout[3]/android.support.v4.view.ViewPager/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.TextView[1]")).getText().contains(offerText)) {
-						System.out.println("Found Text: "+(((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//android.widget.LinearLayout[3]/android.support.v4.view.ViewPager/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.TextView[1]")).getText()));
-						Reporter.addStepLog("Found Text: "+(((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//android.widget.LinearLayout[3]/android.support.v4.view.ViewPager/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.TextView[1]")).getText()));
-						((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//android.widget.LinearLayout[3]/android.support.v4.view.ViewPager/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.TextView[1]")).click();
-						break;
-					}
-					TouchAction touchAction = new TouchAction(((AndroidDriver) m.get("driver"+deviceNum)));				
-					Point pt = ((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//android.widget.LinearLayout[3]/android.support.v4.view.ViewPager/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.TextView[1]")).getLocation();
-					touchAction.press(pt.x+200,pt.y).moveTo(pt.x, pt.y).release().perform();
-					TimeUnit.SECONDS.sleep(2);
-					if(((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//android.widget.LinearLayout[3]/android.support.v4.view.ViewPager/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.TextView[1]")).getText().contains(offerText)) {
-						System.out.println("Found Text: "+(((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//android.widget.LinearLayout[3]/android.support.v4.view.ViewPager/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.TextView[1]")).getText()));
-						Reporter.addStepLog("Found Text: "+(((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//android.widget.LinearLayout[3]/android.support.v4.view.ViewPager/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.TextView[1]")).getText()));
-						((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//android.widget.LinearLayout[3]/android.support.v4.view.ViewPager/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.TextView[1]")).click();
-						break;
-					}
-					i++;
-				}
-			} catch(Exception e) {
-				Reporter.addStepLog(e.getMessage().toString());
-				cfg.takeScreenShot(((AndroidDriver) m.get("driver"+deviceNum)));
-				fail("Failed:");
-			}
-		} else {
-			driverValText = "idriver"+deviceNum.toString();
-			Field m = getDriverFields(driverValText);			
-			try {
-				//No Code for iOS
 			} catch(Exception e) {
 				System.out.println(e.getMessage().toString());
 				Reporter.addStepLog(e.getMessage().toString());
@@ -821,12 +768,6 @@ public class androidStepDefsNav {
 			} else if (userField.equals("Shipping PhoneNumber")) {
 				WebElement el = ((AndroidDriver) m.get("driver"+deviceNum)).findElement(MobileBy.xpath("//TextInputLayout[10]/android.widget.FrameLayout/android.widget.EditText"));
 				el.click();el.clear();el.sendKeys(userVal.toString());
-			} else if (userField.equals("Recipient Number")) {
-				WebElement el = ((AndroidDriver) m.get("driver"+deviceNum)).findElement(MobileBy.xpath("//android.widget.FrameLayout[2]/TextInputLayout/android.widget.FrameLayout/android.widget.EditText"));
-				el.click();el.clear();el.sendKeys(userVal.toString());
-			} else if (userField.equals("Gift Message")) {
-				WebElement el = ((AndroidDriver) m.get("driver"+deviceNum)).findElement(MobileBy.xpath("//android.widget.LinearLayout/TextInputLayout/android.widget.FrameLayout/android.widget.EditText"));
-				el.click();el.clear();el.sendKeys(userVal.toString());
 			} else {
 				assert false: "Code not added for" + userField;
 			}
@@ -916,42 +857,6 @@ public class androidStepDefsNav {
 		}
 	}
 
-	@Then("^\"(.*)\" I set gift SMS value as \"(.*)\"$")
-	public void setSMSeekBar(String deviceNum, String userVal) throws Throwable {
-		String driverValText = null;
-		if (cfg.getCfg(deviceNum+"deviceType").equals("Android")) {
-			driverValText = "driver"+deviceNum.toString();
-			Field m = getDriverFields(driverValText);
-			try {
-				WebElement seekBar = ((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//android.view.ViewGroup/android.view.ViewGroup/android.support.v7.widget.RecyclerView/android.widget.LinearLayout/android.view.View[1]"));
-				seekBar.click();
-				float start=seekBar.getLocation().getX();
-        		float y=seekBar.getLocation().getY();
-        		float end=start + seekBar.getSize().getWidth();
-        		TouchAction action=new TouchAction(((AndroidDriver) m.get("driver"+deviceNum)));
-        		float actVal = Float.valueOf(userVal)/2;
-        		float moveTo=end*Float.valueOf(actVal)/100;
-       			action.press((int)start,(int)y).moveTo((int)moveTo,(int)y).release().perform();
-			} catch(Exception e) {
-				System.out.println(e.getMessage().toString());
-				Reporter.addStepLog(e.getMessage().toString());
-				cfg.takeScreenShot(((AndroidDriver) m.get("driver"+deviceNum)));
-				fail("Failed:");	
-			}
-		} else {
-			driverValText = "idriver"+deviceNum.toString();
-			Field m = getDriverFields(driverValText);
-			try {			
-				//No code for IOS
-			} catch(Exception e) {
-				System.out.println(e.getMessage().toString());
-				Reporter.addStepLog(e.getMessage().toString());
-				cfg.takeScreenShot(((IOSDriver) m.get("driver"+deviceNum)));
-				fail("Failed:");
-			}
-		}
-	}
-
 	@Then("^\"(.*)\" I tap on ADJUST button$")
 	public void clickAdjustButton(String deviceNum) throws Throwable {
 		String driverValText = null;
@@ -960,62 +865,6 @@ public class androidStepDefsNav {
 			Field m = getDriverFields(driverValText);
 			try {
 				((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//android.widget.Button[@text='ADJUST']")).click();
-			} catch(Exception e) {
-				System.out.println(e.getMessage().toString());
-				Reporter.addStepLog(e.getMessage().toString());
-				cfg.takeScreenShot(((AndroidDriver) m.get("driver"+deviceNum)));
-				fail("Failed:");	
-			}
-		} else {
-			driverValText = "idriver"+deviceNum.toString();
-			Field m = getDriverFields(driverValText);
-			try {			
-				//No code for IOS
-			} catch(Exception e) {
-				System.out.println(e.getMessage().toString());
-				Reporter.addStepLog(e.getMessage().toString());
-				cfg.takeScreenShot(((IOSDriver) m.get("driver"+deviceNum)));
-				fail("Failed:");
-			}
-		}
-	}
-
-	@Then("^\"(.*)\" I tap on Gift button$")
-	public void clickGiftButton(String deviceNum) throws Throwable {
-		String driverValText = null;
-		if (cfg.getCfg(deviceNum+"deviceType").equals("Android")) {
-			driverValText = "driver"+deviceNum.toString();
-			Field m = getDriverFields(driverValText);
-			try {
-				((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//android.widget.LinearLayout/android.widget.FrameLayout/android.view.ViewGroup/android.widget.ImageButton")).click();
-			} catch(Exception e) {
-				System.out.println(e.getMessage().toString());
-				Reporter.addStepLog(e.getMessage().toString());
-				cfg.takeScreenShot(((AndroidDriver) m.get("driver"+deviceNum)));
-				fail("Failed:");	
-			}
-		} else {
-			driverValText = "idriver"+deviceNum.toString();
-			Field m = getDriverFields(driverValText);
-			try {			
-				//No code for IOS
-			} catch(Exception e) {
-				System.out.println(e.getMessage().toString());
-				Reporter.addStepLog(e.getMessage().toString());
-				cfg.takeScreenShot(((IOSDriver) m.get("driver"+deviceNum)));
-				fail("Failed:");
-			}
-		}
-	}
-
-	@Then("^\"(.*)\" I tap on GIFT popupButton$")
-	public void clickGiftpopButton(String deviceNum) throws Throwable {
-		String driverValText = null;
-		if (cfg.getCfg(deviceNum+"deviceType").equals("Android")) {
-			driverValText = "driver"+deviceNum.toString();
-			Field m = getDriverFields(driverValText);
-			try {
-				((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//android.widget.Button[@text='GIFT']")).click();
 			} catch(Exception e) {
 				System.out.println(e.getMessage().toString());
 				Reporter.addStepLog(e.getMessage().toString());

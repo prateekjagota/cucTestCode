@@ -4,6 +4,7 @@ Feature: Test MarketPlace Scenarios
   @Sanity @TC14
   Scenario: Add items from MarketPlace
     Given "D1" I launch the application
+    Then "D1" I wait for "2" seconds
     Then "D1" I tap on "MARKETPLACE" text
     Then "D1" I swipe the Screen for "Unlimited Facebook 1 Day Pass" offer
     Then "D1" I tap on BuyCart button
@@ -127,6 +128,31 @@ Feature: Test MarketPlace Scenarios
     Then "D2" I wait for "2" seconds
     Then "D2" I tap on "MY PAGE" text
     
-     
+@Sanity @TC19
+  Scenario: Validate Gift functionality
+  Given "D1" I launch the application
+   Then "D1" I wait for "2" seconds
+   Then "D1" I tap on "MARKETPLACE" text
+   Then "D1" I swipe the Screen for "200 European Roaming SMS" gift offer
+   Then "D1" I tap on BuyCart button
+   Then "D1" I tap on OK button
+   Then "D1" I tap on DONE button
+   Then "D1" I wait for "2" seconds
+   Then "D1" I tap on "MY PAGE" text
+   Then "D1" I scroll down the screen for "200 European Roaming SMS" text
+   Then "D1" I seect 3Dots for gift offer "200 European Roaming SMS" text
+   Then "D1" I tap on "Gift" text
+   Then "D1" I enter-"Recipient Number" as "447884443373"
+   Then "D1" I enter-"Gift Message" as "Sending you some SMS messages!"
+   Then "D1" I set gift SMS value as "100"
+   Then "D1" I tap on Gift button
+   Then "D1" I wait for "2" seconds
+   Then "D1" I tap on GIFT popupButton
+
+
+
+
+
+
     
     
