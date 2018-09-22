@@ -4,7 +4,9 @@ Feature: Test Navigation Flow
   @Sanity @TC1
   Scenario: Installation
     Given "D1" I install and launch the application
+    Then "D1" I wait for "2" seconds
     Then "D1" I tap on agreement checkBox
+    Then "D1" I wait for "2" seconds
     Then "D1" I tap on agree continue button
 
  @Sanity @TC1001
@@ -100,13 +102,21 @@ Feature: Test Navigation Flow
 
   @Sanity @TC5
   Scenario: Sign In Flow
-  	Given "D1" I launch the application
+   Given "D1" I launch the application
     Then "D1" I wait for "2" seconds
     Then "D1" I tap on signIn button   
     Then "D1" I wait for "2" seconds
     Then "D1" I enter the "phoneLoginNumber"
     Then "D1" I wait for "2" seconds
     Then "D1" I tap on login button
+    Then "D1" I wait for "10" seconds
+    Then "D1" I tap on "MY PAGE" text
+
+  @Sanity @TC88
+  Scenario: Logout without Reprovisioning
+    Then "D1" I tap on LeftMenu button
+    Then "D1" I tap on "Logout" menuItem
+    Then "D1" I tap on LOGOUT button
     
 	@Sanity @TC1005
   Scenario: Sign In Flow
