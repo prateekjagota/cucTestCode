@@ -127,7 +127,7 @@ Feature: Test Navigation Flow
     Then "D2" I enter the "iOSloginMobileNumber"
     Then "D2" I wait for "2" seconds
     Then "D2" I tap on "positiveButton" text
-    Then "D2" I wait for "10" seconds
+    Then "D2" I wait for "20" seconds
     Then "D2" I tap on "OK" text
     
  @Sanity @TC6

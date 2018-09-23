@@ -769,74 +769,95 @@ public class androidStepDefsNav {
 	
 	@Then("^\"(.*)\" I enter-\"(.*)\" as \"(.*)\"$")
 	public void enterUserVals(String deviceNum, String userField, String userVal) throws Throwable {
-		Field m = getDriverFields("driver"+deviceNum);
-		try {
-			((AndroidDriver) m.get("driver"+deviceNum)).hideKeyboard();
-		} catch (Exception e) {}
-		try {
-			if (userField.equals("Contact FullName")) {	
-				WebElement el = ((AndroidDriver) m.get("driver"+deviceNum)).findElement(MobileBy.xpath("//TextInputLayout[1]/android.widget.FrameLayout/android.widget.EditText"));
-				el.click();el.clear();el.sendKeys(userVal.toString());
-			} else if (userField.equals("Contact Email")) {
-				WebElement el = ((AndroidDriver) m.get("driver"+deviceNum)).findElement(MobileBy.xpath("//TextInputLayout[2]/android.widget.FrameLayout/android.widget.EditText"));
-				el.click();el.clear();el.sendKeys(userVal.toString());
-			} else if (userField.equals("Contact Number")) {
-				WebElement el = ((AndroidDriver) m.get("driver"+deviceNum)).findElement(MobileBy.xpath("//TextInputLayout[3]/android.widget.FrameLayout/android.widget.EditText"));
-				el.click();el.clear();el.sendKeys(userVal.toString());
-			} else if (userField.equals("Shipping FullName")) {
-				WebElement el = ((AndroidDriver) m.get("driver"+deviceNum)).findElement(MobileBy.xpath("//TextInputLayout[4]/android.widget.FrameLayout/android.widget.EditText"));
-				el.click();el.clear();el.sendKeys(userVal.toString());
-			} else if (userField.equals("Shipping Address1")) {
-				WebElement el = ((AndroidDriver) m.get("driver"+deviceNum)).findElement(MobileBy.xpath("//TextInputLayout[5]/android.widget.FrameLayout/android.widget.EditText"));
-				el.click();el.clear();el.sendKeys(userVal.toString());
-			} else if (userField.equals("Shipping Address2")) {
-				int i=0;
-				TimeUnit.SECONDS.sleep(2);
-				while(i<5) {
-					TouchAction touchAction = new TouchAction(((AndroidDriver) m.get("driver"+deviceNum)));				
-					Point pt = ((AndroidDriver) m.get("driver"+deviceNum)).findElement(MobileBy.xpath("//TextInputLayout")).getLocation();
-					List<WebElement> txtList = ((AndroidDriver) m.get("driver"+deviceNum)).findElements(MobileBy.xpath("//TextInputLayout"));
-					for (WebElement el: txtList) {
-						if (el.getText().equals("Phone Number")) {
-							System.out.println("Found Text: " + el.getText());
-							break;
-						} else {
-							i++;
-						}
-					}
-					touchAction.press(pt.x,pt.y+300).moveTo(0, -300).release().perform();
-					TimeUnit.SECONDS.sleep(2);
-				}
-				WebElement el = ((AndroidDriver) m.get("driver"+deviceNum)).findElement(MobileBy.xpath("//TextInputLayout[6]/android.widget.FrameLayout/android.widget.EditText"));
-				el.click();el.clear();el.sendKeys(userVal.toString());
-			} else if (userField.equals("Shipping City")) {
-				WebElement el = ((AndroidDriver) m.get("driver"+deviceNum)).findElement(MobileBy.xpath("//TextInputLayout[7]/android.widget.FrameLayout/android.widget.EditText"));
-				el.click();el.clear();el.sendKeys(userVal.toString());
-			} else if (userField.equals("Shipping Region")) {
-				WebElement el = ((AndroidDriver) m.get("driver"+deviceNum)).findElement(MobileBy.xpath("//TextInputLayout[8]/android.widget.FrameLayout/android.widget.EditText"));
-				el.click();el.clear();el.sendKeys(userVal.toString());
-			} else if (userField.equals("Shipping ZIP")) {
-				WebElement el = ((AndroidDriver) m.get("driver"+deviceNum)).findElement(MobileBy.xpath("//TextInputLayout[9]/android.widget.FrameLayout/android.widget.EditText"));
-				el.click();el.clear();el.sendKeys(userVal.toString());
-			} else if (userField.equals("Shipping PhoneNumber")) {
-				WebElement el = ((AndroidDriver) m.get("driver"+deviceNum)).findElement(MobileBy.xpath("//TextInputLayout[10]/android.widget.FrameLayout/android.widget.EditText"));
-				el.click();el.clear();el.sendKeys(userVal.toString());
-			} else if (userField.equals("Recipient Number")) {
-				WebElement el = ((AndroidDriver) m.get("driver"+deviceNum)).findElement(MobileBy.xpath("//android.widget.FrameLayout[2]/TextInputLayout/android.widget.FrameLayout/android.widget.EditText"));
-				el.click();el.clear();el.sendKeys(userVal.toString());
-			} else if (userField.equals("Gift Message")) {
-				WebElement el = ((AndroidDriver) m.get("driver"+deviceNum)).findElement(MobileBy.xpath("//android.widget.LinearLayout/TextInputLayout/android.widget.FrameLayout/android.widget.EditText"));
-				el.click();el.clear();el.sendKeys(userVal.toString());
-			} else {
-				assert false: "Code not added for" + userField;
-			}
+		String driverValText = null;
+		if (cfg.getCfg(deviceNum+"deviceType").equals("Android")) {
+			driverValText = "driver"+deviceNum.toString();
+			Field m = getDriverFields("driver"+deviceNum);
 			try {
 				((AndroidDriver) m.get("driver"+deviceNum)).hideKeyboard();
 			} catch (Exception e) {}
-		} catch(Exception e1) {
-			Reporter.addStepLog(e1.getMessage().toString());
-			cfg.takeScreenShot(((AndroidDriver) m.get("driver"+deviceNum)));
-			fail("Failed:");
+			try {
+				if (userField.equals("Contact FullName")) {	
+					WebElement el = ((AndroidDriver) m.get("driver"+deviceNum)).findElement(MobileBy.xpath("//TextInputLayout[1]/android.widget.FrameLayout/android.widget.EditText"));
+					el.click();el.clear();el.sendKeys(userVal.toString());
+				} else if (userField.equals("Contact Email")) {
+					WebElement el = ((AndroidDriver) m.get("driver"+deviceNum)).findElement(MobileBy.xpath("//TextInputLayout[2]/android.widget.FrameLayout/android.widget.EditText"));
+					el.click();el.clear();el.sendKeys(userVal.toString());
+				} else if (userField.equals("Contact Number")) {
+					WebElement el = ((AndroidDriver) m.get("driver"+deviceNum)).findElement(MobileBy.xpath("//TextInputLayout[3]/android.widget.FrameLayout/android.widget.EditText"));
+					el.click();el.clear();el.sendKeys(userVal.toString());
+				} else if (userField.equals("Shipping FullName")) {
+					WebElement el = ((AndroidDriver) m.get("driver"+deviceNum)).findElement(MobileBy.xpath("//TextInputLayout[4]/android.widget.FrameLayout/android.widget.EditText"));
+					el.click();el.clear();el.sendKeys(userVal.toString());
+				} else if (userField.equals("Shipping Address1")) {
+					WebElement el = ((AndroidDriver) m.get("driver"+deviceNum)).findElement(MobileBy.xpath("//TextInputLayout[5]/android.widget.FrameLayout/android.widget.EditText"));
+					el.click();el.clear();el.sendKeys(userVal.toString());
+				} else if (userField.equals("Shipping Address2")) {
+					int i=0;
+					TimeUnit.SECONDS.sleep(2);
+					while(i<5) {
+						TouchAction touchAction = new TouchAction(((AndroidDriver) m.get("driver"+deviceNum)));				
+						Point pt = ((AndroidDriver) m.get("driver"+deviceNum)).findElement(MobileBy.xpath("//TextInputLayout")).getLocation();
+						List<WebElement> txtList = ((AndroidDriver) m.get("driver"+deviceNum)).findElements(MobileBy.xpath("//TextInputLayout"));
+						for (WebElement el: txtList) {
+							if (el.getText().equals("Phone Number")) {
+								System.out.println("Found Text: " + el.getText());
+								break;
+							} else {
+								i++;
+							}
+						}
+						touchAction.press(pt.x,pt.y+300).moveTo(0, -300).release().perform();
+						TimeUnit.SECONDS.sleep(2);
+					}
+					WebElement el = ((AndroidDriver) m.get("driver"+deviceNum)).findElement(MobileBy.xpath("//TextInputLayout[6]/android.widget.FrameLayout/android.widget.EditText"));
+					el.click();el.clear();el.sendKeys(userVal.toString());
+				} else if (userField.equals("Shipping City")) {
+					WebElement el = ((AndroidDriver) m.get("driver"+deviceNum)).findElement(MobileBy.xpath("//TextInputLayout[7]/android.widget.FrameLayout/android.widget.EditText"));
+					el.click();el.clear();el.sendKeys(userVal.toString());
+				} else if (userField.equals("Shipping Region")) {
+					WebElement el = ((AndroidDriver) m.get("driver"+deviceNum)).findElement(MobileBy.xpath("//TextInputLayout[8]/android.widget.FrameLayout/android.widget.EditText"));
+					el.click();el.clear();el.sendKeys(userVal.toString());
+				} else if (userField.equals("Shipping ZIP")) {
+					WebElement el = ((AndroidDriver) m.get("driver"+deviceNum)).findElement(MobileBy.xpath("//TextInputLayout[9]/android.widget.FrameLayout/android.widget.EditText"));
+					el.click();el.clear();el.sendKeys(userVal.toString());
+				} else if (userField.equals("Shipping PhoneNumber")) {
+					WebElement el = ((AndroidDriver) m.get("driver"+deviceNum)).findElement(MobileBy.xpath("//TextInputLayout[10]/android.widget.FrameLayout/android.widget.EditText"));
+					el.click();el.clear();el.sendKeys(userVal.toString());
+				} else if (userField.equals("Recipient Number")) {
+					WebElement el = ((AndroidDriver) m.get("driver"+deviceNum)).findElement(MobileBy.xpath("//android.widget.FrameLayout[2]/TextInputLayout/android.widget.FrameLayout/android.widget.EditText"));
+					el.click();el.clear();el.sendKeys(userVal.toString());
+				} else if (userField.equals("Gift Message")) {
+					WebElement el = ((AndroidDriver) m.get("driver"+deviceNum)).findElement(MobileBy.xpath("//android.widget.LinearLayout/TextInputLayout/android.widget.FrameLayout/android.widget.EditText"));
+					el.click();el.clear();el.sendKeys(userVal.toString());
+				} else {
+					assert false: "Code not added for " + userField;
+				}
+				try {
+					((AndroidDriver) m.get("driver"+deviceNum)).hideKeyboard();
+				} catch (Exception e) {}
+			} catch(Exception e1) {
+				Reporter.addStepLog(e1.getMessage().toString());
+				cfg.takeScreenShot(((AndroidDriver) m.get("driver"+deviceNum)));
+				fail("Failed:");
+			}
+		} else {
+			driverValText = "idriver"+deviceNum.toString();
+			Field m = getDriverFields(driverValText);
+			try {
+				if (userField.equals("Recipient Number")) {
+					((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeTextField[@name=\"to\"]")).sendKeys(userVal.toString());
+					((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeTextField[@name=\"to\"]")).sendKeys(Keys.RETURN);		
+				} else if (userField.equals("Gift Message")) {
+					((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeTextView[@name=\"messageText\"]")).sendKeys(userVal.toString());		
+				} else {
+					assert false: "Code not added for " + userField;
+				}
+			} catch(Exception e) {
+				Reporter.addStepLog(e.getMessage().toString());
+				cfg.takeScreenShot(((IOSDriver) m.get("driver"+deviceNum)));
+				fail("Failed:");
+			}
 		}
 	}
 	
@@ -916,9 +937,38 @@ public class androidStepDefsNav {
 		}
 	}
 
-	@Then("^\"(.*)\" I set gift SMS value as \"(.*)\"$")
-	public void setSMSeekBar(String deviceNum, String userVal) throws Throwable {
+	@Then("^\"(.*)\" I tap on promo3Dots button$")
+	public void clickpromo3DotsButton(String deviceNum) throws Throwable {
 		String driverValText = null;
+		if (cfg.getCfg(deviceNum+"deviceType").equals("Android")) {
+			driverValText = "driver"+deviceNum.toString();
+			Field m = getDriverFields(driverValText);
+			try {
+				//No code for Android
+			} catch(Exception e) {
+				System.out.println(e.getMessage().toString());
+				Reporter.addStepLog(e.getMessage().toString());
+				cfg.takeScreenShot(((AndroidDriver) m.get("driver"+deviceNum)));
+				fail("Failed:");	
+			}
+		} else {
+			driverValText = "idriver"+deviceNum.toString();
+			Field m = getDriverFields(driverValText);
+			try {			
+				((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeButton[@label=\"actionButton_PA_SMS_200EURO\"]")).click();
+			} catch(Exception e) {
+				System.out.println(e.getMessage().toString());
+				Reporter.addStepLog(e.getMessage().toString());
+				cfg.takeScreenShot(((IOSDriver) m.get("driver"+deviceNum)));
+				fail("Failed:");
+			}
+		}
+	}
+
+	@Then("^\"(.*)\" I select some SMS messages$")
+	public void setSMSeekBar(String deviceNum) throws Throwable {
+		String driverValText = null;
+		String userVal="100";
 		if (cfg.getCfg(deviceNum+"deviceType").equals("Android")) {
 			driverValText = "driver"+deviceNum.toString();
 			Field m = getDriverFields(driverValText);
@@ -941,8 +991,18 @@ public class androidStepDefsNav {
 		} else {
 			driverValText = "idriver"+deviceNum.toString();
 			Field m = getDriverFields(driverValText);
-			try {			
-				//No code for IOS
+			try {
+			    WebElement head_seekBar = ((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("(//XCUIElementTypeOther[@name=\"AX error -25205\"])[11]"));			
+				WebElement seekBar = ((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("(//XCUIElementTypeOther[@name=\"AX error -25205\"])[12]"));
+				seekBar.click();
+				float start=seekBar.getLocation().getX();
+        		float y=seekBar.getLocation().getY();
+        		float end=start + head_seekBar.getSize().getWidth();
+        		System.out.println("Vals: "+String.valueOf(start)+" "+String.valueOf(y)+" "+String.valueOf(end));
+        		TouchAction action=new TouchAction(((IOSDriver) m.get("driver"+deviceNum)));
+        		float actVal = Float.valueOf(userVal)/2;
+        		float moveTo=end*Float.valueOf(actVal)/100;
+       			action.longPress((int)start,(int)y).moveTo((int)moveTo,(int)y).release().perform();
 			} catch(Exception e) {
 				System.out.println(e.getMessage().toString());
 				Reporter.addStepLog(e.getMessage().toString());

@@ -144,11 +144,42 @@ Feature: Test MarketPlace Scenarios
    Then "D1" I tap on "Gift" text
    Then "D1" I enter-"Recipient Number" as "447884443373"
    Then "D1" I enter-"Gift Message" as "Sending you some SMS messages!"
-   Then "D1" I set gift SMS value as "100"
+   Then "D1" I select some SMS messages
    Then "D1" I tap on Gift button
    Then "D1" I wait for "2" seconds
    Then "D1" I tap on GIFT popupButton
 
+  @Sanity @TC10019
+  Scenario: Validate Gift functionality
+  Given "D2" I launch the application
+   Then "D2" I wait for "5" seconds
+   Then "D2" I tap on "MARKETPLACE" text
+   Then "D2" I scroll down the screen for "200 European Roaming SMS" text
+   Then "D2" I wait for "2" seconds
+   Then "D2" I tap on "200 European Roaming SMS" text
+   Then "D2" I wait for "2" seconds
+   Then "D2" I tap on "BUY NOW" text
+   Then "D2" I wait for "4" seconds
+   Then "D2" I tap on promo3Dots button
+   Then "D2" I wait for "2" seconds
+   Then "D2" I tap on "Gift" text
+   Then "D2" I wait for "2" seconds
+   Then "D2" I enter-"Recipient Number" as "447884443373"
+   Then "D2" I tap on "To" text
+   Then "D2" I wait for "2" seconds
+   Then "D2" I enter-"Gift Message" as "Sending you some SMS messages!"
+   Then "D2" I tap on "Message" text
+   Then "D2" I wait for "2" seconds
+   Then "D2" I select some SMS messages
+   Then "D2" I wait for "2" seconds
+   Then "D2" I tap on "NEXT" text
+   Then "D2" I wait for "2" seconds
+   Then "D2" I tap on "SEND NOW" text
+
+
+
+
+   
 
 
 
