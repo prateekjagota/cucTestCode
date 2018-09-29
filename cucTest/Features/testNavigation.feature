@@ -31,7 +31,43 @@ Feature: Test Navigation Flow
     Then "D1" I tap on signUp button
     Then "D1" I swipe the Screens
     Then "D1" I tap on GetStarted button
+    Then "D1" I wait for "2" seconds
     Then "D1" I tap on BigTick button
+    Then "D1" I tap on ContinueActivation button
+    Then "D1" I enter the "phoneSignUpNumber"
+    Then "D1" I tap on Next button
+    Then "D1" I enter the "validationCode"
+    Then "D1" I tap on Next button
+    Then "D1" I enter the "userName"
+    Then "D1" I enter the "userPassword"
+    Then "D1" I wait for "2" seconds
+    Then "D1" I tap on ConFirm button
+    Then "D1" I wait for "2" seconds
+    Then "D1" I tap on "VOUCHER" text
+    Then "D1" I tap on TopUp button
+    Then "D1" I enter the "voucherNumber"
+    Then "D1" I tap on VoucherTopUp button
+    Then "D1" I tap on PayAndActivate button
+    Then "D1" I tap on GoToMyPage button 
+    Then "D1" I wait for "5" seconds 
+
+@Sanity @TC3a
+  Scenario: Sign Up Flow with adding BaseTarrif and Offer
+    Then "D1" I tap on signUp button
+    Then "D1" I swipe the Screens
+    Then "D1" I tap on GetStarted button
+    Then "D1" I wait for "2" seconds
+    Then "D1" I set "DATA" tarrif on signUp as "2GB"
+    Then "D1" I set "VOICE" tarrif on signUp as "300"
+    Then "D1" I set "SMS" tarrif on signUp as "500"
+    Then "D1" I tap on BigTick button
+    Then "D1" I tap on tellUsMore button
+    Then "D1" I tap on signUpYes button
+    Then "D1" I tap on signUpNo button
+    Then "D1" I tap on signUpYes button
+    Then "D1" I wait for "2" seconds
+    Then "D1" I swipe the PromoScreen for "Crystal clear voice quality." offer  
+    Then "D1" I tap on addOffer button
     Then "D1" I tap on ContinueActivation button
     Then "D1" I enter the "phoneSignUpNumber"
     Then "D1" I tap on Next button

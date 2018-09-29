@@ -230,6 +230,52 @@ public class androidStepDefsNav {
 		}
 	}
 
+@Then("^\"(.*)\" I swipe the PromoScreen for \"(.*)\" offer$")
+	public void swipePromoScreenforOffer(String deviceNum, String offerText) throws Throwable {
+		String driverValText = null;
+		if (cfg.getCfg(deviceNum+"deviceType").equals("Android")) {
+			driverValText = "driver"+deviceNum.toString();
+			Field m = getDriverFields(driverValText);
+			try {
+				int i=0;
+				while(i<30) {
+					if(((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//android.widget.FrameLayout/android.widget.LinearLayout/android.support.v4.view.ViewPager/android.widget.ScrollView/android.widget.LinearLayout/android.widget.RelativeLayout/android.widget.TextView[1]")).getText().contains(offerText)) {
+						System.out.println("Found Text: "+(((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//android.widget.FrameLayout/android.widget.LinearLayout/android.support.v4.view.ViewPager/android.widget.ScrollView/android.widget.LinearLayout/android.widget.RelativeLayout/android.widget.TextView[1]")).getText()));
+						Reporter.addStepLog("Found Text: "+(((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//android.widget.FrameLayout/android.widget.LinearLayout/android.support.v4.view.ViewPager/android.widget.ScrollView/android.widget.LinearLayout/android.widget.RelativeLayout/android.widget.TextView[1]")).getText()));
+						((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//android.widget.FrameLayout/android.widget.LinearLayout/android.support.v4.view.ViewPager/android.widget.ScrollView/android.widget.LinearLayout/android.widget.RelativeLayout/android.widget.TextView[1]")).click();
+						break;
+					}
+					TouchAction touchAction = new TouchAction(((AndroidDriver) m.get("driver"+deviceNum)));				
+					Point pt = ((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//android.widget.FrameLayout/android.widget.LinearLayout/android.support.v4.view.ViewPager/android.widget.ScrollView/android.widget.LinearLayout/android.widget.RelativeLayout/android.widget.TextView[1]")).getLocation();
+					touchAction.press(pt.x+200,pt.y).moveTo(pt.x, pt.y).release().perform();
+					TimeUnit.SECONDS.sleep(2);
+					if(((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//android.widget.FrameLayout/android.widget.LinearLayout/android.support.v4.view.ViewPager/android.widget.ScrollView/android.widget.LinearLayout/android.widget.RelativeLayout/android.widget.TextView[1]")).getText().contains(offerText)) {
+						System.out.println("Found Text: "+(((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//android.widget.FrameLayout/android.widget.LinearLayout/android.support.v4.view.ViewPager/android.widget.ScrollView/android.widget.LinearLayout/android.widget.RelativeLayout/android.widget.TextView[1]")).getText()));
+						Reporter.addStepLog("Found Text: "+(((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//android.widget.FrameLayout/android.widget.LinearLayout/android.support.v4.view.ViewPager/android.widget.ScrollView/android.widget.LinearLayout/android.widget.RelativeLayout/android.widget.TextView[1]")).getText()));
+						((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//android.widget.FrameLayout/android.widget.LinearLayout/android.support.v4.view.ViewPager/android.widget.ScrollView/android.widget.LinearLayout/android.widget.RelativeLayout/android.widget.TextView[1]")).click();
+						break;
+					}
+					i++;
+				}
+			} catch(Exception e) {
+				Reporter.addStepLog(e.getMessage().toString());
+				cfg.takeScreenShot(((AndroidDriver) m.get("driver"+deviceNum)));
+				fail("Failed:");
+			}
+		} else {
+			driverValText = "idriver"+deviceNum.toString();
+			Field m = getDriverFields(driverValText);			
+			try {
+				//No Code for IOS
+			} catch(Exception e) {
+				System.out.println(e.getMessage().toString());
+				Reporter.addStepLog(e.getMessage().toString());
+				cfg.takeScreenShot(((IOSDriver) m.get("driver"+deviceNum)));
+				fail("Failed:");
+			}
+		}
+	}
+
 @Then("^\"(.*)\" I swipe the Screen for \"(.*)\" gift offer$")
 	public void swipeScreenforGiftOffer(String deviceNum, String offerText) throws Throwable {
 		String driverValText = null;
@@ -1167,6 +1213,43 @@ public class androidStepDefsNav {
 					((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("(//XCUIElementTypeStaticText[@label=\""+dict.get(userVal)+"\"])[1]")).click();	
 				} else {
 				}
+			} catch(Exception e) {
+				System.out.println(e.getMessage().toString());
+				Reporter.addStepLog(e.getMessage().toString());
+				cfg.takeScreenShot(((IOSDriver) m.get("driver"+deviceNum)));
+				fail("Failed:");
+			}
+		}
+	}
+    
+    @Then("^\"(.*)\" I set \"(.*)\" tarrif on signUp as \"(.*)\"$")
+	public void setTarrifSignUpVals(String deviceNum, String userField, String userVal) throws Throwable {
+		String driverValText = null;
+		if (cfg.getCfg(deviceNum+"deviceType").equals("Android")) {
+			driverValText = "driver"+deviceNum.toString();
+			Field m = getDriverFields(driverValText);
+			try {
+				if (userField.equals("DATA")) {
+					((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//android.widget.ScrollView/android.widget.LinearLayout/android.widget.FrameLayout[1]/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.TextView[contains(@text, '"+userVal+"')]")).click();
+				} else if (userField.equals("VOICE")) {
+					((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//android.widget.ScrollView/android.widget.LinearLayout/android.widget.FrameLayout[2]/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.TextView[contains(@text, '"+userVal+"')]")).click();
+				} else if (userField.equals("SMS")) {
+					((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//android.widget.ScrollView/android.widget.LinearLayout/android.widget.FrameLayout[3]/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.TextView[contains(@text, '"+userVal+"')]")).click();
+				} else {
+					System.out.println("Option not supported");
+					fail("Failed:");
+				}
+			} catch(Exception e) {
+				System.out.println(e.getMessage().toString());
+				Reporter.addStepLog(e.getMessage().toString());
+				cfg.takeScreenShot(((AndroidDriver) m.get("driver"+deviceNum)));
+				fail("Failed:");	
+			}
+		} else {
+			driverValText = "idriver"+deviceNum.toString();
+			Field m = getDriverFields(driverValText);
+			try {			
+				//No code for IOS
 			} catch(Exception e) {
 				System.out.println(e.getMessage().toString());
 				Reporter.addStepLog(e.getMessage().toString());
