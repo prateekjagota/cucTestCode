@@ -15,6 +15,8 @@ import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
@@ -25,6 +27,7 @@ import io.appium.java_client.android.AndroidDriver;
 public class Config {
 	public static AndroidDriver driverD1;public static AndroidDriver driverD2;
 	public static IOSDriver idriverD1;public static IOSDriver idriverD2;
+	public static ChromeDriver wdriverD3;
 	public static String driverName = "driver";
 	public static final DesiredCapabilities capabilities = new DesiredCapabilities();
 	  public String getCfg(String val) {
@@ -59,6 +62,7 @@ public class Config {
 		   e.printStackTrace();
 		  }
 	  }
+	  
 	  public void installApp(String deviceNum, int deletePrevApp) throws Throwable {
 		  System.out.println(getCfg(deviceNum+"deviceType"));
 		  if (getCfg(deviceNum+"deviceType").equals("Android")) {
@@ -75,8 +79,7 @@ public class Config {
 					capabilities.setCapability("noReset", true);
 					capabilities.setCapability("fullReset", false);
 				}  
-		  } else {
-			  System.out.println("Code for IOS");
+		  } else if (getCfg(deviceNum+"deviceType").equals("IOS")) {
 			  	capabilities.setCapability("platformName", getCfg(deviceNum+"platformName"));
 			  	capabilities.setCapability("app", getCfg(deviceNum+"appPath"));
 			  	capabilities.setCapability("deviceName", getCfg(deviceNum+"deviceName"));
@@ -102,7 +105,7 @@ public class Config {
 			} else {
 				System.out.println("Need to add support for more than 2 devices..");
 			}
-		} else {
+		} else if (getCfg(deviceNum+"deviceType").equals("IOS")) {
 			if(deviceNum.equals("D1")) {
 				idriverD1 = new IOSDriver(new URL("http://"+getCfg(deviceNum+"appiumServerAddress")+"/wd/hub"), capabilities);
 				idriverD1.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
@@ -111,6 +114,14 @@ public class Config {
 				idriverD2.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 			} else {
 				System.out.println("Need to add support for more than 2 devices..");
+			}
+		} else if (getCfg(deviceNum+"deviceType").equals("WEB")) {
+			if (deviceNum.equals("D3")) {
+				System.setProperty("webdriver.chrome.driver", getCfg(deviceNum+"appPath"));
+				ChromeOptions options = new ChromeOptions();
+				capabilities.setCapability(ChromeOptions.CAPABILITY, options);
+				wdriverD3 = new ChromeDriver(options);
+				wdriverD3.manage().timeouts().implicitlyWait(100, TimeUnit.SECONDS);
 			}
 		}
 	}

@@ -18,6 +18,7 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.remote.RemoteWebElement;
 
 import cucumber.api.java.en.Given;
@@ -54,7 +55,7 @@ public class androidTestBasic {
 				cfg.takeScreenShot(((AndroidDriver) m.get(driverValText)));
 				fail("Failed:"+e.toString());
 			}
-		} else {
+		} else if (cfg.getCfg(deviceNum+"deviceType").equals("IOS")) {
 			driverValText = "idriver"+deviceNum.toString();
 			Field m = getDriverFields(driverValText);
 			try {
@@ -67,7 +68,7 @@ public class androidTestBasic {
 				cfg.takeScreenShot(((IOSDriver) m.get(driverValText)));
 				fail("Failed:"+e.toString());
 			}
-		}		
+		}
 	}
 	
 	@Given("^\"(.*)\" I launch the application$")
@@ -84,7 +85,7 @@ public class androidTestBasic {
 				cfg.takeScreenShot(((AndroidDriver) m.get("driver"+deviceNum)));
 				fail("Failed:");
 			}
-		} else {
+		} else if (cfg.getCfg(deviceNum+"deviceType").equals("IOS")) {
 			driverValText = "idriver"+deviceNum.toString();
 			Field m = getDriverFields(driverValText);
 			try {
@@ -93,6 +94,19 @@ public class androidTestBasic {
 			} catch(Exception e) {
 				Reporter.addStepLog(e.getMessage().toString());
 				cfg.takeScreenShot(((IOSDriver) m.get("driver"+deviceNum)));
+				fail("Failed:");
+			}
+		} else if (cfg.getCfg(deviceNum+"deviceType").equals("WEB")) {
+			driverValText = "wdriver"+deviceNum.toString();
+			Field m = getDriverFields(driverValText);
+			try {
+				cfg.launchApp(deviceNum);
+				System.out.println(cfg.getCfg(deviceNum+"launchURL"));
+				((ChromeDriver) m.get("driver"+deviceNum)).get(cfg.getCfg(deviceNum+"launchURL"));
+			} catch(Exception e) {
+				System.out.println(e.getMessage().toString());
+				Reporter.addStepLog(e.getMessage().toString());
+				cfg.takeScreenShot(((ChromeDriver) m.get("driver"+deviceNum)));
 				fail("Failed:");
 			}
 		}
