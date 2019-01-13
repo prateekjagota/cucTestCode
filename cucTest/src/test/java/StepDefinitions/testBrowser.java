@@ -52,6 +52,44 @@ public class testBrowser {
 			}
 		} 
 	}
+
+
+	@Then("^\"(.*)\" I click on web-\"(.*)\" text$")
+	public void clickText(String deviceNum,String textVal) throws Throwable {
+		String driverValText = null;
+		if (cfg.getCfg(deviceNum+"deviceType").equals("WEB")) {
+			driverValText = "wdriver"+deviceNum.toString();
+			Field m = getDriverFields(driverValText);
+			try {
+				((ChromeDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//*[contains(text(), '"+textVal+"')]")).click();
+			} catch(Exception e) {
+				System.out.println(e.getMessage().toString());
+				Reporter.addStepLog(e.getMessage().toString());
+				cfg.takeScreenShot(((ChromeDriver) m.get("driver"+deviceNum)));
+				fail("Failed:");
+			}
+		} 
+	}
+
+
+	@Then("^\"(.*)\" I scroll to web-\"(.*)\" text$")
+	public void scrollElement(String deviceNum,String textVal) throws Throwable {
+		String driverValText = null;
+		if (cfg.getCfg(deviceNum+"deviceType").equals("WEB")) {
+			driverValText = "wdriver"+deviceNum.toString();
+			Field m = getDriverFields(driverValText);
+			try {
+				JavascriptExecutor js = (JavascriptExecutor) ((ChromeDriver) m.get("driver"+deviceNum));
+				WebElement Element = ((ChromeDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//*[contains(text(), '"+textVal+"')]"));
+				js.executeScript("arguments[0].scrollIntoView();", Element);
+			} catch(Exception e) {
+				System.out.println(e.getMessage().toString());
+				Reporter.addStepLog(e.getMessage().toString());
+				cfg.takeScreenShot(((ChromeDriver) m.get("driver"+deviceNum)));
+				fail("Failed:");
+			}
+		} 
+	}
 	
 	@Then("^\"(.*)\" I enter text \"(.*)\" on web-\"(.*)\" element$")
 	public void enterVals(String deviceNum,String txtVal,String idVal) throws Throwable {
@@ -61,6 +99,23 @@ public class testBrowser {
 			Field m = getDriverFields(driverValText);
 			try {
 				((ChromeDriver) m.get("driver"+deviceNum)).findElement(By.id(idVal)).sendKeys(txtVal.toString());
+			} catch(Exception e) {
+				System.out.println(e.getMessage().toString());
+				Reporter.addStepLog(e.getMessage().toString());
+				cfg.takeScreenShot(((ChromeDriver) m.get("driver"+deviceNum)));
+				fail("Failed:");
+			}
+		} 
+	}
+
+	@Then("^\"(.*)\" I add web-amount as \"(.*)\"$")
+	public void enterAmount(String deviceNum,String txtVal) throws Throwable {
+		String driverValText = null;
+		if (cfg.getCfg(deviceNum+"deviceType").equals("WEB")) {
+			driverValText = "wdriver"+deviceNum.toString();
+			Field m = getDriverFields(driverValText);
+			try {
+				((ChromeDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//input[@id='amount']")).sendKeys(txtVal);
 			} catch(Exception e) {
 				System.out.println(e.getMessage().toString());
 				Reporter.addStepLog(e.getMessage().toString());
@@ -86,6 +141,32 @@ public class testBrowser {
 				Reporter.addStepLog(e.getMessage().toString());
 				cfg.takeScreenShot(((ChromeDriver) m.get("driver"+deviceNum)));
 				fail("Failed:");
+			}
+		} 
+	}
+
+	@Then("^\"(.*)\" I web-wait for \"(.*)\" seconds$")
+	public void universalWait(String deviceNum, int timeVal) throws Throwable {
+		Field m = getDriverFields("wdriver"+deviceNum);
+		try {
+			TimeUnit.SECONDS.sleep(timeVal);
+		} catch(Exception e) {
+			Reporter.addStepLog(e.getMessage().toString());
+			cfg.takeScreenShot(((ChromeDriver) m.get("driver"+deviceNum)));
+			fail("Failed:");
+		}
+	}
+
+	@Then("^\"(.*)\" I close the browser$")
+	public void closeBrowser(String deviceNum) throws Throwable {
+		String driverValText = null;
+		if (cfg.getCfg(deviceNum+"deviceType").equals("WEB")) {
+			driverValText = "wdriver"+deviceNum.toString();
+			Field m = getDriverFields(driverValText);
+			try {
+				((ChromeDriver) m.get("driver"+deviceNum)).quit();
+			} catch(Exception e) {
+				System.out.println(e.getMessage().toString());				
 			}
 		} 
 	}
