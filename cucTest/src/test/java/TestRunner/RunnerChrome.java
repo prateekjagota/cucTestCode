@@ -14,7 +14,7 @@ import cucumber.api.junit.Cucumber;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(features = {"Features"},
-							tags= {"@TCB21,@TCB22,@TCB23,@TCB24,@TCB4,@Logout,@CloseBrowser"},
+							tags= {"@TCB21,@TCB22,@TCB23,@TCB24,@TCB25,@TCB26,@Logout,@CloseBrowser"},
 							plugin = {"com.cucumber.listener.ExtentCucumberFormatter:"},
 							glue= {"StepDefinitions"}, monochrome = true, strict = true)
 

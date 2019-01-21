@@ -134,6 +134,7 @@ public class testBrowser {
 			try {
 				if (txtVal.toString().equals("billingCycle")) {
 					((ChromeDriver) m.get("driver"+deviceNum)).findElement(By.id(txtVal)).click();
+					TimeUnit.SECONDS.sleep(2);
 					((ChromeDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//mat-option[@id='mat-option-1']")).click();
 				}				
 			} catch(Exception e) {
