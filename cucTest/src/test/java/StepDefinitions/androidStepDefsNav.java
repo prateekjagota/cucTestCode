@@ -377,6 +377,34 @@ public class androidStepDefsNav {
 		}
 	}
 
+	@Then("^\"(.*)\" I scroll down screen for \"(.*)\" text$")
+	public void scrollDownAnyScreenText(String deviceNum, String opText) throws Throwable {	
+		String driverValText = null;
+		if (cfg.getCfg(deviceNum+"deviceType").equals("Android")) {
+			driverValText = "driver"+deviceNum.toString();
+			Field m = getDriverFields(driverValText);
+			int brkFlag = 0;			
+			try {
+				((AndroidDriver) m.get("driver"+deviceNum)).findElementByAndroidUIAutomator("new UiScrollable(new UiSelector().scrollable(true).instance(0)).scrollIntoView(new UiSelector().textContains(\""+opText+"\").instance(0))");
+			} catch(Exception e) {
+				Reporter.addStepLog(e.getMessage().toString());
+				cfg.takeScreenShot(((AndroidDriver) m.get("driver"+deviceNum)));
+				fail("Failed:");
+			}
+		} else {
+			driverValText = "idriver"+deviceNum.toString();
+			Field m = getDriverFields(driverValText);			
+			try {
+				//No code for IOS
+			} catch(Exception e) {
+				System.out.println(e.getMessage().toString());
+				Reporter.addStepLog(e.getMessage().toString());
+				cfg.takeScreenShot(((IOSDriver) m.get("driver"+deviceNum)));
+				fail("Failed:");
+			}
+		}	
+	}
+
 	@Then("^\"(.*)\" I scroll down Activity screen for \"(.*)\" text$")
 	public void scrollDownActivityScreen(String deviceNum, String opText) throws Throwable {
 		String driverValText = null;
@@ -875,6 +903,27 @@ public class androidStepDefsNav {
 					el.click();el.clear();el.sendKeys(userVal.toString());
 				} else if (userField.equals("Gift Message")) {
 					WebElement el = ((AndroidDriver) m.get("driver"+deviceNum)).findElement(MobileBy.xpath("//android.widget.LinearLayout/TextInputLayout/android.widget.FrameLayout/android.widget.EditText"));
+					el.click();el.clear();el.sendKeys(userVal.toString());
+				} else if (userField.equals("ProVisionUserFirstName")) {
+					WebElement el = ((AndroidDriver) m.get("driver"+deviceNum)).findElement(MobileBy.xpath("//android.widget.LinearLayout[1]/android.widget.FrameLayout/android.widget.EditText"));
+					el.click();el.clear();el.sendKeys(userVal.toString());
+				} else if (userField.equals("ProVisionUserLastName")) {
+					WebElement el = ((AndroidDriver) m.get("driver"+deviceNum)).findElement(MobileBy.xpath("//android.widget.LinearLayout[2]/android.widget.FrameLayout/android.widget.EditText"));
+					el.click();el.clear();el.sendKeys(userVal.toString());
+				} else if (userField.equals("ProVisionUserPhoneNumber")) {
+					WebElement el = ((AndroidDriver) m.get("driver"+deviceNum)).findElement(MobileBy.xpath("//android.widget.LinearLayout[3]/android.widget.FrameLayout/android.widget.EditText"));
+					el.click();el.clear();el.sendKeys(userVal.toString());
+				} else if (userField.equals("ProVisionUserEmail")) {
+					WebElement el = ((AndroidDriver) m.get("driver"+deviceNum)).findElement(MobileBy.xpath("//android.widget.LinearLayout[4]/android.widget.FrameLayout/android.widget.EditText"));
+					el.click();el.clear();el.sendKeys(userVal.toString());
+				} else if (userField.equals("ProVisionUserAccessNumber")) {
+					WebElement el = ((AndroidDriver) m.get("driver"+deviceNum)).findElement(MobileBy.xpath("//android.widget.LinearLayout[6]/android.widget.FrameLayout/android.widget.EditText"));
+					el.click();el.clear();el.sendKeys(userVal.toString());
+				} else if (userField.equals("ProVisionUserImsi")) {
+					WebElement el = ((AndroidDriver) m.get("driver"+deviceNum)).findElement(MobileBy.xpath("//android.widget.LinearLayout[7]/android.widget.FrameLayout/android.widget.EditText"));
+					el.click();el.clear();el.sendKeys(userVal.toString());
+				} else if (userField.equals("DeProvisionNumber")) {
+					WebElement el = ((AndroidDriver) m.get("driver"+deviceNum)).findElement(MobileBy.xpath("//android.widget.LinearLayout/android.widget.FrameLayout/android.widget.EditText"));
 					el.click();el.clear();el.sendKeys(userVal.toString());
 				} else {
 					assert false: "Code not added for " + userField;

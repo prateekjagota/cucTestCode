@@ -9,7 +9,46 @@ Feature: Test Navigation Flow
     Then "D1" I wait for "2" seconds
     Then "D1" I tap on agree continue button
 
- @Sanity @TC1001
+@Sanity @TC1Provision
+  Scenario: Installation and Provisioning
+    Given "D1" I install and launch the application
+    Then "D1" I wait for "2" seconds
+    Then "D1" I tap on iSettings button
+    Then "D1" I tap on "User provision" text
+    Then "D1" I enter-"ProVisionUserFirstName" as "Raj"
+    Then "D1" I enter-"ProVisionUserLastName" as "Bazar"
+    Then "D1" I enter-"ProVisionUserPhoneNumber" as "447884443373"
+    Then "D1" I enter-"ProVisionUserEmail" as "raj.bazar@matrixx.com"
+    Then "D1" I tap on "TimeZone" spinner
+    Then "D1" I wait for "2" seconds
+    Then "D1" I tap on "America" CheckedText
+    Then "D1" I tap on "BillCycle" spinner
+    Then "D1" I wait for "2" seconds
+    Then "D1" I tap on "300" CheckedText
+    Then "D1" I tap on "SelectOffer" spinner
+    Then "D1" I wait for "2" seconds
+    Then "D1" I tap on "SA_SIM_ACTIVATE" CheckedText
+    Then "D1" I tap on "PaymentType" spinner
+    Then "D1" I wait for "2" seconds
+    Then "D1" I tap on "CREDIT" CheckedText
+    Then "D1" I enter-"ProVisionUserAccessNumber" as "447884443373" 
+    Then "D1" I scroll down the screen for "IMSI" text
+    Then "D1" I enter-"ProVisionUserImsi" as "447884443373" 
+    Then "D1" I tap on BigTick button
+    Then "D1" I wait for "2" seconds
+    Then "D1" I tap on PROVISION button
+
+ @Sanity @TC1Deprovision
+  Scenario: Installation and De-Provisioning
+    Given "D1" I install and launch the application
+    Then "D1" I wait for "2" seconds
+    Then "D1" I tap on iSettings button
+    Then "D1" I tap on "De-provision a user" text
+    Then "D1" I enter-"DeProvisionNumber" as "447884443373"
+    Then "D1" I tap on BigTick button
+    Then "D1" I tap on DEPROVISION button
+
+ @Sanity @TC100
   Scenario: Installation
     Given "D2" I install and launch the application
     Then "D2" I tap on agreement checkBox

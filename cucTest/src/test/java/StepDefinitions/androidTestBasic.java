@@ -176,6 +176,38 @@ public class androidTestBasic {
 		}
 	}
 	
+	@Then("^\"(.*)\" I tap on PROVISION button$")
+	public void clickiProButton(String deviceNum) throws Throwable {
+		String driverValText = null;
+		if (cfg.getCfg(deviceNum+"deviceType").equals("Android")) {
+			driverValText = "driver"+deviceNum.toString();
+			Field m = getDriverFields(driverValText);
+			try {
+				((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//android.widget.Button[2]")).click();
+			} catch(Exception e) {
+				Reporter.addStepLog(e.getMessage().toString());
+				cfg.takeScreenShot(((AndroidDriver) m.get("driver"+deviceNum)));
+				fail("Failed:");
+			}
+		}
+	}
+	
+	@Then("^\"(.*)\" I tap on DEPROVISION button$")
+	public void clickideProButton(String deviceNum) throws Throwable {
+		String driverValText = null;
+		if (cfg.getCfg(deviceNum+"deviceType").equals("Android")) {
+			driverValText = "driver"+deviceNum.toString();
+			Field m = getDriverFields(driverValText);
+			try {
+				((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//android.widget.Button[2]")).click();
+			} catch(Exception e) {
+				Reporter.addStepLog(e.getMessage().toString());
+				cfg.takeScreenShot(((AndroidDriver) m.get("driver"+deviceNum)));
+				fail("Failed:");
+			}
+		}
+	}
+
 	@Then("^\"(.*)\" I swipe the Screens$")
 	public void swipScreen(String deviceNum) throws Throwable {
 		String driverValText = null;
@@ -376,6 +408,43 @@ public class androidTestBasic {
 			}
 		}
 	}
+
+	@Then("^\"(.*)\" I tap on \"(.*)\" spinner$")
+	public void clickSpinners(String deviceNum, String userVal) throws Throwable {
+		String driverValText = null;
+		if (cfg.getCfg(deviceNum+"deviceType").equals("Android")) {
+			driverValText = "driver"+deviceNum.toString();
+			Field m = getDriverFields(driverValText);
+			try {
+				if (userVal.equals("TimeZone")) {
+					((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.id("time_zone_spinner")).click();
+				} else if (userVal.equals("BillCycle")) {
+					((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.id("biling_cycle_spinner")).click();
+				} else if (userVal.equals("SelectOffer")) {
+					((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.id("selected_offer_spinner")).click();
+				} else if (userVal.equals("PaymentType")) {
+					((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.id("payment_type_spinner")).click();
+				} else {
+					System.out.println("Not supported");
+				}
+			} catch(Exception e) {
+				Reporter.addStepLog(e.getMessage().toString());
+				cfg.takeScreenShot(((AndroidDriver) m.get("driver"+deviceNum)));
+				fail("Failed:");
+			}
+		} else {
+			driverValText = "idriver"+deviceNum.toString();
+			Field m = getDriverFields(driverValText);
+			try {
+				TimeUnit.SECONDS.sleep(2);
+				((IOSDriver) m.get("driver"+deviceNum)).findElement(By.name("signup")).click();
+			} catch(Exception e) {
+				Reporter.addStepLog(e.getMessage().toString());
+				cfg.takeScreenShot(((IOSDriver) m.get("driver"+deviceNum)));
+				fail("Failed:");
+			}
+		}
+	}
 	
 	@Then("^\"(.*)\" I tap on \"(.*)\" option$")
 	public void selectOption(String deviceNum,String opVal) throws Throwable {
@@ -433,7 +502,35 @@ public class androidTestBasic {
 		}
 	}
 	
-	
+	@Then("^\"(.*)\" I tap on \"(.*)\" CheckedText$")
+	public void selectCheckText(String deviceNum, String opText) throws Throwable {
+		String driverValText = null;
+		if (cfg.getCfg(deviceNum+"deviceType").equals("Android")) {
+			driverValText = "driver"+deviceNum.toString();
+			Field m = getDriverFields(driverValText);
+			try {
+				WebElement el = ((AndroidDriver) m.get("driver"+deviceNum)).findElement(MobileBy.xpath("//android.widget.CheckedTextView[contains(@text, '"+opText+"')]"));
+				el.click();		
+			} catch(Exception e) {
+				System.out.println(e.getMessage());
+				Reporter.addStepLog(e.getMessage().toString());
+				cfg.takeScreenShot(((AndroidDriver) m.get("driver"+deviceNum)));
+				fail("Failed:");
+			}
+		} else {
+			driverValText = "idriver"+deviceNum.toString();
+			Field m = getDriverFields(driverValText);
+			try {
+				//No code for IOS
+			} catch(Exception e) {
+				System.out.println(e.getMessage());
+				Reporter.addStepLog(e.getMessage().toString());
+				cfg.takeScreenShot(((IOSDriver) m.get("driver"+deviceNum)));
+				fail("Failed:");
+			}
+		}
+	}
+
 	@Then("^\"(.*)\" I tap on \"(.*)\" text$")
 	public void selectText(String deviceNum, String opText) throws Throwable {
 		String driverValText = null;
