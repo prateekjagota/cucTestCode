@@ -945,6 +945,28 @@ public class androidStepDefsNav {
 					((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeTextField[@name=\"to\"]")).sendKeys(Keys.RETURN);		
 				} else if (userField.equals("Gift Message")) {
 					((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeTextView[@name=\"messageText\"]")).sendKeys(userVal.toString());		
+				} else if (userField.equals("bFirstName")) {
+					((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeTextField[@value=\"Enter your first name\"]")).sendKeys(userVal.toString());
+					((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeTextField[1]")).sendKeys(Keys.RETURN);
+				} else if (userField.equals("bLastName")) {
+					((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeTextField[@value=\"Enter your last name\"]")).sendKeys(userVal.toString());
+					((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeTextField[2]")).sendKeys(Keys.RETURN);
+				} else if (userField.equals("bBankName")) {
+					((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeTextField[@value=\"Enter your bank name\"]")).sendKeys(userVal.toString());
+					((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeTextField[3]")).sendKeys(Keys.RETURN);
+				} else if (userField.equals("bBankNumber")) {
+					((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeTextField[@value=\"Enter your RN number\"]")).sendKeys(userVal.toString());
+					((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeTextField[4]")).sendKeys(Keys.RETURN);
+				} else if (userField.equals("bAccountNumber")) {
+					((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeTextField[@value=\"Enter your AC number\"]")).sendKeys(userVal.toString());
+					((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeTextField[5]")).sendKeys(Keys.RETURN);
+				} else if (userField.equals("bDOB")) {
+					String mm = userVal.toString().split(" ")[0];
+					String dd = userVal.toString().split(" ")[1];
+					String yy = userVal.toString().split(" ")[2];
+					((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeTextField[@value=\"MM\"]")).sendKeys(mm.toString());
+					((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeTextField[@value=\"DD\"]")).sendKeys(dd.toString());
+					((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeTextField[@value=\"YYYY\"]")).sendKeys(yy.toString());
 				} else {
 					assert false: "Code not added for " + userField;
 				}

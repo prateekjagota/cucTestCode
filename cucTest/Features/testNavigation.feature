@@ -48,7 +48,7 @@ Feature: Test Navigation Flow
     Then "D1" I tap on BigTick button
     Then "D1" I tap on DEPROVISION button
 
- @Sanity @TC100
+ @Sanity @TC1001
   Scenario: Installation
     Given "D2" I install and launch the application
     Then "D2" I tap on agreement checkBox
@@ -159,7 +159,48 @@ Feature: Test Navigation Flow
     Then "D2" I wait for "2" seconds
     Then "D2" I tap on "goToMyPage" text
     Then "D2" I wait for "2" seconds
-    
+
+@Sanity @TC1003a
+  Scenario: Sign Up Flow with banking information
+    Then "D2" I tap on signUp button
+    Then "D2" I swipe the Screens
+    Then "D2" I tap on GetStarted button
+    Then "D2" I wait for "2" seconds
+    Then "D2" I select all unlimited options
+    Then "D2" I wait for "2" seconds
+    Then "D2" I tap on "CONTINUE" text
+    Then "D2" I wait for "2" seconds
+    Then "D2" I tap on "JUMP TO ACTIVATION" text
+    Then "D2" I wait for "2" seconds
+    Then "D2" I tap on "ACTIVATE YOUR ACCOUNT" text
+    Then "D2" I wait for "2" seconds
+    Then "D2" I enter the "userName"
+    Then "D2" I enter the "userPassword"
+    Then "D2" I wait for "2" seconds
+    Then "D2" I enter the "iOSphoneSignUpNumber"
+    Then "D2" I wait for "2" seconds
+    Then "D2" I tap on "SEND" text
+    Then "D2" I wait for "2" seconds
+    Then "D2" I enter the "iOSOTP"
+    Then "D2" I wait for "2" seconds
+    Then "D2" I tap on "CONTINUE" text
+    Then "D2" I wait for "2" seconds
+    Then "D2" I tap on "BANK ACCOUNT" option
+    Then "D2" I enter-"bFirstName" as "Raj"
+    Then "D2" I enter-"bLastName" as "Bazar"
+    Then "D2" I enter-"bBankName" as "Barclays-012345"
+    Then "D2" I enter-"bBankNumber" as "4455667788"
+    Then "D2" I enter-"bAccountNumber" as "012345678912"
+    Then "D2" I enter-"bDOB" as "01 01 2001"
+    Then "D2" I tap on "Done" text
+    Then "D2" I wait for "2" seconds
+    Then "D2" I scroll down the screen for "SAVE" text
+    Then "D2" I tap on "SAVE" text
+    Then "D2" I wait for "2" seconds
+    Then "D2" I tap on "BILLS TO MY ACCOUNT" text
+    Then "D2" I wait for "2" seconds
+    Then "D2" I tap on "goToMyPage" text
+    Then "D2" I wait for "4" seconds
 
   @Sanity @TC4
   Scenario: Logout without Reprovisioning

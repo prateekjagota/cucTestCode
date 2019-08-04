@@ -409,6 +409,34 @@ public class androidTestBasic {
 		}
 	}
 
+	@Then("^\"(.*)\" I select all unlimited options$")
+	public void selectUnlimitedOpts(String deviceNum) throws Throwable {
+		String driverValText = null;
+		if (cfg.getCfg(deviceNum+"deviceType").equals("Android")) {
+			driverValText = "driver"+deviceNum.toString();
+			Field m = getDriverFields(driverValText);
+			try {
+				//No code for Android
+			} catch(Exception e) {
+				Reporter.addStepLog(e.getMessage().toString());
+				cfg.takeScreenShot(((AndroidDriver) m.get("driver"+deviceNum)));
+				fail("Failed:");
+			}
+		} else {
+			driverValText = "idriver"+deviceNum.toString();
+			Field m = getDriverFields(driverValText);
+			try {
+				((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeStaticText[@label=\"voice-4\"]")).click();
+				((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeStaticText[@label=\"text-4\"]")).click();
+				((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeStaticText[@label=\"data-5\"]")).click();
+			} catch(Exception e) {
+				Reporter.addStepLog(e.getMessage().toString());
+				cfg.takeScreenShot(((IOSDriver) m.get("driver"+deviceNum)));
+				fail("Failed:");
+			}
+		}
+	}
+
 	@Then("^\"(.*)\" I tap on \"(.*)\" spinner$")
 	public void clickSpinners(String deviceNum, String userVal) throws Throwable {
 		String driverValText = null;
@@ -458,7 +486,9 @@ public class androidTestBasic {
 			Field m = getDriverFields(driverValText);
 			try {
 				if (opVal.equals("VOUCHER")) {
-					((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeStaticText[@value=\"VOUCHER / CREDIT CARD\"]")).click();
+					((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeStaticText[@label=\"VOUCHER / CREDIT CARD\"]")).click();
+				} else if (opVal.equals("BANK ACCOUNT")) {
+					((IOSDriver) m.get("driver"+deviceNum)).findElement(By.xpath("//XCUIElementTypeStaticText[@label=\"BANK ACCOUNT\"]")).click();
 				} else {
 					System.out.println("Option not supported!");
 				}
