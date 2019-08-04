@@ -756,6 +756,58 @@ public class androidStepDefsNav {
 		}
 	}
 	
+	@Then("^\"(.*)\" I tap on SAVE button$")
+	public void clickSAVEButton(String deviceNum) throws Throwable {
+		String driverValText = null;
+		if (cfg.getCfg(deviceNum+"deviceType").equals("Android")) {
+			driverValText = "driver"+deviceNum.toString();
+			Field m = getDriverFields(driverValText);
+			try {
+				((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.id("btn_save")).click();
+			} catch(Exception e) {
+				Reporter.addStepLog(e.getMessage().toString());
+				cfg.takeScreenShot(((AndroidDriver) m.get("driver"+deviceNum)));
+				fail("Failed:");
+			}
+		} else {
+			driverValText = "idriver"+deviceNum.toString();
+			Field m = getDriverFields(driverValText);
+			try {
+				//No code for IOS
+			} catch(Exception e) {
+				Reporter.addStepLog(e.getMessage().toString());
+				cfg.takeScreenShot(((IOSDriver) m.get("driver"+deviceNum)));
+				fail("Failed:");
+			}
+		}
+	}
+
+	@Then("^\"(.*)\" I tap on billsToMyAcc button$")
+	public void clickbillsToMyAccButton(String deviceNum) throws Throwable {
+		String driverValText = null;
+		if (cfg.getCfg(deviceNum+"deviceType").equals("Android")) {
+			driverValText = "driver"+deviceNum.toString();
+			Field m = getDriverFields(driverValText);
+			try {
+				((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.id("btn_confirm")).click();
+			} catch(Exception e) {
+				Reporter.addStepLog(e.getMessage().toString());
+				cfg.takeScreenShot(((AndroidDriver) m.get("driver"+deviceNum)));
+				fail("Failed:");
+			}
+		} else {
+			driverValText = "idriver"+deviceNum.toString();
+			Field m = getDriverFields(driverValText);
+			try {
+				//No code for IOS
+			} catch(Exception e) {
+				Reporter.addStepLog(e.getMessage().toString());
+				cfg.takeScreenShot(((IOSDriver) m.get("driver"+deviceNum)));
+				fail("Failed:");
+			}
+		}
+	}
+
 	@Then("^\"(.*)\" I tap on Search button$")
 	public void clickSearchButton(String deviceNum) throws Throwable {
 		String driverValText = null;
@@ -925,6 +977,31 @@ public class androidStepDefsNav {
 				} else if (userField.equals("DeProvisionNumber")) {
 					WebElement el = ((AndroidDriver) m.get("driver"+deviceNum)).findElement(MobileBy.xpath("//android.widget.LinearLayout/android.widget.FrameLayout/android.widget.EditText"));
 					el.click();el.clear();el.sendKeys(userVal.toString());
+				} else if (userField.equals("bFirstName")) {
+					WebElement el = ((AndroidDriver) m.get("driver"+deviceNum)).findElement(MobileBy.id("et_first_name"));
+					el.click();el.clear();el.sendKeys(userVal.toString());
+				} else if (userField.equals("bLastName")) {
+					WebElement el = ((AndroidDriver) m.get("driver"+deviceNum)).findElement(MobileBy.id("et_last_name"));
+					el.click();el.clear();el.sendKeys(userVal.toString());
+				} else if (userField.equals("bBankName")) {
+					WebElement el = ((AndroidDriver) m.get("driver"+deviceNum)).findElement(MobileBy.id("et_bank_name"));
+					el.click();el.clear();el.sendKeys(userVal.toString());
+				} else if (userField.equals("bBankNumber")) {
+					WebElement el = ((AndroidDriver) m.get("driver"+deviceNum)).findElement(MobileBy.id("et_rn_number"));
+					el.click();el.clear();el.sendKeys(userVal.toString());
+				} else if (userField.equals("bAccountNumber")) {
+					WebElement el = ((AndroidDriver) m.get("driver"+deviceNum)).findElement(MobileBy.id("et_ac_number"));
+					el.click();el.clear();el.sendKeys(userVal.toString());
+				} else if (userField.equals("bDOB")) {
+					String mm = userVal.toString().split(" ")[0];
+					String dd = userVal.toString().split(" ")[1];
+					String yy = userVal.toString().split(" ")[2];
+					WebElement el = ((AndroidDriver) m.get("driver"+deviceNum)).findElement(MobileBy.id("et_birthday_month"));
+					el.click();el.clear();el.sendKeys(mm);
+					el = ((AndroidDriver) m.get("driver"+deviceNum)).findElement(MobileBy.id("et_birthday_day"));
+					el.click();el.clear();el.sendKeys(dd);
+					el = ((AndroidDriver) m.get("driver"+deviceNum)).findElement(MobileBy.id("et_birthday_year"));
+					el.click();el.clear();el.sendKeys(yy);
 				} else {
 					assert false: "Code not added for " + userField;
 				}

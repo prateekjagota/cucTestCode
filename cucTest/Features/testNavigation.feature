@@ -64,6 +64,14 @@ Feature: Test Navigation Flow
     Then "D1" I enter the "setServerURL"
     Then "D1" I tap on OK button
 
+  @Sanity @TC2a
+  Scenario: Change the Server to required instance
+    Then "D1" I tap on iSettings button
+    Then "D1" I wait for "2" seconds
+    Then "D1" I tap on "ServerURL" text
+    Then "D1" I wait for "2" seconds
+    Then "D1" I tap on "DCE06" CheckedText
+    Then "D1" I wait for "5" seconds
 
   @Sanity @TC3
   Scenario: Sign Up Flow
@@ -124,6 +132,44 @@ Feature: Test Navigation Flow
     Then "D1" I tap on PayAndActivate button
     Then "D1" I tap on GoToMyPage button 
     Then "D1" I wait for "5" seconds 
+
+
+@Sanity @TC3b
+Scenario: Sign Up Flow with banking information
+    Given "D1" I launch the application
+    Then "D1" I tap on signUp button
+    Then "D1" I swipe the Screens
+    Then "D1" I tap on GetStarted button
+    Then "D1" I wait for "3" seconds
+    Then "D1" I set "DATA" tarrif on signUp as "Unlimited"
+    Then "D1" I set "VOICE" tarrif on signUp as "Unlimited"
+    Then "D1" I set "SMS" tarrif on signUp as "Unlimited"
+    Then "D1" I tap on BigTick button
+    Then "D1" I tap on ContinueActivation button
+    Then "D1" I enter the "phoneSignUpNumber"
+    Then "D1" I tap on Next button
+    Then "D1" I enter the "validationCode"
+    Then "D1" I tap on Next button
+    Then "D1" I enter the "userName"
+    Then "D1" I enter the "userPassword"
+    Then "D1" I wait for "2" seconds
+    Then "D1" I tap on ConFirm button
+    Then "D1" I wait for "5" seconds 
+    Then "D1" I tap on "BANK ACCOUNT" text
+    Then "D1" I enter-"bFirstName" as "Raj"
+    Then "D1" I enter-"bLastName" as "Bazar"
+    Then "D1" I enter-"bBankName" as "Barclays"
+    Then "D1" I enter-"bBankNumber" as "445566"
+    Then "D1" I enter-"bAccountNumber" as "12345678"
+    Then "D1" I enter-"bDOB" as "01 01 2001"
+    Then "D1" I scroll down screen for "Date of birth" text
+    Then "D1" I tap on SAVE button 
+    Then "D1" I tap on billsToMyAcc button 
+    Then "D1" I wait for "2" seconds 
+    Then "D1" I tap on GoToMyPage button 
+    Then "D1" I wait for "5" seconds 
+
+
 
 @Sanity @TC1003
   Scenario: Sign Up Flow
@@ -188,9 +234,9 @@ Feature: Test Navigation Flow
     Then "D2" I tap on "BANK ACCOUNT" option
     Then "D2" I enter-"bFirstName" as "Raj"
     Then "D2" I enter-"bLastName" as "Bazar"
-    Then "D2" I enter-"bBankName" as "Barclays-012345"
-    Then "D2" I enter-"bBankNumber" as "4455667788"
-    Then "D2" I enter-"bAccountNumber" as "012345678912"
+    Then "D2" I enter-"bBankName" as "Barclays"
+    Then "D2" I enter-"bBankNumber" as "445566"
+    Then "D2" I enter-"bAccountNumber" as "12345678"
     Then "D2" I enter-"bDOB" as "01 01 2001"
     Then "D2" I tap on "Done" text
     Then "D2" I wait for "2" seconds

@@ -644,6 +644,7 @@ public class androidTestBasic {
 					((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.id("et_cvv")).sendKeys(cfg.getCfg("creditCardCVV"));
 				} else if (opType.equals("setServerURL")) {
 					Reporter.addStepLog("Text Entered: "+cfg.getCfg("setServerURL"));
+					((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.id("title_template")).click();
 					((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.id("title_template")).clear();
 					((AndroidDriver) m.get("driver"+deviceNum)).findElement(By.id("title_template")).sendKeys(cfg.getCfg("setServerURL"));
 				} else {
